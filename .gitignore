@@ -1,1 +1,7 @@
 test.html
+.idea/
+back.iml
+.classpath
+out/
+.project
+.settings/
