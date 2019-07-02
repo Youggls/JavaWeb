@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`comment` (
   `pre_comment_id` INT NULL DEFAULT -1,
   `content` TEXT NOT NULL,
   `comment_time` DATE NOT NULL,
-  `isdeleted` TINYINT NOT NULL DEFAULT 1,
+  `isdeleted` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`comment_id`),
   INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
   INDEX `comment_root_floor_id_idx` (`root_floor_id` ASC) VISIBLE,
