@@ -6,3 +6,4 @@ out/
 .project
 .settings/
 JavaWeb.iml
+.DS_Store
