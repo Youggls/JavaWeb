@@ -1,4 +1,7 @@
+package indi.RDY.JavaWeb;
+
 import java.sql.Date;
+
 public class User {
     private int id;
     private String nickName;
