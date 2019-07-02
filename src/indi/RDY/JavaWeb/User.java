@@ -11,11 +11,9 @@ public class User {
     //用户类型静态常量
     public static final int USER = 1, OPERATOR = 2, ADMIN = 3;
 
-    public User(int id, String passWord, int type) {
-        this.id = id;
-        this.passWord = passWord;
-        this.type = type;
-        nickName = null;
+    public User(int id) {
+        this.nickName = null;
+        type = User.USER;
     }
 
     public int getId() {
@@ -56,5 +54,19 @@ public class User {
 
     public void setRegisteredTime(Date registeredTime) {
         this.registeredTime = registeredTime;
+    }
+
+    public void decodePassword() {
+        char[] temp = new char[passWord.length()];
+        //To use algorithm
+
+        this.passWord = new String(temp);
+    }
+
+    public void encodePassword() {
+        char[] temp = new char[passWord.length()];
+        //To use algorithm
+
+        this.passWord = new String(temp);
     }
 }
