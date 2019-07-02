@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`user` (
   `profile_photo_url` VARCHAR(50) NULL DEFAULT 'null',
   `registered_time` DATE NOT NULL,
   `type` VARCHAR(10) NOT NULL DEFAULT 'user',
-	CHECK (`type` in ("user", "operator", "admin")),
+	CHECK (`type` in ("user", "admin", "operator")),
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -44,9 +44,36 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`post` (
   `post_time` DATE NOT NULL,
   PRIMARY KEY (`post_id`),
   INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `post_user_id`
+  CONSTRAINT `user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `JavaWeb`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `JavaWeb`.`floor`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `JavaWeb`.`floor` ;
+
+CREATE TABLE IF NOT EXISTS `JavaWeb`.`floor` (
+  `floor_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `floor_num` INT UNSIGNED NOT NULL,
+  `parent_post_id` INT UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL,
+  `floor_content` TEXT NOT NULL,
+  PRIMARY KEY (`floor_id`),
+  INDEX `floor_user_id_idx` (`user_id` ASC) VISIBLE,
+  INDEX `floor_post_id_idx` (`parent_post_id` ASC) VISIBLE,
+  CONSTRAINT `floor_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `JavaWeb`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `floor_post_id`
+    FOREIGN KEY (`parent_post_id`)
+    REFERENCES `JavaWeb`.`post` (`post_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -60,22 +87,22 @@ DROP TABLE IF EXISTS `JavaWeb`.`comment` ;
 CREATE TABLE IF NOT EXISTS `JavaWeb`.`comment` (
   `comment_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
-  `parent_post_id` INT UNSIGNED NOT NULL,
+  `root_floor_id` INT UNSIGNED NOT NULL,
   `pre_comment_id` INT NULL DEFAULT -1,
   `content` TEXT NOT NULL,
   `comment_time` DATE NOT NULL,
   `isdeleted` TINYINT NOT NULL DEFAULT 1,
   PRIMARY KEY (`comment_id`),
   INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
-  INDEX `post_id_idx` (`parent_post_id` ASC) VISIBLE,
+  INDEX `comment_root_floor_id_idx` (`root_floor_id` ASC) VISIBLE,
   CONSTRAINT `commnet_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `JavaWeb`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `post_id`
-    FOREIGN KEY (`parent_post_id`)
-    REFERENCES `JavaWeb`.`post` (`post_id`)
+  CONSTRAINT `comment_root_floor_id`
+    FOREIGN KEY (`root_floor_id`)
+    REFERENCES `JavaWeb`.`floor` (`floor_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
