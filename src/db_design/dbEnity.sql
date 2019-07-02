@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`user` (
   `profile_photo_url` VARCHAR(50) NULL DEFAULT 'null',
   `registered_time` DATE NOT NULL,
   `type` VARCHAR(10) NOT NULL DEFAULT 'user',
-	CHECK (`type` in ("user", "admin", "operator")),
+	CHECK (`type` in ("user", "operator", "admin")),
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`floor` (
   `parent_post_id` INT UNSIGNED NOT NULL,
   `user_id` INT UNSIGNED NOT NULL,
   `floor_content` TEXT NOT NULL,
+  `floor_time` DATE NOT NULL,
   PRIMARY KEY (`floor_id`),
   INDEX `floor_user_id_idx` (`user_id` ASC) VISIBLE,
   INDEX `floor_post_id_idx` (`parent_post_id` ASC) VISIBLE,
@@ -91,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`comment` (
   `pre_comment_id` INT NULL DEFAULT -1,
   `content` TEXT NOT NULL,
   `comment_time` DATE NOT NULL,
-  `isdeleted` TINYINT NOT NULL DEFAULT 1,
+  `isdeleted` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`comment_id`),
   INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
   INDEX `comment_root_floor_id_idx` (`root_floor_id` ASC) VISIBLE,

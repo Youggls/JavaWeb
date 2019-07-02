@@ -71,3 +71,61 @@
 1. 回复内容的富文本标记（好像有现成的富文本模块）：emoji、图片、格式
 
 2. 用户社交丰富化：好友功能、关注功能、关注用户的时间线实现
+
+## 数据库设计
+
+### 数据库实体定义
+
+* `user`表定义，用户基本信息
+
+|字段|类型|描述|默认值|是否主键|外键约束|非空约束|
+|:----:|:---:|:----:|:------:|:--------:|:---:|:--:|
+|`id`|`INT`|用户UID，自增长字段|无默认值|是|无|`not null`|
+|`nickname`|`VARCHAR(45)`|用户昵称|`null`|否|无||
+|`password`|`VARCHAR(50)`|用户密码|无默认值|否|无|`not null`|
+|`profile_photo_url`|`VARCHAR(50)`|用户头像url|`null`|否|无|
+|`registered_date`|`DATE`|用户注册时间|无|否|无|`not null`|
+|`type`|`VARCHAR(10)`|用户组类型|"user"|否|无|`not null`|
+
+* `post`表定义，帖子基本信息
+
+|字段|类型|描述|默认值|是否主键|外键约束|非空约束|
+|:----:|:---:|:----:|:------:|:--------:|:---:|:--:|
+|`post_id`|`INT`|帖子UID，自增长|无|是|无|`not null`|
+|`user_id`|`INT`|发帖人id|无|否|`user.id`|`not null`|
+|`post_name`|`VARCHAR(100)`|帖子title|无|否|无|`not null`|
+|`content`|`TEXT`|帖子描述|无|否|无|`not null`|
+|`post_time`|`DATE`|发帖时间|无|否|无|`not null`|
+
+* `floor`表定义，直接回复`post`的楼层
+
+|字段|类型|描述|默认值|是否主键|外键约束|非空约束|
+|:----:|:---:|:----:|:------:|:--------:|:---:|:--:|
+|`floor_id`|`INT`|楼层唯一UID，自增长|无|是|无|`not null`|
+|`floor_num`|`INT`|楼层号|无|否|无|`not null`|
+|`parent_post_id`|`INT`|父级帖子id|无|否|`post.post_id`|`not null`|
+|`user_id`|`INT`|楼层发表人id|无|否|`user.user_id`|`not null`|
+|`floor_contnet`|`TEXT`|楼层内容|无|否|无|`not null`|
+|`floor_time`|`TEXT`|楼层创建时间|无|否|无|`not null`|
+
+* `comment`表定义，回复`floor`的评论
+
+|字段|类型|描述|默认值|是否主键|外键约束|非空约束|
+|:----:|:---:|:----:|:------:|:--------:|:---:|:--:|
+|`comment_id`|`INT`|评论唯一表示UID，自增长|无|是|无|`not null`|
+|`user_id`|`INT`|评论发布者id|无|否|`user.user_id`|`not null`|
+|`root_floor_id`|`INT`|根楼层UID，因为一个评论可以回复其他评论，那么应该表示出它的楼层UID|无|否|`floor.floor_id`|`not null`|
+|`pre_comment_id`|`INT`|回复上一级回复的id，如果直接回复`floor`则为-1|`-1`|否|无|not null|
+|`content`|`TEXT`|回复内容|无|否|无|`not null`|
+|`comment_time`|`DATE`|评论时间|无|否|无|`not null`|
+|`isdeleted`|`TINYINT`|是否删除|`1`|否|无|`not null`|
+
+### 数据库函数设计
+
+* 删除单个帖子函数（级联删除）
+
+* 删除单个楼层函数（级联删除）
+
+* 删除单个回复函数（不级联删除）
+
+* 获取当前帖子的最大楼层
