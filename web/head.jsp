@@ -32,7 +32,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                <li><a href="profile.jsp"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
             </ul>
             <form class="navbar-form navbar-right" role="search">
