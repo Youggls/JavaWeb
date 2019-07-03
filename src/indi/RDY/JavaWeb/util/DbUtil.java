@@ -19,12 +19,9 @@ public class DbUtil {
             dbUserPassWord = jsonObject.getString("dbUserPassword");
             dbUserName = jsonObject.getString("dbUserName");
             dbUrl = jsonObject.getString("dbUrl");
-            Class.forName(dbUrl);
+            Class.forName("com.mysql.cj.jdbc.Driver");
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e) {
+        catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -38,7 +35,7 @@ public class DbUtil {
         }
     }
 
-    public Connection getConnectino() {
+    public Connection getConnection() {
         return conn;
     }
 
@@ -54,5 +51,10 @@ public class DbUtil {
             e.printStackTrace();
         }
         return rs;
+    }
+
+    @Override
+    public void finalize() throws SQLException {
+        conn.close();
     }
 }

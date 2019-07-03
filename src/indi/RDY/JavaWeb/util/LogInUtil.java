@@ -1,6 +1,6 @@
 package indi.RDY.JavaWeb.util;
 
-import javax.servlet.ServletException;
+import indi.RDY.JavaWeb.bean.User;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
@@ -8,74 +8,44 @@ import java.sql.*;
 public class LogInUtil {
     private int id;
     private String password;
-    private final String dbDriver = "com.mysql.jdbc.Driver";
-    private String dbUrl;
     private Connection conn = null;
-    private String dbUserName;
-    private String dbPassword;
-    private Statement statement;
 
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        Cookie[] cookies = req.getCookies();
-//        if (cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                if (cookie.getName().equals("name")) {
-//                    //如果cookie与保存的相等，即找到cookie
-//                    resp.sendRedirect("/JavaWeb/Main.jsp");
-//                    break;
-//                }
-//            }
-//        }
-//        try {
-//            statement = conn.prepareStatement("SELECT password FROM user WHERE id = ? AND password = ?");
-//            id = new Integer(req.getParameter("id"));
-//            password = req.getParameter("password");
-//            decodePassword();
-//            ((PreparedStatement) statement).setInt(1, id);
-//            ((PreparedStatement) statement).setString(2, password);
-//            ResultSet rs = statement.getResultSet();
-//            if (rs.next()) {
-//                System.out.println("User: " + id + "has logged in!");
-//                Cookie cookie = new Cookie("name", req.getParameter("id"));
-//                cookie.setPath(System.getProperty("file.separator"));
-//                if (req.getParameter("save") != null) {
-//                    //User chooses to save the password
-//                    resp.getWriter().append(req.getParameter("save"));
-//                    cookie.setMaxAge(60 * 60 * 24 * 2);
-//                } else {
-//                    //User doesn't choose to save the password
-//                    cookie.setMaxAge(60);
-//                }
-//                //Save the cookie
-//                resp.addCookie(cookie);
-//            } else {
-//                //Login failed!
-//                System.out.println("User: " + id + " failed!");
-//                resp.sendRedirect("/JavaWeb/error.jsp");
-//            }
-//        }
-//        catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    public LogInUtil(Connection conn) {
-        this.conn = conn;
+    public LogInUtil() {
+        DbUtil dbUtil = new DbUtil();
+        conn = dbUtil.getConnection();
     }
-
-    public boolean login(HttpServletResponse resp, HttpServletRequest req) throws IOException {
+    //If login failed will return null pointer
+    public User login(HttpServletResponse resp, HttpServletRequest req) throws IOException {
         Cookie[] cookies = req.getCookies();
+        User user = null;
+        int id = 0;
+        String nickName = "";
+        String password = "";
+        String photoUrl = "";
+        Timestamp time = null;
+        int type = User.VISITOR;
+        ResultSet rs = null;
         if (cookies != null) {
             //The cookies existed
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("id")) {
                     //The saved cookie existed id
+                    id = Integer.parseInt(cookie.getValue());
                     resp.sendRedirect("/JavaWeb/main.jsp");
                     break;
                 }
             }
+            try {
+                PreparedStatement login = conn.prepareStatement("SELECT * FROM user WHERE id = ?");
+                login.setInt(1, id);
+                login.execute();
+                rs = login.getResultSet();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
+        } else {
+            //Cookie doesn't exist, user should input the id and password
             try {
                 PreparedStatement login = conn.prepareStatement("SELECT * FROM user WHERE id = ? AND password = ?");
                 id = Integer.parseInt(req.getParameter("id"));
@@ -84,34 +54,43 @@ public class LogInUtil {
                 login.setInt(1, id);
                 login.setString(2, password);
                 login.execute();
-                ResultSet rs = login.getResultSet();
-                Cookie cookie = new Cookie("id", req.getParameter("id"));
-                cookie.setPath(System.getProperty("file.separator"));
+                rs = login.getResultSet();
+
+                String info;
                 if (rs.next()) {
                     //Login succeed!
-                    String info = "User: [" + id + "] successfully login!";
-                    System.out.println(info);
-
-                    if (req.getParameter("save") != null) {
-                        //save cookie for two days
-                        resp.getWriter().append(req.getParameter("save"));
-                        cookie.setMaxAge(2 * 24 * 60 * 60);
-                    } else {
-                        //save for 60s
-                        cookie.setMaxAge(60);
-                    }
+                    info = "User: [" + id + "] successfully login!";
+                    Cookie cookie = new Cookie("id", req.getParameter("id"));
+                    cookie.setPath(System.getProperty("file.separator"));
+                    //resp.getWriter().append(req.getParameter("save"));
+                    //Save two days
+                    cookie.setMaxAge(2 * 24 * 60 * 60);
                     //Save the cookie
                     resp.addCookie(cookie);
                 } else {
-                    String info = "User: [" + id + "] login failed";
+                    info = "User: [" + id + "] login failed";
                 }
-            }
-            catch (SQLException e) {
+                System.out.println(info);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        if (rs != null) {
+            //Get user info from the database
+            try {
+                id = rs.getInt("id");
+                nickName = rs.getString("nickname");
+                password = rs.getString("password");
+                photoUrl = rs.getString("profile_photo_url");
+                time = rs.getTimestamp("registered_time");
+                type = User.phraseType(rs.getString("type"));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            user = new User(id, nickName, password, photoUrl, type, time);
+        }
 
-        return true;
+        return user;
     }
 
     private void decodePassword() {
