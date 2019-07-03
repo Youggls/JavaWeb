@@ -106,7 +106,7 @@
 |`parent_post_id`|`INT`|父级帖子id|无|否|`post.post_id`|`not null`|
 |`user_id`|`INT`|楼层发表人id|无|否|`user.user_id`|`not null`|
 |`floor_contnet`|`TEXT`|楼层内容|无|否|无|`not null`|
-|`floor_time`|`TEXT`|楼层创建时间|无|否|无|`not null`|
+|`floor_time`|`DATE`|楼层创建时间|无|否|无|`not null`|
 
 * `comment`表定义，回复`floor`的评论
 
@@ -120,12 +120,22 @@
 |`comment_time`|`DATE`|评论时间|无|否|无|`not null`|
 |`isdeleted`|`TINYINT`|是否删除|`1`|否|无|`not null`|
 
-### 数据库函数设计
+### 数据库存储过程设计
 
-* 删除单个帖子函数（级联删除）
+|存储过程名|功能描述|`IN`参数|`OUT`参数|返回表|
+|:-------:|:-----:|:------:|:-------:|:---:|
+|`delete_comment_procedure`|删除commnet|`INT`|无|无|
+|`delete_floor_procedure`|删除floor，并且级联删除回复|`INT`|无|无|
+|`delete_post_procedure`|删除帖子，级联删除floor和comment|`INT`|无|无|
+|`find_max_floor`|找到帖子的最大楼层|`INT`|`num`|无|
+|`search_comment_by_user`|根据用户id查找comment|`INT`|无|字段是`comment_id`, `user_id`, `root_floor_id`, `content`|
+|`search_comment_by_content`|根据内容查找comment|`VARCHAR`|无|字段是`comment_id`, `user_id`, `root_floor_id`, `content`|
+|`serch_floor_by_content`|根据内容查找floor|`VARCHAR`|无|字段是`floor_id`, `user_id`, `parent_post_id`, `floor_num`, `floor_content`|
+|`serch_floor_by_user`|根据用户id查找floor|`INT`|无|字段是`floor_id`, `user_id`, `parent_post_id`, `floor_num`, `floor_content`|
+|`search_post_by_content`|根据内容查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`|
+|`search_post_by_postname`|根据postname查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`|
+|`search_post_by_user`|根据user_id查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`|
+|`search_user_by_id`|根据nickname查找user|`INT`|无|字段是`post_id`, `user_id`, `post_name`, `content`|
+## 参考的项目及使用的开源项目
 
-* 删除单个楼层函数（级联删除）
-
-* 删除单个回复函数（不级联删除）
-
-* 获取当前帖子的最大楼层
+1. [`boostrap`项目](https://github.com/twbs/bootstrap)，是一个前端常用的库，我们使用了该项目的css文件。该项目开源协议为MIT协议。
