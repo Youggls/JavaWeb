@@ -21,7 +21,7 @@
 
     </style>
 </head>
-<body>
+<body style="background: url(img/bg.jpg)">
 <div>
     <%@include file="head.jsp"%>
 </div>
@@ -30,17 +30,17 @@
 <br>
 <br>
 <div class="container">
-    <div class="row" style="background: url(img/jungle.jpg)">
-        <div class="col-md-9">
+    <div class="row" style="background: url(img/cover.jpg); background-size: cover;">
+        <div class="col-md-12">
             <br>
             <br>
             <div class="row">
-                <div class="col-md-3" align="center">
+                <div class="col-md-2" align="center">
                     <br>
                     <img src="img/default_profile_photo.jpg" class="img-responsive img-thumbnail img-circle" align="center" width="140px" height="140px" alt="Me">
                     <br>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div class="panel-body">
                         <address>
                             <br>
@@ -53,11 +53,42 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="float: right;">
-                    <a href="revise.jsp" style="float: right;" class="btn btn-default btn-block right"><font style="vertical-align: inherit;">修改个人信息</font></a>
+                    <br><br><br><br><br><br><br>
+                    <a href="revise.jsp" style="float: right;" class="btn btn-default right"><font style="vertical-align: inherit;">修改个人信息</font></a>
                 </div>
             </div>
         </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-8">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown active">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    动态
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">按时间排序</a></li>
+                                    <li><a href="#">按热度排序</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">预留分离的链接test</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">发帖</a></li>
+                            <li><a href="#">评论</a></li>
+                            <li><a href="#">回复</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-md-4">
 
+        </div>
     </div>
 </div>
 </body>

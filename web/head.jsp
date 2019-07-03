@@ -12,7 +12,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">JavaWeb</a>
+            <a class="navbar-brand" href="#">JavaWeb论坛</a>
         </div>
         <div>
             <ul class="nav navbar-nav navbar-left">
@@ -36,10 +36,11 @@
                 <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
             </ul>
             <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                <div class="form-group" style="padding-top: 0.18em;">
+                    <input type="text" class="form-control" placeholder="搜索关键词" style="height: 2em;">
+                    &nbsp;&nbsp;&nbsp;<strike><a href="#" class="glyphicon glyphicon-search" title="Search"></a></strike>
                 </div>
-                <button type="submit" class="btn btn-default">提交</button>
+                <!-- <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search textmuted" title="Search">搜索</span></button> -->
             </form>
         </div>
     </div>

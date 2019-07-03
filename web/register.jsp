@@ -53,7 +53,7 @@
             <label>确认密码</label>
             <input type="password" name="repassword" id="repassword" class="form-control" style="height: 3.5em;" placeholder="请再次输入密码" required>
             <br><br>
-            <button type="submit" class="btn btn-primary btn-lg btn-block" id="register">注册</button>
+            <button type="submit" onclick="window.location.href='register_to_login.jsp'" class="btn btn-primary btn-lg btn-block" id="register">注册</button>
             <br>
             <a href="index.jsp" class="btn btn-default btn-lg btn-block">返回登录</a>
         </form>
