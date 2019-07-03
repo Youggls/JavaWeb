@@ -1,4 +1,4 @@
-package indi.RDY.JavaWeb;
+package indi.RDY.JavaWeb.bean;
 
 import java.sql.Date;
 

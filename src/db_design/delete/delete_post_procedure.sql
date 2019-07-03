@@ -1,4 +1,4 @@
-DELIMITER &&$
+DELIMITER &&
 drop procedure if exists delete_post;
 create procedure delete_post(in mpost_id integer)
 deterministic
@@ -19,4 +19,4 @@ begin
 	end while;
     delete from floor where parent_post_id = mpost_id;
     delete from post where post_id = mpost_id;
-end &&$
+end &&
