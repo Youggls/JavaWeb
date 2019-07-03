@@ -9,6 +9,9 @@ public class Comment {
     private Date commentTime;
     private boolean isDeleted;
 
+    public Comment(){
+    }
+
     public int getCommentId() {
         return commentId;
     }
