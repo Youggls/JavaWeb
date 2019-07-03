@@ -7,6 +7,7 @@ public class User {
     private int id;
     private String nickName;
     private String passWord;
+    private String photoUrl;
     private int type;
     private Timestamp registeredTime;
     //用户类型静态常量
@@ -14,6 +15,30 @@ public class User {
 
     public User() {
         type = VISITOR;
+    }
+
+    public User(int id, String nickName, String passWord, String photoUrl, int type, Timestamp registeredTime) {
+        this.id = id;
+        this.nickName = nickName;
+        this.passWord = passWord;
+        this.type = type;
+        this.registeredTime = registeredTime;
+        this.photoUrl = photoUrl;
+    }
+
+    public static int phraseType(String type) {
+        switch (type) {
+            case "visitor":
+                return VISITOR;
+            case "user":
+                return USER;
+            case "operator":
+                return OPERATOR;
+            case "admin":
+                return ADMIN;
+            default:
+                return VISITOR;
+        }
     }
 
     public int getId() {
@@ -36,6 +61,10 @@ public class User {
         return registeredTime;
     }
 
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -54,6 +83,10 @@ public class User {
 
     public void setRegisteredTime(Timestamp registeredTime) {
         this.registeredTime = registeredTime;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public void decodePassword() {

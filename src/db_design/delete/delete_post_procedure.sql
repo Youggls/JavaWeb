@@ -1,7 +1,7 @@
 DELIMITER &&
 drop procedure if exists delete_post;
 create procedure delete_post(in mpost_id integer)
-deterministic
+#deterministic
 reads sql data
 begin
 	declare myFloor_id integer;
