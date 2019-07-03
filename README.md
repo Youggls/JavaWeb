@@ -84,7 +84,7 @@
 |`nickname`|`VARCHAR(45)`|用户昵称|`null`|否|无||
 |`password`|`VARCHAR(50)`|用户密码|无默认值|否|无|`not null`|
 |`profile_photo_url`|`VARCHAR(50)`|用户头像url|`null`|否|无|
-|`registered_date`|`DATE`|用户注册时间|无|否|无|`not null`|
+|`registered_date`|`TIMESTAMP`|用户注册时间|无|否|无|`not null`|
 |`type`|`VARCHAR(10)`|用户组类型|"user"|否|无|`not null`|
 
 * `post`表定义，帖子基本信息
@@ -95,7 +95,7 @@
 |`user_id`|`INT`|发帖人id|无|否|`user.id`|`not null`|
 |`post_name`|`VARCHAR(100)`|帖子title|无|否|无|`not null`|
 |`content`|`TEXT`|帖子描述|无|否|无|`not null`|
-|`post_time`|`DATE`|发帖时间|无|否|无|`not null`|
+|`post_time`|`TIMESTAMP`|发帖时间|无|否|无|`not null`|
 
 * `floor`表定义，直接回复`post`的楼层
 
@@ -106,7 +106,7 @@
 |`parent_post_id`|`INT`|父级帖子id|无|否|`post.post_id`|`not null`|
 |`user_id`|`INT`|楼层发表人id|无|否|`user.user_id`|`not null`|
 |`floor_contnet`|`TEXT`|楼层内容|无|否|无|`not null`|
-|`floor_time`|`DATE`|楼层创建时间|无|否|无|`not null`|
+|`floor_time`|`TIMESTAMP`|楼层创建时间|无|否|无|`not null`|
 
 * `comment`表定义，回复`floor`的评论
 
@@ -117,7 +117,7 @@
 |`root_floor_id`|`INT`|根楼层UID，因为一个评论可以回复其他评论，那么应该表示出它的楼层UID|无|否|`floor.floor_id`|`not null`|
 |`pre_comment_id`|`INT`|回复上一级回复的id，如果直接回复`floor`则为-1|`-1`|否|无|not null|
 |`content`|`TEXT`|回复内容|无|否|无|`not null`|
-|`comment_time`|`DATE`|评论时间|无|否|无|`not null`|
+|`comment_time`|`TIMESTAMP`|评论时间|无|否|无|`not null`|
 |`isdeleted`|`TINYINT`|是否删除|`1`|否|无|`not null`|
 
 ### 数据库存储过程设计
@@ -128,14 +128,15 @@
 |`delete_floor_procedure`|删除floor，并且级联删除回复|`INT`|无|无|
 |`delete_post_procedure`|删除帖子，级联删除floor和comment|`INT`|无|无|
 |`find_max_floor`|找到帖子的最大楼层|`INT`|`num`|无|
-|`search_comment_by_user`|根据用户id查找comment|`INT`|无|字段是`comment_id`, `user_id`, `root_floor_id`, `content`|
-|`search_comment_by_content`|根据内容查找comment|`VARCHAR`|无|字段是`comment_id`, `user_id`, `root_floor_id`, `content`|
-|`serch_floor_by_content`|根据内容查找floor|`VARCHAR`|无|字段是`floor_id`, `user_id`, `parent_post_id`, `floor_num`, `floor_content`|
-|`serch_floor_by_user`|根据用户id查找floor|`INT`|无|字段是`floor_id`, `user_id`, `parent_post_id`, `floor_num`, `floor_content`|
-|`search_post_by_content`|根据内容查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`|
-|`search_post_by_postname`|根据postname查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`|
-|`search_post_by_user`|根据user_id查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`|
-|`search_user_by_id`|根据nickname查找user|`INT`|无|字段是`post_id`, `user_id`, `post_name`, `content`|
+|`search_comment_by_user`|根据用户id查找comment|`INT`|无|字段是`comment_id`, `user_id`, `root_floor_id`, `content`, `comment_time`|
+|`search_comment_by_content`|根据内容查找comment|`VARCHAR`|无|字段是`comment_id`, `user_id`, `root_floor_id`, `content`, `comment_time`|
+|`serch_floor_by_content`|根据内容查找floor|`VARCHAR`|无|字段是`floor_id`, `user_id`, `parent_post_id`, `floor_num`, `floor_content`, `floor_time`|
+|`serch_floor_by_user`|根据用户id查找floor|`INT`|无|字段是`floor_id`, `user_id`, `parent_post_id`, `floor_num`, `floor_content`, `floor_time`|
+|`search_post_by_content`|根据内容查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`, `post_time`|
+|`search_post_by_postname`|根据postname查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`, `post_time`|
+|`search_post_by_user`|根据user_id查找post|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`, `post_time`|
+|`search_user_by_id`|根据id查找user|`INT`|无|字段是`post_id`, `user_id`, `post_name`, `content`, `registered_time`|
+|`search_user_by_name`|根据用户名查找user|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`, `registered_time`|
 ## 参考的项目及使用的开源项目
 
 1. [`boostrap`项目](https://github.com/twbs/bootstrap)，是一个前端常用的库，我们使用了该项目的css文件。该项目开源协议为MIT协议。
