@@ -1,19 +1,19 @@
 package indi.RDY.JavaWeb.bean;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Vector;
 
 public class User {
     private int id;
     private String nickName;
     private String passWord;
     private int type;
-    private Date registeredTime;
+    private Timestamp registeredTime;
     //用户类型静态常量
-    public static final int USER = 1, OPERATOR = 2, ADMIN = 3;
+    public static final int VISITOR = 1, USER = 2, OPERATOR = 3, ADMIN = 4;
 
-    public User(int id) {
-        this.nickName = null;
-        type = User.USER;
+    public User() {
+        type = VISITOR;
     }
 
     public int getId() {
@@ -32,7 +32,7 @@ public class User {
         return passWord;
     }
 
-    public Date getRegisteredTime() {
+    public Timestamp getRegisteredTime() {
         return registeredTime;
     }
 
@@ -52,7 +52,7 @@ public class User {
         this.type = type;
     }
 
-    public void setRegisteredTime(Date registeredTime) {
+    public void setRegisteredTime(Timestamp registeredTime) {
         this.registeredTime = registeredTime;
     }
 

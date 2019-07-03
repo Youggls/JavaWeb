@@ -1,32 +1,14 @@
 package indi.RDY.JavaWeb.bean;
 import java.sql.Date;
-public class Comment {
-    private int commentId;
-    private int userId;
+public class Comment extends TextContainer {
     private int rootFloorId;
     private int preCommentId;
-    private String content;
-    private Date commentTime;
     private boolean isDeleted;
 
-    public Comment(){
+    public Comment() {
+        super();
     }
 
-    public int getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public int getRootFloorId() {
         return rootFloorId;
@@ -44,21 +26,6 @@ public class Comment {
         this.preCommentId = preCommentId;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getCommentTime() {
-        return commentTime;
-    }
-
-    public void setCommentTime(Date commentTime) {
-        this.commentTime = commentTime;
-    }
 
     public boolean isDeleted() {
         return isDeleted;

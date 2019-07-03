@@ -1,30 +1,11 @@
 package indi.RDY.JavaWeb.bean;
-import java.sql.Date;
+import java.sql.Timestamp;
 
-public class Post {
-    private int postId;
-    private int userId;
+public class Post extends TextContainer {
     private String postName;
-    private String content;
-    private Date postTime;
 
     public Post() {
-    }
-
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+        super();
     }
 
     public String getPostName() {
@@ -33,21 +14,5 @@ public class Post {
 
     public void setPostName(String postName) {
         this.postName = postName;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getPostTime() {
-        return postTime;
-    }
-
-    public void setPostTime(Date postTime) {
-        this.postTime = postTime;
     }
 }
