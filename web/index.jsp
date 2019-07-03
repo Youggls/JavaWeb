@@ -47,7 +47,7 @@
     <div class="col-md-4"></div>
   </div>
   <div class="col-md-4 main">
-    <form class="form-signin" method="post" action="/LogIn">
+    <form class="form-signin" method="post" action="${pageContext.request.contextPath}/JavaWeb/LogIn">
       <h2 class="h3 mb-3 font-weight-normal"><font style="vertical-align: inherit;">登录JavaWeb论坛</font></h2>
       <br>
       <label for="username" class="sr-only"><font style="vertical-align: inherit;">用户名</font></label>
