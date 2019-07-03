@@ -103,7 +103,7 @@
 |:----:|:---:|:----:|:------:|:--------:|:---:|:--:|
 |`floor_id`|`INT`|楼层唯一UID，自增长|无|是|无|`not null`|
 |`floor_num`|`INT`|楼层号|无|否|无|`not null`|
-|`parentPostId`|`INT`|父级帖子id|无|否|`post.post_id`|`not null`|
+|`parent_post_id`|`INT`|父级帖子id|无|否|`post.post_id`|`not null`|
 |`user_id`|`INT`|楼层发表人id|无|否|`user.user_id`|`not null`|
 |`floor_contnet`|`TEXT`|楼层内容|无|否|无|`not null`|
 |`floor_time`|`DATE`|楼层创建时间|无|否|无|`not null`|

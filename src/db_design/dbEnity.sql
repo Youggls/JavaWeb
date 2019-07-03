@@ -60,20 +60,20 @@ DROP TABLE IF EXISTS `JavaWeb`.`floor` ;
 CREATE TABLE IF NOT EXISTS `JavaWeb`.`floor` (
   `floor_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `floor_num` INT UNSIGNED NOT NULL,
-  `parentPostId` INT UNSIGNED NOT NULL,
+  `parent_post_id` INT UNSIGNED NOT NULL,
   `user_id` INT UNSIGNED NOT NULL,
   `floor_content` TEXT NOT NULL,
   `floor_time` DATE NOT NULL,
   PRIMARY KEY (`floor_id`),
   INDEX `floor_user_id_idx` (`user_id` ASC) VISIBLE,
-  INDEX `floor_post_id_idx` (`parentPostId` ASC) VISIBLE,
+  INDEX `floor_post_id_idx` (`parent_post_id` ASC) VISIBLE,
   CONSTRAINT `floor_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `JavaWeb`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `floor_post_id`
-    FOREIGN KEY (`parentPostId`)
+    FOREIGN KEY (`parent_post_id`)
     REFERENCES `JavaWeb`.`post` (`post_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
