@@ -1,6 +1,6 @@
 DELIMITER &&
-drop procedure if exists search_for_comment_by_content;
-create procedure search_for_comment_by_content(in key_point varchar(100), out mComment_id integer, out mFloor_id integer, out mContent text)
+drop procedure if exists search_comment_by_content;
+create procedure search_comment_by_content(in key_point varchar(100), out mComment_id integer, out mFloor_id integer, out mContent text)
 deterministic
 reads sql data
 begin
