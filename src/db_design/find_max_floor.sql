@@ -5,6 +5,6 @@ deterministic
 reads sql data
 begin
 	declare s integer default 0;
-	select max(floor_num) from floor where parent_post_id = mPost_id into s;
+	select max(floor_num) from floor where parentPostId = mPost_id into s;
     set num = s;
 end %%
