@@ -38,10 +38,10 @@ public class RegisteredUtil {
 
         }
         catch (Exception e) {
-
+            System.out.println("error inside RegisteredUtil");
             e.printStackTrace();
         }
-
+        return true;
     }
     public static void main(String[] args) {
 
