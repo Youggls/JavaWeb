@@ -1,7 +1,7 @@
 DELIMITER ###
 drop procedure if exists delete_floor;
 create procedure delete_floor(in mFloor_id integer)
-deterministic
+#deterministic
 READS SQL DATA
 begin
 	delete from comment where root_floor_id = mFloor_id;
