@@ -51,7 +51,7 @@
       <h2 class="h3 mb-3 font-weight-normal"><font style="vertical-align: inherit;">登录JavaWeb论坛</font></h2>
       <br>
       <label for="username" class="sr-only"><font style="vertical-align: inherit;">用户名</font></label>
-      <input type="text" name="username" id="username" class="form-control" style="height: 3.5em;" placeholder="请输入用户名" required="" autofocus="">
+      <input type="text" name="id" id="username" class="form-control" style="height: 3.5em;" placeholder="请输入用户名" required="" autofocus="">
       <br>
       <label for="password" class="sr-only"><font style="vertical-align: inherit;">密码</font></label>
       <input type="password" name="password" id="password" class="form-control" style="height: 3.5em;" placeholder="请输入密码" required="">

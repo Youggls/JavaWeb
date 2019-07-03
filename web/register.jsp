@@ -24,9 +24,6 @@
             top: 50%;
             transform: translate(-50%, -50%);
         }
-        #img-circle {
-            border-radius: 500px;
-        }
     </style>
 </head>
 <body>
@@ -48,7 +45,7 @@
             </div>
             <br><br>
             <label>用户名</label>
-            <input type="text" name="username" id="username" class="form-control" style="height: 3.5em;" placeholder="请输入用户名" required autofocus>
+            <input type="text" name="nickname" id="username" class="form-control" style="height: 3.5em;" placeholder="请输入用户名" required autofocus>
             <br>
             <label>密码</label>
             <input type="password" name="password" id="password" class="form-control" style="height: 3.5em;" placeholder="请输入密码" required>
@@ -56,7 +53,7 @@
             <label>确认密码</label>
             <input type="password" name="repassword" id="repassword" class="form-control" style="height: 3.5em;" placeholder="请再次输入密码" required>
             <br><br>
-            <button type="submit" class="btn btn-primary btn-lg btn-block" id="bin-register">注册</button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="register">注册</button>
             <br>
             <a href="index.jsp" class="btn btn-default btn-lg btn-block">返回登录</a>
         </form>
