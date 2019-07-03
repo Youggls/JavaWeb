@@ -2,7 +2,7 @@ package indi.RDY.JavaWeb.bean;
 
 import java.sql.Timestamp;
 
-public class TextContainer {
+public class TextContainer implements Comparable<TextContainer> {
     private int id;
     private int userId;
     private String content;
@@ -42,5 +42,10 @@ public class TextContainer {
 
     public Timestamp getTime() {
         return time;
+    }
+
+    @Override
+    public int compareTo(TextContainer o) {
+        return time.compareTo(o.getTime());
     }
 }

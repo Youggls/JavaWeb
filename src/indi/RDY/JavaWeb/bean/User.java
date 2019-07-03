@@ -16,6 +16,14 @@ public class User {
         type = VISITOR;
     }
 
+    public User(int id, String nickName, String passWord, int type, Timestamp registeredTime) {
+        this.id = id;
+        this.nickName = nickName;
+        this.passWord = passWord;
+        this.type = type;
+        this.registeredTime = registeredTime;
+    }
+
     public int getId() {
         return id;
     }
