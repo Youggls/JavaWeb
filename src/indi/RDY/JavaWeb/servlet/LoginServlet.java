@@ -1,6 +1,5 @@
 package indi.RDY.JavaWeb.servlet;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import indi.RDY.JavaWeb.bean.User;
@@ -28,7 +27,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //doPost(req, resp);
+        doPost(req, resp);
     }
 
     @Override
