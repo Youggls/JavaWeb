@@ -27,8 +27,10 @@ public class DbUtil {
             dbUserName = jsonObject.getString("dbUserName");
             dbUrl = jsonObject.getString("dbUrl");
             Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("successfully connect");
         }
         catch (IOException | ClassNotFoundException e) {
+            System.out.println("can't connect to mysql");
             e.printStackTrace();
         }
     }

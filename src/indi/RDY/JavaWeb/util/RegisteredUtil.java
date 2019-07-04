@@ -84,8 +84,16 @@ public class RegisteredUtil {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String date = dateFormat.format( toDay );
             String type = "user";
-            PreparedStatement pstat = conn.prepareStatement("insert into " +
-                    "user(nickname, password, registered_date, type) values (?, ?,"+date+", "+type+")");
+
+            String sql = "insert into user(nickname, password, registered_time, type) values(?,?,?,'user')";
+//            Statement rg = conn.createStatement();
+//            rg.execute(sql);
+            PreparedStatement pstat = conn.prepareStatement(sql);
+            pstat.setString(1, nickName);
+            pstat.setString(2, pwd);
+            pstat.setString(3, date);
+            pstat.execute();
+
 
         }
         catch (Exception e) {
