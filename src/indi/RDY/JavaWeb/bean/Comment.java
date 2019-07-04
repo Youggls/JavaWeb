@@ -1,5 +1,7 @@
 package indi.RDY.JavaWeb.bean;
 import java.sql.Date;
+import java.sql.Timestamp;
+
 public class Comment extends TextContainer {
     private int rootFloorId;
     private int preCommentId;
@@ -7,6 +9,13 @@ public class Comment extends TextContainer {
 
     public Comment() {
         super();
+    }
+
+    public Comment(int id, int userId, int rootFloorId, int preCommentId, String content, Timestamp time, boolean isDeleted) {
+        super(id, userId, content, time);
+        this.isDeleted = isDeleted;
+        this.rootFloorId = rootFloorId;
+        this.preCommentId = preCommentId;
     }
 
 

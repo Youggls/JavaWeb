@@ -21,9 +21,9 @@ DROP TABLE IF EXISTS `JavaWeb`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `JavaWeb`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nickname` VARCHAR(45) NULL DEFAULT 'null',
+  `nickname` VARCHAR(45) NOT NULL unique,
   `password` VARCHAR(50) NOT NULL,
-  `profile_photo_url` VARCHAR(50) NULL DEFAULT 'null',
+  `profile_photo_url` VARCHAR(50) NULL DEFAULT NULL,
   `registered_time` TIMESTAMP NOT NULL,
   `type` VARCHAR(10) NOT NULL DEFAULT 'user',
 	CHECK (`type` in ("user", "operator", "admin")),

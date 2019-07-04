@@ -7,8 +7,16 @@
         <servlet-name>LogIn</servlet-name>
         <servlet-class>indi.RDY.JavaWeb.servlet.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.RegisteredServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogIn</servlet-name>
         <url-pattern>/JavaWeb/LogIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/JavaWeb/Register</url-pattern>
     </servlet-mapping>
 </web-app>

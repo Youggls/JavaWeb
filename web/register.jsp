@@ -92,7 +92,7 @@
         <div class="col-md-4"></div>
     </div>
     <div class="col-md-4 main">
-        <form class="form-singin" method="post" action="/CheckServlet">
+        <form class="form-singin" method="post" action="${pageContext.request.contextPath}/JavaWeb/Register">
             <br>
             <br>
             <h2 class="form-signin-heading">注册JavaWeb论坛账号</h2>

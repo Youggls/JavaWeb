@@ -28,6 +28,7 @@ public class User {
         this.type = type;
         this.registeredTime = registeredTime;
         this.photoUrl = photoUrl;
+        this.passWord = null;
     }
 
     public static int phraseType(String type) {

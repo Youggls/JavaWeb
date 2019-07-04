@@ -12,6 +12,13 @@ public class TextContainer implements Comparable<TextContainer> {
 
     }
 
+    public TextContainer(int id, int userId, String content, Timestamp time) {
+        this.id = id;
+        this.userId = userId;
+        this.content = content;
+        this.time = time;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
