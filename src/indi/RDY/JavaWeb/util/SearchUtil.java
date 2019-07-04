@@ -1,19 +1,14 @@
 package indi.RDY.JavaWeb.util;
 
 import indi.RDY.JavaWeb.bean.*;
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
 import java.util.*;
 import java.sql.*;
 
-public class SearchUtil {
-    private Connection conn;
+abstract public class SearchUtil {
 
-    public SearchUtil() {
-        DbUtil dbUtil = new DbUtil();
-        this.conn = dbUtil.getConnection();
-    }
-
-    public List<User> searchUser(String name) {
+    public static List<User> searchUser(String name, Connection conn) {
         String sql = "{call search_user_by_name(?)}";
         ArrayList<User> users = new ArrayList<>();
         try {
@@ -27,7 +22,7 @@ public class SearchUtil {
         return users;
     }
 
-    public List<User> searchUser(int id) {
+    public static List<User> searchUser(int id, Connection conn) {
         String sql = "{call search_user_by_id(?)}";
         ArrayList<User> users = new ArrayList<>();
         try {
@@ -42,25 +37,25 @@ public class SearchUtil {
         return users;
     }
 
-    public List<TextContainer> searchTextByUser(String nickName) {
+    public static List<TextContainer> searchTextByUser(String nickName, Connection conn) {
         List<TextContainer> texts = new ArrayList<>();
-        texts.addAll(searchPostByUser(nickName));
-        texts.addAll(searchFloorByUser(nickName));
-        texts.addAll(searchCommentByUser(nickName));
+        texts.addAll(searchPostByUser(nickName, conn));
+        texts.addAll(searchFloorByUser(nickName, conn));
+        texts.addAll(searchCommentByUser(nickName, conn));
         Collections.sort(texts);
         return texts;
     }
 
     //Only return the post and floor
-    public List<TextContainer> searchTextByContentAndTitle(String content) {
+    public static List<TextContainer> searchTextByContentAndTitle(String content, Connection conn) {
         List<TextContainer> texts = new ArrayList<>();
-        texts.addAll(searchPostByContent(content));
-        texts.addAll(searchPostByTitle(content));
-        texts.addAll(searchFloorByContent(content));
+        texts.addAll(searchPostByContent(content, conn));
+        texts.addAll(searchPostByTitle(content, conn));
+        texts.addAll(searchFloorByContent(content, conn));
         return texts;
     }
 
-    public List<Post> searchPostByUser(String nickName) {
+    public static List<Post> searchPostByUser(String nickName, Connection conn) {
         List<Post> posts = new ArrayList<>();
         String sql1 = "{call search_post_by_user(?)}";
 
@@ -76,21 +71,21 @@ public class SearchUtil {
         return posts;
     }
 
-    public List<Floor> searchFloorByUser(String nickName) {
+    public static List<Floor> searchFloorByUser(String nickName, Connection conn) {
         List<Floor> floors = new ArrayList<>();
         String sql1 = "{call search_floor_by_user(?)}";
 
-        return addFloorToList(nickName, floors, sql1);
+        return addFloorToList(nickName, floors, sql1, conn);
     }
 
-    public List<Comment> searchCommentByUser(String nickName) {
+    public static List<Comment> searchCommentByUser(String nickName, Connection conn) {
         List<Comment> comments = new ArrayList<>();
         String sql = "{call search_comment_by_user(?)}";
         String content;
-        return addCommentsToList(nickName, comments, sql);
+        return addCommentsToList(nickName, comments, sql, conn);
     }
 
-    private List<Comment> addCommentsToList(String nickName, List<Comment> comments, String sql) {
+    private static List<Comment> addCommentsToList(String nickName, List<Comment> comments, String sql, Connection conn) {
         String content;
         try {
             CallableStatement search = conn.prepareCall(sql);
@@ -114,30 +109,30 @@ public class SearchUtil {
         return comments;
     }
 
-    public List<Post> searchPostByTitle(String title) {
+    public static List<Post> searchPostByTitle(String title, Connection conn) {
         List<Post> posts = new ArrayList<>();
         String sql = "{call search_post_by_post_name(?)}";
-        return addPostToList(title, posts, sql);
+        return addPostToList(title, posts, sql, conn);
     }
 
-    public List<Post> searchPostByContent(String content) {
+    public static List<Post> searchPostByContent(String content, Connection conn) {
         List<Post> posts = new ArrayList<>();
         String sql = "{call search_post_by_content(?)}";
-        return addPostToList(content, posts, sql);
+        return addPostToList(content, posts, sql, conn);
     }
 
-    public List<Floor> searchFloorByContent(String content) {
+    public static List<Floor> searchFloorByContent(String content, Connection conn) {
         List<Floor> floors = new ArrayList<>();
         String sql = "{call search_floor_by_content(?)}";
-        return addFloorToList(content, floors, sql);
+        return addFloorToList(content, floors, sql, conn);
     }
 
-    public List<Comment> searchCommentByContent(String content) {
+    public static List<Comment> searchCommentByContent(String content, Connection conn) {
         List<Comment> comments = new ArrayList<>();
         String sql = "{call search_comment_by_content(?)}";
-        return addCommentsToList(content, comments, sql);
+        return addCommentsToList(content, comments, sql, conn);
     }
-    private void addUserToList(ArrayList<User> users, CallableStatement search) throws SQLException {
+    private static void addUserToList(ArrayList<User> users, CallableStatement search) throws SQLException {
         ResultSet rs = search.getResultSet();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -150,7 +145,7 @@ public class SearchUtil {
         }
     }
 
-    private List<Post> addPostToList(String content, List<Post> posts, String sql) {
+    private static List<Post> addPostToList(String content, List<Post> posts, String sql, Connection conn) {
         try {
             CallableStatement search = conn.prepareCall(sql);
             search.setString(1, content);
@@ -164,7 +159,7 @@ public class SearchUtil {
         return posts;
     }
 
-    private List<Floor> addFloorToList(String content, List<Floor> floors, String sql) {
+    private static List<Floor> addFloorToList(String content, List<Floor> floors, String sql, Connection conn) {
         try {
             CallableStatement search = conn.prepareCall(sql);
             search.setString(1, content);
@@ -177,7 +172,7 @@ public class SearchUtil {
     }
 
 
-    private void addFloorToList(List<Floor> floors, CallableStatement search) throws SQLException {
+    private static void addFloorToList(List<Floor> floors, CallableStatement search) throws SQLException {
         ResultSet rs = search.getResultSet();
         while (rs.next()) {
             int id = rs.getInt("floor_id");
@@ -191,7 +186,7 @@ public class SearchUtil {
         Collections.sort(floors);
     }
 
-    private void addPostFromResult(List<Post> posts, CallableStatement search) throws SQLException {
+    private static void addPostFromResult(List<Post> posts, CallableStatement search) throws SQLException {
         ResultSet rs = search.getResultSet();
         while (rs.next()) {
             int id = rs.getInt("post_id");
