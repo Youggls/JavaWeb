@@ -47,4 +47,9 @@ public class CheckServlet extends HttpServlet {
             response.getWriter().print(false);
         }
     }
+
+    @Override
+    public void init() throws ServletException {
+        DbUtil.init(this);
+    }
 }
