@@ -25,12 +25,11 @@ public class LogInUtil {
         Timestamp time = null;
         int type = User.VISITOR;
         ResultSet rs = null;
-        if (cookies != null && 1 == 0) {
+        if (cookies != null) {
             //The cookies existed
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("id")) {
                     //The saved cookie existed id
-                    System.out.println("use cookie to login" + id);
                     id = Integer.parseInt(cookie.getValue());
                     break;
                 }
@@ -61,7 +60,7 @@ public class LogInUtil {
                     //Login succeed!
                     info = "User: [" + id + "] successfully login!";
                     Cookie cookie = new Cookie("id", "" + id);
-                    cookie.setPath(System.getProperty("file.separator"));
+                    cookie.setPath("/");
                     //resp.getWriter().append(req.getParameter("save"));
                     //Save two days
                     cookie.setMaxAge(2 * 24 * 60 * 60);

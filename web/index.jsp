@@ -19,11 +19,11 @@
   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     .main {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-  }
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   </style>
 </head>
 <body class="text-center">
@@ -32,9 +32,9 @@
 <%
   Cookie[] cookies = request.getCookies();
   if (cookies != null) {
-    for (int i=0; i<cookies.length; ++i){
-      if(cookies[i].getName().equals("name")) {
-        response.sendRedirect("main.jsp");
+    for (Cookie cookie : cookies) {
+      if (cookie.getName().equals("id")) {
+        response.sendRedirect("/JavaWeb/main.jsp");
       }
       else {
 
@@ -54,7 +54,8 @@
       <h2 class="h3 mb-3 font-weight-normal"><font style="vertical-align: inherit;">登录JavaWeb论坛</font></h2>
       <br>
       <label for="username" class="sr-only"><font style="vertical-align: inherit;">用户名</font></label>
-      <input type="text" name="id" id="username" class="form-control" style="height: 3.5em;" placeholder="请输入用户名" required="" autofocus="">
+      <input type="text" name="id" id="username" class="form-control" style="height: 3.5em;" placeholder="请输入用户名"
+             required="" autofocus="">
       <br>
       <label for="password" class="sr-only"><font style="vertical-align: inherit;">密码</font></label>
       <input type="password" name="password" id="password" class="form-control" style="height: 3.5em;" placeholder="请输入密码" required="">
@@ -63,11 +64,21 @@
         <label><input type="checkbox" value="remember-me"><font style="vertical-align: inherit;"> 记住账号 </font></label>
       </div>-->
       <br>
+      <input type="password" name="password" id="password" class="form-control" style="height: 3.5em;"
+             placeholder="请输入密码" required="">
       <br>
-      <button type="submit" class="btn btn-primary btn-lg btn-block" id="bin-login"><font style="vertical-align: inherit;">登入</font></button>
-      <a href="register.jsp" class="btn btn-default btn-lg btn-block"><font style="vertical-align: inherit;">注册</font></a>
+      <div class="checkbox mb-3">
+        <label><input type="checkbox" value="remember-me"><font style="vertical-align: inherit;">
+          记住账号 </font></label>
+      </div>
       <br>
-      <p class="mt-5 mb-3 text-muted"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">©2019</font></font></p>
+      <button type="submit" class="btn btn-primary btn-lg btn-block" id="bin-login"><font
+              style="vertical-align: inherit;">登入</font></button>
+      <a href="register.jsp" class="btn btn-default btn-lg btn-block"><font
+              style="vertical-align: inherit;">注册</font></a>
+      <br>
+      <p class="mt-5 mb-3 text-muted"><font style="vertical-align: inherit;"><font
+              style="vertical-align: inherit;">©2019</font></font></p>
     </form>
   </div>
   <div class="col-md-4">
