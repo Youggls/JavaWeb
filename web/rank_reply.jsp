@@ -18,17 +18,34 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
-
+        body {
+            padding: 90px 30px;
+        }
     </style>
 </head>
 <body>
+<%
+    Cookie[] cookies = request.getCookies();
+    boolean login = false;
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("id")) {
+                login = true;
+                break;
+            }
+        }
+        if (login){%>
+<div>
+    <%@include file="head_login.jsp"%>
+</div>
+<%}
+else{%>
 <div>
     <%@include file="head_visitor.jsp"%>
 </div>
-<br>
-<br>
-<br>
-<br>
+<%}
+}
+%>
 回复数排行
 </body>
 </html>

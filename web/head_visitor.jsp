@@ -25,9 +25,9 @@
                     <ul class="dropdown-menu">
                         <li><a>用户</a></li>
                         <li class="divider"></li>
-                        <li><a href="rank_deliver.jsp">发帖数排行</a></li>
-                        <li><a href="rank_reply.jsp">回复数排行</a></li>
-                        <li><a href="rank_time.jsp">注册时间排行</a></li>
+                        <li><a href="rank_deliver.jsp" target="_blank">发帖数排行</a></li>
+                        <li><a href="rank_reply.jsp" target="_blank">回复数排行</a></li>
+                        <li><a href="rank_time.jsp" target="_blank">注册时间排行</a></li>
                     </ul>
                 </li>
             </ul>
@@ -38,7 +38,7 @@
             <form class="navbar-form navbar-right" role="search">
                 <div class="form-group" style="padding-top: 0.18em;">
                     <input type="text" class="form-control" placeholder="搜索关键词" style="height: 2em;">
-                    &nbsp;&nbsp;&nbsp;<strike><a href="#" class="glyphicon glyphicon-search" title="Search"></a></strike>
+                    &nbsp;&nbsp;&nbsp;<strike><a href="#" class="glyphicon glyphicon-search" title="Search" target="_blank"></a></strike>
                 </div>
                 <!-- <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search textmuted" title="Search">搜索</span></button> -->
             </form>

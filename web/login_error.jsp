@@ -24,6 +24,9 @@
             top: 50%;
             transform: translate(-50%,-50%);
         }
+        body {
+            padding: 90px 30px;
+        }
     </style>
 </head>
 <body class="text-center">

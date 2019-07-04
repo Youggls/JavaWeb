@@ -12,23 +12,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaWeb——Sign in</title>
+    <title>个人主页——JavaWeb论坛</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap-responsive.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
-
+        body {
+            padding: 90px 30px;
+        }
     </style>
 </head>
 <body style="background: url(img/bg.jpg)">
 <div>
-    <%@include file="head_visitor.jsp"%>
+    <%@include file="head_login.jsp"%>
 </div>
-<br>
-<br>
-<br>
-<br>
 <div class="container">
     <div class="row" style="background: url(img/cover.jpg); background-size: cover;">
         <div class="col-md-12">
