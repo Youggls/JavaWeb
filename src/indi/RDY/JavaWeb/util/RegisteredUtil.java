@@ -51,10 +51,7 @@ package indi.RDY.JavaWeb.util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 
 public class RegisteredUtil {
@@ -80,21 +77,15 @@ public class RegisteredUtil {
 
             String nickName = req.getParameter("nickname");
             String pwd = req.getParameter("password");
-            java.util.Date toDay = new java.util.Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String date = dateFormat.format( toDay );
-            String type = "user";
+            Timestamp date = new Timestamp(System.currentTimeMillis());
 
             String sql = "insert into user(nickname, password, registered_time, type) values(?,?,?,'user')";
-//            Statement rg = conn.createStatement();
-//            rg.execute(sql);
             PreparedStatement pstat = conn.prepareStatement(sql);
             pstat.setString(1, nickName);
             pstat.setString(2, pwd);
-            pstat.setString(3, date);
+            pstat.setTimestamp(3, date);
+            System.out.println(date);
             pstat.execute();
-
-
         }
         catch (Exception e) {
             System.out.println("error inside RegisteredUtil");
