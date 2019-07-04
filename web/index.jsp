@@ -24,24 +24,24 @@
       top: 50%;
       transform: translate(-50%, -50%);
     }
+    body {
+      padding: 90px 30px;
+    }
   </style>
 </head>
 <body class="text-center">
 
 <%-- 进入登录界面首先判断是否存在cookies，判断是否登录 --%>
-<%--
+<%
   Cookie[] cookies = request.getCookies();
   if (cookies != null) {
     for (Cookie cookie : cookies) {
       if (cookie.getName().equals("id")) {
-        response.sendRedirect("/JavaWeb/main.jsp");
-      }
-      else {
-
+        response.sendRedirect("main.jsp");
       }
     }
   }
---%>
+%>
 <div>
   <%@ include file="head_visitor.jsp" %>
 </div>
