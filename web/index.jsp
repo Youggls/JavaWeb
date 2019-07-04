@@ -29,7 +29,7 @@
 <body class="text-center">
 
 <%-- 进入登录界面首先判断是否存在cookies，判断是否登录 --%>
-<%
+<%--
   Cookie[] cookies = request.getCookies();
   if (cookies != null) {
     for (Cookie cookie : cookies) {
@@ -41,7 +41,7 @@
       }
     }
   }
-%>
+--%>
 <div>
   <%@ include file="head_visitor.jsp" %>
 </div>
@@ -63,14 +63,6 @@
       <div class="checkbox mb-3">
         <label><input type="checkbox" value="remember-me"><font style="vertical-align: inherit;"> 记住账号 </font></label>
       </div>-->
-      <br>
-      <input type="password" name="password" id="password" class="form-control" style="height: 3.5em;"
-             placeholder="请输入密码" required="">
-      <br>
-      <div class="checkbox mb-3">
-        <label><input type="checkbox" value="remember-me"><font style="vertical-align: inherit;">
-          记住账号 </font></label>
-      </div>
       <br>
       <button type="submit" class="btn btn-primary btn-lg btn-block" id="bin-login"><font
               style="vertical-align: inherit;">登入</font></button>
