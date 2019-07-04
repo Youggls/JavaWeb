@@ -64,6 +64,6 @@ public class DbUtil {
 
     @Override
     public void finalize() throws SQLException {
-        conn.close();
+
     }
 }

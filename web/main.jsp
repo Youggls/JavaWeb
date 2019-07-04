@@ -32,7 +32,7 @@
     boolean login = false;
     if (cookies != null) {
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("id")) {
+            if (cookie.getName().equals("nickname")) {
                 login = true;
                 break;
             }
