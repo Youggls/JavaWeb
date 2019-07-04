@@ -36,7 +36,7 @@
   Cookie[] cookies = request.getCookies();
   if (cookies != null) {
     for (Cookie cookie : cookies) {
-      if (cookie.getName().equals("id")) {
+      if (cookie.getName().equals("nickname")) {
         response.sendRedirect("main.jsp");
       }
     }

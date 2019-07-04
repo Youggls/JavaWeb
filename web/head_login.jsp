@@ -20,6 +20,35 @@
     function logOut() {
         setCookie("id", "", 0);
     }
+    function doFormRequest(url, action)
+    {
+        var form = document.createElement("form");
+        form.action = url;
+        form.method = action;
+
+        // append input attribute and valus
+        // for (var key in json)
+        // {
+        //     if (json.hasOwnProperty(key))
+        //     {
+        //         var val = json[key];
+        //         input = document.createElement("input");
+        //         input.type = "hidden";
+        //         input.name = key;
+        //         input.value = val;
+        //
+        //         // append key-value to form
+        //         form.appendChild(input)
+        //     }
+        // }
+
+        // send post request
+        document.body.appendChild(form);
+        form.submit();
+
+        // remove form from document
+        document.body.removeChild(form);
+    }
 </script>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -52,7 +81,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="profile.jsp" target="_blank">个人主页</a></li>
                         <li class="divider"></li>
-                        <li><a href="${pageContext.request.contextPath}/JavaWeb/LogIn" >登出</a></li>
+                        <li><a onclick="doFormRequest('/JavaWeb/LogOut', 'post')">登出</a></li>
                     </ul>
                 </li>
             </ul>
