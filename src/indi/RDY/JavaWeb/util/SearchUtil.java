@@ -51,6 +51,15 @@ public class SearchUtil {
         return texts;
     }
 
+    //Only return the post and floor
+    public List<TextContainer> searchTextByContentAndTitle(String content) {
+        List<TextContainer> texts = new ArrayList<>();
+        texts.addAll(searchPostByContent(content));
+        texts.addAll(searchPostByTitle(content));
+        texts.addAll(searchFloorByContent(content));
+        return texts;
+    }
+
     public List<Post> searchPostByUser(String nickName) {
         List<Post> posts = new ArrayList<>();
         String sql1 = "{call search_post_by_user(?)}";
