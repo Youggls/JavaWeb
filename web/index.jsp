@@ -28,7 +28,7 @@
 </head>
 <body class="text-center">
 
-<%-- 进入登录界面首先判断是否存在cookies，如果存在则直接跳转到主界面 --%>
+<%-- 进入登录界面首先判断是否存在cookies，判断是否登录 --%>
 <%
   Cookie[] cookies = request.getCookies();
   if (cookies != null) {
@@ -36,11 +36,14 @@
       if(cookies[i].getName().equals("name")) {
         response.sendRedirect("main.jsp");
       }
+      else {
+
+      }
     }
   }
 %>
 <div>
-  <%@ include file="head.jsp" %>
+  <%@ include file="head_visitor.jsp" %>
 </div>
 <div class="container">
   <div class="row">
@@ -55,10 +58,11 @@
       <br>
       <label for="password" class="sr-only"><font style="vertical-align: inherit;">密码</font></label>
       <input type="password" name="password" id="password" class="form-control" style="height: 3.5em;" placeholder="请输入密码" required="">
-      <br>
+      <!-- <br>
       <div class="checkbox mb-3">
         <label><input type="checkbox" value="remember-me"><font style="vertical-align: inherit;"> 记住账号 </font></label>
-      </div>
+      </div>-->
+      <br>
       <br>
       <button type="submit" class="btn btn-primary btn-lg btn-block" id="bin-login"><font style="vertical-align: inherit;">登入</font></button>
       <a href="register.jsp" class="btn btn-default btn-lg btn-block"><font style="vertical-align: inherit;">注册</font></a>

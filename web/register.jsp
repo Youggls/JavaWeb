@@ -28,7 +28,7 @@
 </head>
 <body>
 <div>
-    <%@ include file="head.jsp" %>
+    <%@ include file="head_visitor.jsp" %>
 </div>
 <div class="container">
     <div class="row">

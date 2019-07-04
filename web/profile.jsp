@@ -23,7 +23,7 @@
 </head>
 <body style="background: url(img/bg.jpg)">
 <div>
-    <%@include file="head.jsp"%>
+    <%@include file="head_visitor.jsp"%>
 </div>
 <br>
 <br>
