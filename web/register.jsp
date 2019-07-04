@@ -18,49 +18,8 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        function createXMLHttpRequest() { //创建XMLHttpRequest
-            try {
-                return new XMLHttpRequest(); //直接创建对象，不适用与IE5,IE6
-            } catch (e) {
-                try {
-                    return new ActiveXObject("Msxml2.XMLHTTP");//对于不适用的，创建合适的对象
-                } catch (e) {
-                    return new ActiveXObject("Microsoft.XMLHTTP");
-                }
-            }
-        }
-        function send() {
-            var xmlHttp = createXMLHttpRequest();
-
-            xmlHttp.onreadystatechange = function () {
-                if (xmlHttp.readyState === 4 && xmlHttp.status == 200) { //判断xmlHttp的状态是否完毕
-                    if(xmlHttp.responseText == "true") {
-                        //判断ajax从Servlet中返回的信息，即判断用户名是否存在。
-                        document.getElementById("Username_Error_Message").innerHTML=
-                            "<div class=\"alert alert-danger\"> 用户名不可用！</div>";
-                        //弹出警告信息，告知不可适用该用户名
-                        document.all("register").disabled=true; 　//将注册按钮关闭，无法点击
-                    }else {
-                        document.getElementById("Username_Error_Massage").innerHTML = "<div class=\"alert alert-success\"> 用户名可用 </div>";
-                        document.all("register").disabled=false;　//开启注册按钮
-                    }
-                }
-            };
-            var method = "POST"; //定义传输方式
-            var url="/registerServlet?" + new Date().getTime();
-            //定义对应的URL，为了避免浏览器的缓存造成干扰，加上时间戳
-            xmlHttp.open(method, url, true);
-            xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            var username = document.getElementById("username").value;
-            if(username===undefined || username === null || username === ""){
-                //判断用户名是否为空
-                alert("账号不能为空！"); // 弹出警告信息
-            }
-            xmlHttp.send("username=" + username); //发送信息
-        }
         function inspect_password() { //判断两次用户名是否一致，不一致时，注册按钮不可使用
-            if(document.getElementById("password").value !=
-                document.getElementById("repassword").value){
+            if(document.getElementById("password").value !== document.getElementById("repassword").value){
                 document.getElementById("div_password").innerHTML
                     = "<div class=\"alert alert-danger\"> 两次密码不一致！</div>";
                 document.all("register").disabled=true;
