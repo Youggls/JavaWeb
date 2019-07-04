@@ -67,11 +67,13 @@ public class RegisteredUtil {
     private String dbPassword;
     private Statement statement;
 
-    public RegisteredUtil(Connection conn) {
-        this.conn = conn;
+    public RegisteredUtil() {
+        DbUtil dbUtil = new DbUtil();
+        conn = dbUtil.getConnection();
     }
     public boolean register(HttpServletResponse resp, HttpServletRequest req) {
         try {
+            System.out.println("inside util register");
             req.setCharacterEncoding("UTF-8");
             resp.setCharacterEncoding("UTF-8");
             resp.setContentType("text/html; charset=UTF-8");
