@@ -18,9 +18,13 @@ public class User {
     }
 
     public User(int id, String nickName, String passWord, String photoUrl, int type, Timestamp registeredTime) {
+        this(id, nickName, photoUrl, type, registeredTime);
+        this.passWord = passWord;
+    }
+
+    public User(int id, String nickName, String photoUrl, int type, Timestamp registeredTime) {
         this.id = id;
         this.nickName = nickName;
-        this.passWord = passWord;
         this.type = type;
         this.registeredTime = registeredTime;
         this.photoUrl = photoUrl;
