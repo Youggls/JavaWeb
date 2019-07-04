@@ -1,4 +1,4 @@
 package indi.RDY.JavaWeb.servlet;
 
-public class ReadResource {
+public class LogOutServlet {
 }
