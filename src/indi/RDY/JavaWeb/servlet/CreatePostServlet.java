@@ -23,8 +23,7 @@ public class CreatePostServlet extends HttpServlet {
 
         Timestamp time = new Timestamp(System.currentTimeMillis());
 
-        DbUtil dbUtil = new DbUtil();
-        Connection conn = dbUtil.getConnection();
+        Connection conn = DbUtil.getConnection();
         int id = 0;
         List<User> users = SearchUtil.searchUser(id, conn);
         id = users.get(0).getId();

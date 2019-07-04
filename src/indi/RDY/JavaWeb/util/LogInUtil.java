@@ -15,8 +15,7 @@ public class LogInUtil {
     private Connection conn = null;
 
     public LogInUtil() {
-        DbUtil dbUtil = new DbUtil();
-        conn = dbUtil.getConnection();
+        conn = DbUtil.getConnection();
     }
 
     //If login failed will return null pointer

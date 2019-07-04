@@ -65,8 +65,7 @@ public class RegisteredUtil {
     private Statement statement;
 
     public RegisteredUtil() {
-        DbUtil dbUtil = new DbUtil();
-        conn = dbUtil.getConnection();
+        conn = DbUtil.getConnection();
     }
     public boolean register(HttpServletResponse resp, HttpServletRequest req) {
         try {

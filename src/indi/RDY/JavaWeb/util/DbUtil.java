@@ -10,8 +10,7 @@ import org.json.JSONObject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 
-public class DbUtil {
-    private Connection conn;
+abstract public class DbUtil {
     private static String dbUserName;
     private static String dbUserPassWord;
     private static String dbUrl;
@@ -35,35 +34,14 @@ public class DbUtil {
         }
     }
 
-    public DbUtil() {
+    public static Connection getConnection() {
         try {
-            conn = DriverManager.getConnection(dbUrl, dbUserName, dbUserPassWord);
+            Connection conn = DriverManager.getConnection(dbUrl, dbUserName, dbUserPassWord);
+            return conn;
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public Connection getConnection() {
-        return conn;
-    }
-
-    public ResultSet executeQuery(String sql) {
-        ResultSet rs = null;
-        Statement statement =null;
-        try {
-            statement = conn.createStatement();
-            statement.executeQuery(sql);
-            rs = statement.executeQuery(sql);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return rs;
-    }
-
-    @Override
-    public void finalize() throws SQLException {
-
+        return null;
     }
 }

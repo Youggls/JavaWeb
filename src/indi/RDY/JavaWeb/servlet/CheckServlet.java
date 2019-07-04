@@ -29,8 +29,7 @@ public class CheckServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("check");
         String username = new String(request.getParameter("nickname").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
-        DbUtil dbUtil = new DbUtil();
-        Connection conn = dbUtil.getConnection();
+        Connection conn = DbUtil.getConnection();
         int count = 0;
         try {
             PreparedStatement search = conn.prepareStatement("SELECT COUNT(*) FROM user WHERE nickname = ?");
