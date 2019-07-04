@@ -13,10 +13,12 @@ import java.io.IOException;
 @WebServlet(name = "CheckServlet", value = "/CheckServlet")
 public class CheckServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("check");
         doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("check");
         String username = request.getParameter("nickname");
         if (username.equals("test")) { //单纯测试，不进行连接数据库，，相同返回true
             response.getWriter().print(true);
