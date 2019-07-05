@@ -14,7 +14,7 @@ public class SortByTimeLine {
 
     public SortByTimeLine () {
         posts = new ArrayList<>();
-        String dbUrl = "jdbc:mysql://localhost:3306/JavaWeb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+        String dbUrl = "jdbc:mysql://localhost:3306/JavaWeb?useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true";
         String dbUserName = "cao";
         String dbUserPassWord = "CaoXusheng136720";
         try {
