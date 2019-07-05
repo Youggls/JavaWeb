@@ -9,14 +9,15 @@ public class RankUtil {
     private HashMap<Integer, Integer> idPostNum;
     List<Map.Entry<Integer, Integer>> infoIds;
     public RankUtil() {
-        String dbUrl = "jdbc:mysql://localhost:3306/JavaWeb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-        String dbUserName = "cao";
-        String dbUserPassWord = "CaoXusheng136720";
-        try {
-            conn = DriverManager.getConnection(dbUrl, dbUserName, dbUserPassWord);
-        } catch (Exception e) {
-            System.out.println("can't connect to mysql");
-        }
+//        String dbUrl = "jdbc:mysql://localhost:3306/JavaWeb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+//        String dbUserName = "cao";
+//        String dbUserPassWord = "CaoXusheng136720";
+//        try {
+//            conn = DriverManager.getConnection(dbUrl, dbUserName, dbUserPassWord);
+//        } catch (Exception e) {
+//            System.out.println("can't connect to mysql");
+//        }
+        conn = DbUtil.getConnection();
 
     }
     public List<Map.Entry<Integer, Integer>> rank(/*HttpServletResponse resp, HttpServletRequest req*/) {
