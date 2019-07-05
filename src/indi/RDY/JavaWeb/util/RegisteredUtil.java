@@ -55,14 +55,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 
 public class RegisteredUtil {
-    private int id;
-    private String password;
-    private final String dbDriver = "com.mysql.jdbc.Driver";
-    private String dbUrl;
     private Connection conn = null;
-    private String dbUserName;
-    private String dbPassword;
-    private Statement statement;
 
     public RegisteredUtil() {
         conn = DbUtil.getConnection();
@@ -92,7 +85,5 @@ public class RegisteredUtil {
         }
         return true;
     }
-    public static void main(String[] args) {
 
-    }
 }
