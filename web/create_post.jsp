@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -6,10 +10,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>发表帖子——JavaWeb论坛</title>
-    <link rel="stylesheet" href="bootstrap-responsive.css">
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <script src="jquery.min.js"></script>
-    <script src="bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap-responsive.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
     <style>
         body {
             padding: 90px 30px;
@@ -46,7 +50,7 @@
     <button id="btn2">获取text</button>
 
     <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
-    <script type="text/javascript" src="./wangEditor.min.js"></script>
+    <script type="text/javascript" src="js/wangEditor.min.js"></script>
     <script type="text/javascript">
         var E = window.wangEditor;
         var editor = new E('#editor');

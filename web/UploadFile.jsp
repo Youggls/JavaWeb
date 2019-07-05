@@ -24,7 +24,7 @@
 </head>
 
 <body>
-<form action="/upload/UpLoad" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/JavaWeb/UploadFile" method="post" enctype="multipart/form-data">
     请选择上传的图片或文件:<input type="file" name="fileName"/><input type="submit" value="上传"/>
 </form>
 </body>
