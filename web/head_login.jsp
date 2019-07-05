@@ -25,6 +25,9 @@
         // remove form from document
         document.body.removeChild(form);
     }
+    function redirect(url) {
+        _response.redirect(url);
+    }
 </script>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <%
@@ -37,9 +40,12 @@
                 System.out.println(nickname1);
                 user = SearchUtil.searchUser(nickname1, DbUtil.getConnection()).get(0);
                 pageContext.setAttribute("user", user);
+                request.setAttribute("user", user);
                 break;
             }
         }
+        String redirectUrl = "/JavaWeb/profile.jsp?nickname=" + nickname1;
+        pageContext.setAttribute("redirectUrl", redirectUrl);
     %>
     <div class="container-fluid">
         <div class="navbar-header">
@@ -69,7 +75,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="profile.jsp" target="_blank">个人主页</a></li>
+                        <li><a href=${redirectUrl}>个人主页</a></li>
                         <li class="divider"></li>
                         <li><a onclick="doFormRequest('/JavaWeb/LogOut', 'post')">登出</a></li>
                     </ul>
