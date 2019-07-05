@@ -38,7 +38,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
-        <url-pattern>/LogOut</url-pattern>
+        <url-pattern>/JavaWeb/LogOut</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreatePost</servlet-name>
