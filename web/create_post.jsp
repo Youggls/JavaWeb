@@ -1,11 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Raymond
-  Date: 2019-07-04
-  Time: 20:17
-  To change this template use File | Settings | File Templates.
---%>
-%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -23,7 +16,36 @@
         }
     </style>
 </head>
+<%
+    boolean login = false;
+    Cookie[] cookies = request.getCookies();
+    String nickName = null;
+    for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("nickname")) {
+            login = true;
+            nickName = cookie.getValue();
+            break;
+        }
+    }
+    if (!login) {
+        response.sendRedirect("/JavaWeb/main.jsp");
+    }
+%>
 <body>
-
+<jsp:include page="head_login.jsp"></jsp:include>
+<form method="post" id="postform" action="${pageContext.request.contextPath}/CreatePost?postid=xxxx">
+    <input type="hidden" name="postid" id="formhash">
+    <div id="ct">
+        <div>
+            <h2>发表帖子</h2>
+            <label>
+                <input type="text" name="posttitle">
+            </label><br/>
+            <jsp:include page="ueditor1_4_3_3-utf8-jsp/index2.jsp"></jsp:include>
+            <input type="hidden" name="plateid" value="<%=request.getParameter("pid") %>">
+            <button type="submit">发表</button>
+        </div>
+    </div>
+</form>
 </body>
 </html>

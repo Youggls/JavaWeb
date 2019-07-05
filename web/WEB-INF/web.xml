@@ -16,6 +16,10 @@
         <servlet-class>indi.RDY.JavaWeb.servlet.LogOutServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>CreatePost</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.CreatePostServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ReadConfig</servlet-name>
         <servlet-class>indi.RDY.JavaWeb.servlet.ReadConfigServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -35,5 +39,9 @@
     <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/LogOut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatePost</servlet-name>
+        <url-pattern>/CreatePost</url-pattern>
     </servlet-mapping>
 </web-app>
