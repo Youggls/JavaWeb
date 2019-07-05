@@ -1,4 +1,8 @@
-<%--
+<%@ page import="indi.RDY.JavaWeb.bean.User" %>
+<%@ page import="indi.RDY.JavaWeb.util.SearchUtil" %>
+<%@ page import="indi.RDY.JavaWeb.util.DbUtil" %>
+<%@ page import="static java.nio.charset.StandardCharsets.ISO_8859_1" %>
+<%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %><%--
   Created by IntelliJ IDEA.
   User: Raymond
   Date: 2019-07-04
@@ -9,38 +13,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <script>
-    //设置cookie
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = "expires="+d.toUTCString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
-    }
-    //清除cookie
-    function logOut() {
-        setCookie("id", "", 0);
-    }
-    function doFormRequest(url, action)
-    {
+    function doFormRequest(url, action) {
         var form = document.createElement("form");
         form.action = url;
         form.method = action;
-
-        // append input attribute and valus
-        // for (var key in json)
-        // {
-        //     if (json.hasOwnProperty(key))
-        //     {
-        //         var val = json[key];
-        //         input = document.createElement("input");
-        //         input.type = "hidden";
-        //         input.name = key;
-        //         input.value = val;
-        //
-        //         // append key-value to form
-        //         form.appendChild(input)
-        //     }
-        // }
 
         // send post request
         document.body.appendChild(form);
@@ -51,6 +27,20 @@
     }
 </script>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <%
+        String nickname1 = "username";
+        User user = null;
+        Cookie[] cookies1 = request.getCookies();
+        for (Cookie cookie : cookies1) {
+            if (cookie.getName().equals("nickname")) {
+                nickname1 = new String(cookie.getValue().getBytes(UTF_8), UTF_8);
+                System.out.println(nickname1);
+                user = SearchUtil.searchUser(nickname1, DbUtil.getConnection()).get(0);
+                pageContext.setAttribute("user", user);
+                break;
+            }
+        }
+    %>
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand">JavaWeb论坛</a>
@@ -75,7 +65,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-user"></span> username
+                        <span class="glyphicon glyphicon-user"></span> ${user.nickName}
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -88,7 +78,8 @@
             <form class="navbar-form navbar-right" role="search">
                 <div class="form-group" style="padding-top: 0.18em;">
                     <input type="text" class="form-control" placeholder="搜索关键词" style="height: 2em;">
-                    &nbsp;&nbsp;&nbsp;<strike><a href="#" class="glyphicon glyphicon-search" title="Search" target="_blank"></a></strike>
+                    &nbsp;&nbsp;&nbsp;<strike><a href="#" class="glyphicon glyphicon-search" title="Search"
+                                                 target="_blank"></a></strike>
                 </div>
                 <!-- <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search textmuted" title="Search">搜索</span></button> -->
             </form>
