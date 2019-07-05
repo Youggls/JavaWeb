@@ -33,19 +33,19 @@
 %>
 <body>
 <jsp:include page="head_login.jsp"></jsp:include>
-<form method="post" id="postform" action="${pageContext.request.contextPath}/CreatePost?postid=xxxx">
-    <input type="hidden" name="postid" id="formhash">
-    <div id="ct">
-        <div>
-            <h2>发表帖子</h2>
-            <label>
-                <input type="text" name="posttitle">
-            </label><br/>
-            <jsp:include page="ueditor1_4_3_3-utf8-jsp/index2.jsp"></jsp:include>
-            <input type="hidden" name="plateid" value="<%=request.getParameter("pid") %>">
-            <button type="submit">发表</button>
-        </div>
+<input type="hidden" name="postid" id="formhash">
+<div id="ct">
+    <div id="editor">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
     </div>
-</form>
+
+    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+    <script type="text/javascript" src="./wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        editor.create()
+    </script>
+</div>
 </body>
 </html>
