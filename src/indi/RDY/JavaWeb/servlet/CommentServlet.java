@@ -21,7 +21,7 @@ public class CommentServlet extends HttpServlet {
         String username = new String(request.getParameter("nickname").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
         int rootFloorId = Integer.parseInt(request.getParameter("rootFloorId"));
         int preCommentId = Integer.parseInt(request.getParameter("preCommentId"));
-        String content = request.getParameter("content");
+        String content = new String (request.getParameter("content").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
         Timestamp time = new Timestamp(System.currentTimeMillis());
         int userId;
         Connection conn = DbUtil.getConnection();
