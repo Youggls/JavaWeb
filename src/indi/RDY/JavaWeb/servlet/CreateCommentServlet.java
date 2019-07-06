@@ -15,7 +15,7 @@ import java.sql.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class CommentServlet extends HttpServlet {
+public class CreateCommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = new String(request.getParameter("nickname").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
         int rootFloorId = Integer.parseInt(request.getParameter("rootFloorId"));
