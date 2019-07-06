@@ -145,7 +145,7 @@
             </li>
             <li><a href="#ios" data-toggle="tab">iOS</a></li>
             <li class="dropdown">
-                <a href="#" id="myTabDrop1" class="dropdown-toggle"
+                <a href="#" id="myTabDrop2" class="dropdown-toggle"
                    data-toggle="dropdown">Java
                     <b class="caret"></b>
                 </a>
