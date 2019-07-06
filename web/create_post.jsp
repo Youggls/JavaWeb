@@ -17,6 +17,7 @@
     <style>
         body {
             padding: 90px 30px;
+            background-color: #f6f6f6;
         }
 
         .mainBody {
@@ -32,6 +33,7 @@
         .editor {
             border: none;
             height: 1000px;
+            background-color: #FFFFFF;
         }
     </style>
 </head>
@@ -57,7 +59,7 @@
 <input type="hidden" name="postid" id="formhash" style="height: 3em; border-style: none;">
 <div id="ct" class="mainBody">
     <div style="margin-bottom: 10px;"><input id="title" placeholder="请输入标题"
-                                             style="border: none;width: 100%;height: 40px;font-size: 35px;padding:4px;">
+                                             style="border: none;width: 100%;height: 40px;font-size: 35px;padding:4px;text-align:center">
     </div>
     <div id="tool-bar" class="tool-bar" style="margin-bottom: 10px"></div>
     <div id="editor" class="editor" style="margin-bottom: 10px"></div>
