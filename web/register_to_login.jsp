@@ -20,9 +20,9 @@
 </head>
 
 <body>
-<p style="text-indent: 2em; margin-top: 30px;">
+<p style="text-indent: 2em; margin-top: 30px; text-align: center">
 
-系统将在 <span id="time">5</span> 秒钟后自动跳转至新网址，如果未能跳转，<a href="http://www.baidu.com" title="点击访问">请点击</a>。</p>
+系统将在 <span id="time">3</span> 秒钟后自动跳转至登录界面，如果未能跳转，<a href="index.jsp" title="点击访问">请点击此处</a>。</p>
 
 <script type="text/javascript">
     delayURL();

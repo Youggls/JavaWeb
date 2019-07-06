@@ -84,6 +84,29 @@
                 </div>
             </nav>
         </div>
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active dropdown">
+                <a href="#" id="myTabDrop1" class="dropdown-toggle"
+                   data-toggle="dropdown">动态
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                    <li><a href="#jmeter" tabindex="-1" data-toggle="tab">jmeter</a></li>
+                    <li><a href="#ejb" tabindex="-1" data-toggle="tab">ejb</a></li>
+                </ul>
+            </li>
+            <li><a href="#ios" data-toggle="tab">iOS</a></li>
+            <li class="dropdown">
+                <a href="#" id="myTabDrop1" class="dropdown-toggle"
+                   data-toggle="dropdown">Java
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                    <li><a href="#jmeter" tabindex="-1" data-toggle="tab">jmeter</a></li>
+                    <li><a href="#ejb" tabindex="-1" data-toggle="tab">ejb</a></li>
+                </ul>
+            </li>
+        </ul>
         <div class="col-md-4">
 
         </div>

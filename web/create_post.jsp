@@ -25,5 +25,30 @@
 </head>
 <body>
 
+
+<%
+    Cookie[] cookies = request.getCookies();
+    boolean login = false;
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("id")) {
+                login = true;
+                break;
+            }
+        }
+        if (login){%>
+<div>
+    <%@include file="head_login.jsp"%>
+</div>
+        <%}
+        else{%>
+<div>
+    <%@include file="head_visitor.jsp"%>
+</div>
+        <%}
+    }
+%>
+
+
 </body>
 </html>
