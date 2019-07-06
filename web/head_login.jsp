@@ -2,7 +2,8 @@
 <%@ page import="indi.RDY.JavaWeb.util.SearchUtil" %>
 <%@ page import="indi.RDY.JavaWeb.util.DbUtil" %>
 <%@ page import="static java.nio.charset.StandardCharsets.ISO_8859_1" %>
-<%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %><%--
+<%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Raymond
   Date: 2019-07-04
@@ -32,15 +33,18 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <%
         String nickname1 = "username";
-        User user = null;
+        User user1 = null;
         Cookie[] cookies1 = request.getCookies();
         for (Cookie cookie : cookies1) {
             if (cookie.getName().equals("nickname")) {
                 nickname1 = new String(cookie.getValue().getBytes(UTF_8), UTF_8);
                 System.out.println(nickname1);
-                user = SearchUtil.searchUser(nickname1, DbUtil.getConnection()).get(0);
-                pageContext.setAttribute("user", user);
-                request.setAttribute("user", user);
+                List<User> users1 = SearchUtil.searchUser(nickname1, DbUtil.getConnection());
+                if (users1.size() > 0) {
+                    user1 = users1.get(0);
+                }
+                pageContext.setAttribute("user", user1);
+                request.setAttribute("user", user1);
                 break;
             }
         }

@@ -140,7 +140,14 @@ abstract public class SearchUtil {
             String profilePhoto = rs.getString("profile_photo_url");
             Timestamp registeredTime = rs.getTimestamp("registered_time");
             int type = User.phraseType(rs.getString("type"));
-            User user = new User(id, nickName, profilePhoto, type, registeredTime);
+            String gender = rs.getString("gender");
+            String address = rs.getString("address");
+            String email = rs.getString("email");
+            String phone = rs.getString("phone");
+            int following = rs.getInt("following_num");
+            int follower = rs.getInt("follower_num");
+            //System.out.println(address);
+            User user = new User(id, nickName, profilePhoto, registeredTime, type, gender, address, email, phone, follower, following);
             users.add(user);
         }
     }

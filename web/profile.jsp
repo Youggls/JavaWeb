@@ -86,11 +86,12 @@
                         <address>
                             <br>
                             <h3 title="username"> ${targetUser.nickName}</h3>
-                            &nbsp;<span class="glyphicon glyphicon-user textmuted" title="Sex"> 男</span><br>
-                            &nbsp;<span class="glyphicon glyphicon-home textmuted" title="Address"> 南开大学泰达学院</span><br>
-                            &nbsp;<span class="glyphicon glyphicon-phone textmuted"
-                                        title="Mobile"> 13820813777</span><br>
-                            &nbsp;<span class="glyphicon glyphicon-envelope textmuted" title="Email"> 1712950@mail.nankai.edu.cn</span>
+                            &nbsp;<span class="glyphicon glyphicon-user textmuted" title="Sex"> ${targetUser.gender}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-home textmuted" title="Address"> ${targetUser.address}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-phone textmuted" title="Mobile"> ${targetUser.phone}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-envelope textmuted" title="Email"> ${targetUser.email}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-user textmuted" title="follower"> 关注者：${targetUser.follower}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-user textmuted" title="following"> 正在关注：${targetUser.following}</span>
                         </address>
                     </div>
                 </div>

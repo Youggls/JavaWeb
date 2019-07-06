@@ -54,6 +54,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class RegisteredUtil {
     private Connection conn = null;
 
@@ -63,11 +66,11 @@ public class RegisteredUtil {
     public boolean register(HttpServletResponse resp, HttpServletRequest req) {
         try {
             System.out.println("inside util register");
-            req.setCharacterEncoding("UTF-8");
-            resp.setCharacterEncoding("UTF-8");
-            resp.setContentType("text/html; charset=UTF-8");
+//            req.setCharacterEncoding("UTF-8");
+//            resp.setCharacterEncoding("UTF-8");
+//            resp.setContentType("text/html; charset=UTF-8");
 
-            String nickName = req.getParameter("nickname");
+            String nickName = new String(req.getParameter("nickname").getBytes(ISO_8859_1), UTF_8);
             String pwd = req.getParameter("password");
             Timestamp date = new Timestamp(System.currentTimeMillis());
 
@@ -78,6 +81,22 @@ public class RegisteredUtil {
             pstat.setTimestamp(3, date);
             System.out.println(date);
             pstat.execute();
+            sql = "SELECT id FROM user WHERE nickname = ?";
+            pstat = conn.prepareStatement(sql);
+            pstat.setString(1, nickName);
+            pstat.execute();
+            ResultSet rs = pstat.getResultSet();
+            int id = 0;
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            sql = "INSERT INTO profile (id) VALUES(?)";
+            pstat = conn.prepareStatement(sql);
+            pstat.setInt(1, id);
+            pstat.executeUpdate();
+            pstat.close();
+            conn.close();
         }
         catch (Exception e) {
             System.out.println("error inside RegisteredUtil");

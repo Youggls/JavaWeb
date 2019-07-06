@@ -2,6 +2,7 @@ package indi.RDY.JavaWeb.servlet;
 
 import indi.RDY.JavaWeb.util.DbUtil;
 import indi.RDY.JavaWeb.util.RegisteredUtil;
+import indi.RDY.JavaWeb.util.SearchUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +24,7 @@ public class RegisteredServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RegisteredUtil rg = new RegisteredUtil();
+        System.out.println(req.getParameter("nickname") + ":" + req.getParameter("password"));
         if(rg.register(resp, req)) {
             resp.sendRedirect("/JavaWeb/register_to_login.jsp");
         } else {

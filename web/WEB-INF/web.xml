@@ -28,6 +28,14 @@
         <servlet-name>Upload</servlet-name>
         <servlet-class>indi.RDY.JavaWeb.servlet.UploadFileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>image</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.ImaginShowServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>image</servlet-name>
+        <url-pattern>/Image</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Upload</servlet-name>
         <url-pattern>/JavaWeb/UploadFile</url-pattern>

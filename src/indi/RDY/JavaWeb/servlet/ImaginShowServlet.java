@@ -9,14 +9,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@WebServlet(name = "ImaginShowServlet")
+//@WebServlet("/JavaWeb/ImaginShowServlet")
 public class ImaginShowServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = request.getParameter("ImageUrl");
-        String name = url.substring(url.indexOf("?")+1);
-        String path = "D:\\JavaWeb_app\\JavaWeb\\out\\artifacts\\JavaWeb_war_exploded\\upload\\"+name;
-        
-
+        String name = request.getParameter("ImageUrl");
+        System.out.println(name);
+        String path = "D:\\Project\\JavaWeb\\web\\upload\\"+name;
 
         FileInputStream inputStream = new FileInputStream(path);
         int i = inputStream.available();
@@ -31,10 +30,9 @@ public class ImaginShowServlet extends HttpServlet {
         out.write(buff);
         //关闭响应输出流
         out.close();
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request, response);
     }
 }
