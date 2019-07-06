@@ -9,17 +9,19 @@
 - [ ] 用来浏览posts的图，类似知乎热榜
 - [ ] 做个首页的图（RaymodY）
 - [ ] 修改一下登录注册时按钮长度（前端，RaymondY）
-- [x] **文本编辑， 紧急**（前端，DoubleClass）
+- [x] ~~**文本编辑， 紧急**（前端，DoubleClass）~~
 - [ ] 锁死前端的显示，取消自适应，类似知乎
 - [ ] 发帖单独做一个按钮，放在搜索框右边，类似知乎
 - [x] ~~**前端在各个页面根据本地cookie读取用户id从而初始化页面上用户信息**（前端，RaymondY）~~
-- [x] 配置通过URL获取图片的Servlet（后端，DoubleClass）
-- [x] 上传文件等到服务器（后端，DoubleClass）
+- [x] ~~配置通过URL获取图片的Servlet（后端，DoubleClass）~~
+- [x] ~~上传文件等到服务器（后端，DoubleClass）~~
 - [ ] 配置用户头像（后端，Youggls，和前端RaymondY）
-- [ ] 配置详细的用户信息（后端，Youggls，和前端RaymondY）
-- [ ] 关注功能（后端，Youggls，和前端RaymondY）
+- [x] 配置详细的用户信息（后端，Youggls）
+- [ ] 配置详细的用户信息（和前端RaymondY）
+- [x] 关注功能（后端，Youggls）
+- [ ] 关注功能（前端RaymondY）
 - [x] ~~**发帖功能（后端，Youggs）**~~
-- [x] **发帖功能（前端，DoubleClass，大概框架搭了，半完成）**
+- [x] ~~**发帖功能（前端，DoubleClass，大概框架搭了，半完成）**~~
 - [ ] 发帖页面的美化
 - [x] ~~**楼层功能（后端，Youggls）**~~
 - [ ] **楼层功能（前端）**
