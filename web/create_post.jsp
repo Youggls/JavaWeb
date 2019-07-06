@@ -18,6 +18,21 @@
         body {
             padding: 90px 30px;
         }
+
+        .mainBody {
+            width: 45%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tool-bar {
+            border: none;
+        }
+
+        .editor {
+            border: none;
+            height: 1000px;
+        }
     </style>
 </head>
 <%
@@ -36,50 +51,59 @@
         response.sendRedirect("/JavaWeb/main.jsp");
     }
 %>
-<script type="text/javascript">
 
-</script>
 <body>
 <jsp:include page="head_login.jsp"></jsp:include>
-<input type="hidden" name="postid" id="formhash">
-<div id="ct">
-    <input id = "title">
-    <div id="editor">
-        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+<input type="hidden" name="postid" id="formhash" style="height: 3em; border-style: none;">
+<div id="ct" class="mainBody">
+    <div style="margin-bottom: 10px;"><input id="title" placeholder="请输入标题"
+                                             style="border: none;width: 100%;height: 40px;font-size: 35px;padding:4px;">
     </div>
-    <button id="btn1">获取html</button>
-    <button id="btn2">获取text</button>
+    <div id="tool-bar" class="tool-bar" style="margin-bottom: 10px"></div>
+    <div id="editor" class="editor" style="margin-bottom: 10px"></div>
+    <div style="text-align: center;">
+        <button id="submit" type="button" class="btn btn-default">发帖！</button>
+    </div>
 
     <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
     <script type="text/javascript" src="./wangEditor.min.js"></script>
     <script type="text/javascript">
         var E = window.wangEditor;
-        var editor = new E('#editor');
+        var editor = new E("#tool-bar", "#editor");
         editor.create();
-        // document.getElementById('btn1').addEventListener('click', function () {
-        //     // 读取 html
-        //     alert(editor.txt.html());
-        //
-        // }, false);
-        document.getElementById('btn1').addEventListener('click', function () {
-            var myForm = document.createElement("form");
-            var content = editor.txt.html();
-            var name = "${nickname}";
-            var params = {"content": content, "title": document.getElementById("title").value, "nickname": name};
-            myForm.method = "post";
-            myForm.action = "/JavaWeb/CreatePost";
-            myForm.style.display = "none";
+        document.getElementById('submit').addEventListener('click', function () {
+            var titleLength = document.getElementById("title").value.length;
+            if (titleLength === undefined || titleLength === 0) {
+                alert("必须要有标题");
+            } else if (titleLength > 30) {
+                alert("标题不能大于30");
+            } else if (editor.txt.text().length === 0) {
+                alert("内容不能为空！");
+            } else if (editor.txt.text().length > 100) {
+                alert("内容不能多于100个字符！" + editor.txt.text().length);
+            } else {
+                var myForm = document.createElement("form");
+                var content = editor.txt.html();
+                var params = {
+                    "content": content,
+                    "title": document.getElementById("title").value,
+                    "nickname": "${nickname}"
+                };
+                myForm.method = "post";
+                myForm.action = "/JavaWeb/CreatePost";
+                myForm.style.display = "none";
 
-            for (var k in params) {
-                var myInput = document.createElement("input");
-                myInput.name = k;
-                myInput.value = params[k];
-                myForm.appendChild(myInput);
+                for (var k in params) {
+                    var myInput = document.createElement("input");
+                    myInput.name = k;
+                    myInput.value = params[k];
+                    myForm.appendChild(myInput);
+                }
+                document.body.appendChild(myForm);
+                myForm.submit();
+                //document.body.removeChild(myForm);
+                return myForm;
             }
-            document.body.appendChild(myForm);
-            myForm.submit();
-            //document.body.removeChild(myForm);
-            return myForm;
         }, false);
     </script>
 </div>
