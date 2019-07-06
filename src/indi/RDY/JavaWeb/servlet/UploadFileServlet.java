@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class UploadFileServlet extends HttpServlet {
@@ -29,7 +30,7 @@ public class UploadFileServlet extends HttpServlet {
         //创建解析类的实例
         ServletFileUpload sfu = new ServletFileUpload(factory);
         //开始解析
-        sfu.setFileSizeMax(1024*400);
+        sfu.setFileSizeMax(1024*4000);
         //每个表单域中数据会封装到一个对应的FileItem对象上
 
 
@@ -51,12 +52,25 @@ public class UploadFileServlet extends HttpServlet {
                     System.out.println(fileName);
                     //该方法在某些平台(操作系统),会返回路径+文件名
                     fileName = fileName.substring(fileName.lastIndexOf("/")+1);
+                    int fileHash = fileName.hashCode();
+
+                    String appendix = fileName.substring(fileName.indexOf("."));
+                    ///System.out.println("appendix is "+appendix);
+                    //String now = new Timestamp(System.currentTimeMillis()).toString();
+                    fileName = fileHash+""+appendix;
                     File file = new File(path+"\\"+fileName);
+                    String url="http://"+req.getServerName()+req.getServerPort()+req.getContextPath()+req.getServletPath()+"?"+fileHash+appendix;
+                    System.out.println("url is "+url);
+
+                    //File file = new File("D:"+"\\"+fileName);
+                    System.out.println(file.getAbsolutePath()+" 存在吗："+file.exists());
                     if(!file.exists()){
+                        System.out.println(item.getSize());
                         item.write(file);
+
                         //将上传图片的名字记录到数据库中
 
-                        resp.sendRedirect("/upload/ok.html");
+                        resp.sendRedirect("/JavaWeb/register_to_login.jsp");
                     }
                 }
             }
