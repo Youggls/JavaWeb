@@ -12,7 +12,13 @@ import java.io.OutputStream;
 @WebServlet(name = "ImaginShowServlet")
 public class ImaginShowServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FileInputStream inputStream = new FileInputStream("D:/image/001.jpg");
+        String url = request.getParameter("ImageUrl");
+        String name = url.substring(url.indexOf("?")+1);
+        String path = "D:\\JavaWeb_app\\JavaWeb\\out\\artifacts\\JavaWeb_war_exploded\\upload\\"+name;
+        
+
+
+        FileInputStream inputStream = new FileInputStream(path);
         int i = inputStream.available();
         //byte数组用于存放图片字节数据
         byte[] buff = new byte[i];

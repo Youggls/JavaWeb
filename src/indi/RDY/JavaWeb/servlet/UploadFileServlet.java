@@ -30,7 +30,7 @@ public class UploadFileServlet extends HttpServlet {
         //创建解析类的实例
         ServletFileUpload sfu = new ServletFileUpload(factory);
         //开始解析
-        sfu.setFileSizeMax(1024*400);
+        sfu.setFileSizeMax(1024*4000);
         //每个表单域中数据会封装到一个对应的FileItem对象上
 
 
