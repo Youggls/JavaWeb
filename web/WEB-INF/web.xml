@@ -15,6 +15,35 @@
         <servlet-name>LogOut</servlet-name>
         <servlet-class>indi.RDY.JavaWeb.servlet.LogOutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreatePost</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.CreatePostServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReadConfig</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.ReadConfigServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>Upload</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.UploadFileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>image</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.ImaginShowServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>image</servlet-name>
+        <url-pattern>/Image</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Upload</servlet-name>
+        <url-pattern>/JavaWeb/UploadFile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReadConfig</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogIn</servlet-name>
         <url-pattern>/JavaWeb/LogIn</url-pattern>
@@ -26,5 +55,9 @@
     <servlet-mapping>
         <servlet-name>LogOut</servlet-name>
         <url-pattern>/LogOut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatePost</servlet-name>
+        <url-pattern>/CreatePost</url-pattern>
     </servlet-mapping>
 </web-app>
