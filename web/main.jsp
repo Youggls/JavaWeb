@@ -5,7 +5,7 @@
   Time: 01:02
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.Cookie" %>
 <%@ page import="static java.nio.charset.StandardCharsets.ISO_8859_1" %>
@@ -41,12 +41,13 @@
     }
 
     a:link {
-      color:#000000;
-      text-decoration:none;
+      color: #000000;
+      text-decoration: none;
     }
+
     a:hover {
-      color:#175199;
-      text-decoration:none;
+      color: #175199;
+      text-decoration: none;
     }
 
     hr {
@@ -56,17 +57,11 @@
       -moz-border-right-colors: none;
       -moz-border-top-colors: none;
       border-color: #EEEEEE;
-      -moz-use-text-color #FFFFFF;
       border-style: solid none;
       border-width: 1px 0;
       margin: 16px 0;
     }
   </style>
-  <script type="text/javascript">
-    function changeColor() {
-
-    }
-  </script>
 </head>
 <body>
 <%
@@ -112,8 +107,8 @@
   pageContext.setAttribute("currentUserId", currentUserId);
   pageContext.setAttribute("currentUser", current);
 %>
-<div class="col-md-2"></div>
-<div class="col-md-5">
+<div class="col-md-3"></div>
+<div class="col-md-4">
   <div class="container-fluid">
     <div class="row">
       <!-- 内容面板 -->
@@ -134,50 +129,38 @@
                   <li><a href="#">预留分离的链接test</a></li>
                 </ul>
               </li>
-              <li><a href="#">关注</a></li>
+              <li><a href="${pageContext.request.contextPath}/follow.jsp">关注</a></li>
               <li><a href="#">xx</a></li>
               <li><a href="#">xx</a></li>
             </ul>
           </div>
         </nav>
         <div class="panel-body">
-          <%for (Post post : content) { pageContext.setAttribute("post", post);%>
-            <div id="${post.id}">
-              <%
-                conn = DbUtil.getConnection();
-                User currentUser=SearchUtil.searchUser(post.getUserId(), conn).get(0);
-                conn.close();
-                pageContext.setAttribute("currentUser", currentUser);
-                String postUrl = "/JavaWeb/post.jsp?postid=" + post.getId();
-                pageContext.setAttribute("posturl", postUrl);
-              %>
-              <%--<img id="${post.userId}" class="img-rounded"--%>
-              <%--align="center" width="60px" height="60px" alt="Me" src=${currentUser.photoUrl}>--%>
-              <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900" href=${posturl}>${post.postName}</a><br>
-              <%--<h3 style="display: inline;font-weight:900" class="test">${post.postName}</h3><br><br>--%>
-              <span style="margin-top: 30px">${currentUser.nickName}：&nbsp;&nbsp;${post.text}</span>
-            </div>
-            <hr/>
+          <%
+            for (Post post : content) {
+              pageContext.setAttribute("post", post);
+          %>
+          <div id="${post.id}">
+            <%
+              conn = DbUtil.getConnection();
+              User currentUser = SearchUtil.searchUser(post.getUserId(), conn).get(0);
+              conn.close();
+              pageContext.setAttribute("currentUser", currentUser);
+              String postUrl = "/JavaWeb/post.jsp?postid=" + post.getId();
+              pageContext.setAttribute("posturl", postUrl);
+            %>
+            <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
+               href=${posturl}>${post.postName}</a><br>
+            <span style="margin-top: 30px">${currentUser.nickName}：&nbsp;&nbsp;${post.text}</span>
+          </div>
+          <hr/>
           <%}%>
-          <%--<c:forEach var="post" items="${content}">--%>
-            <%--&lt;%&ndash;<span>${post.postName}</span><br>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<span>${post.text}</span><br>&ndash;%&gt;--%>
-            <%--${currentUserId=post.userId}--%>
-            <%--<div id = ${post.id} data-userId=${post.userId}>--%>
-              <%--<%current = SearchUtil.searchUser(currentUserId, DbUtil.getConnection()).get(0);%>--%>
-              <%--<img id="photo" class="img-responsive img-thumbnail img-circle"--%>
-                   <%--align="center" width="160px" height="160px" alt="Me" src=${currentUser.photoUrl}>--%>
-              <%--<h2>${post.postName}</h2>--%>
-              <%--<span>${post.text}</span>--%>
-            <%--</div>--%>
-          <%--</c:forEach>--%>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="col-md-1"></div>
-<div class="col-md-3">
+<div class="col-md-2">
   <div class="container-fluid">
     <div class="row">
       <!-- 内容面板 -->
@@ -199,6 +182,6 @@
     </div>
   </div>
 </div>
-<div class="col-md-1"></div>
+<div class="col-md-5"></div>
 </body>
 </html>

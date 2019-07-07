@@ -37,11 +37,10 @@ abstract public class SearchUtil {
         return users;
     }
 
-    public static List<TextContainer> searchTextByUser(String nickName, Connection conn) {
+    public static List<TextContainer> searchTextByUser(int userId, Connection conn) {
         List<TextContainer> texts = new ArrayList<>();
-        texts.addAll(searchPostByUser(nickName, conn));
-        texts.addAll(searchFloorByUser(nickName, conn));
-        texts.addAll(searchCommentByUser(nickName, conn));
+        texts.addAll(searchPostByUser(userId, conn));
+        texts.addAll(searchFloorByUser(userId, conn));
         Collections.sort(texts);
         return texts;
     }
@@ -55,13 +54,13 @@ abstract public class SearchUtil {
         return texts;
     }
 
-    public static List<Post> searchPostByUser(String nickName, Connection conn) {
+    public static List<Post> searchPostByUser(int userId, Connection conn) {
         List<Post> posts = new ArrayList<>();
         String sql1 = "{call search_post_by_user(?)}";
 
         try {
             CallableStatement search = conn.prepareCall(sql1);
-            search.setString(1, nickName);
+            search.setInt(1, userId);
             search.executeUpdate();
             addPostFromResult(posts, search);
             Collections.sort(posts);
@@ -71,11 +70,11 @@ abstract public class SearchUtil {
         return posts;
     }
 
-    public static List<Floor> searchFloorByUser(String nickName, Connection conn) {
+    public static List<Floor> searchFloorByUser(int userId, Connection conn) {
         List<Floor> floors = new ArrayList<>();
         String sql1 = "{call search_floor_by_user(?)}";
 
-        return addFloorToList(nickName, floors, sql1, conn);
+        return addFloorToList(userId, floors, sql1, conn);
     }
 
     public static List<Comment> searchCommentByUser(String nickName, Connection conn) {
@@ -164,6 +163,18 @@ abstract public class SearchUtil {
         }
 
         return posts;
+    }
+
+    private static List<Floor> addFloorToList(int userId, List<Floor> floors, String sql, Connection conn) {
+        try {
+            CallableStatement search = conn.prepareCall(sql);
+            search.setInt(1, userId);
+            search.executeUpdate();
+            addFloorToList(floors, search);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return floors;
     }
 
     private static List<Floor> addFloorToList(String content, List<Floor> floors, String sql, Connection conn) {

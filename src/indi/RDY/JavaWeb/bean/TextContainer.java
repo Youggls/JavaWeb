@@ -7,7 +7,7 @@ public class TextContainer implements Comparable<TextContainer> {
     private int userId;
     private String content;
     private Timestamp time;
-
+    private String text;
     public TextContainer() {
 
     }
@@ -17,6 +17,8 @@ public class TextContainer implements Comparable<TextContainer> {
         this.userId = userId;
         this.content = content;
         this.time = time;
+        this.text = content.replaceAll("</?[^>]+>", "");
+        this.text = text.replaceAll("<a>\\s*|\t|\r|\n</a>", "");
     }
 
     public void setId(int id) {
@@ -49,6 +51,14 @@ public class TextContainer implements Comparable<TextContainer> {
 
     public Timestamp getTime() {
         return time;
+    }
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getText() {
+        if (text.length() <= 100) return text;
+        else return text.substring(0, 100);
     }
 
     @Override
