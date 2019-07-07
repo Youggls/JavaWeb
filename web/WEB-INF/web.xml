@@ -26,11 +26,15 @@
     </servlet>
     <servlet>
         <servlet-name>Upload</servlet-name>
-        <servlet-class>indi.RDY.JavaWeb.servlet.UploadFileServlet</servlet-class>
+        <servlet-class>indi.RDY.JavaWeb.servlet.UploadImageServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>image</servlet-name>
         <servlet-class>indi.RDY.JavaWeb.servlet.ImageShowServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckServlet</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.CheckServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>image</servlet-name>
@@ -38,7 +42,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Upload</servlet-name>
-        <url-pattern>/JavaWeb/UploadFile</url-pattern>
+        <url-pattern>/UploadImage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ReadConfig</servlet-name>
@@ -59,5 +63,9 @@
     <servlet-mapping>
         <servlet-name>CreatePost</servlet-name>
         <url-pattern>/CreatePost</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckServlet</servlet-name>
+        <url-pattern>/CheckServlet</url-pattern>
     </servlet-mapping>
 </web-app>

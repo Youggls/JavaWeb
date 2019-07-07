@@ -23,7 +23,6 @@
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("nickname")) {
                 nickname = new String(cookie.getValue().getBytes(UTF_8), UTF_8);
-                System.out.println(nickname);
                 List<User> users = SearchUtil.searchUser(nickname, DbUtil.getConnection());
                 if (users.size() > 0) {
                     user = users.get(0);
@@ -46,5 +45,52 @@
         }
     }
 %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10" style="margin-top: 100px;white-space:nowrap" align="left">
+            <img id="photo" src="img/default_profile_photo.jpg" class="img-responsive img-thumbnail img-circle"
+                      align="center" width="160px" height="160px" alt="Me" onclick="fileSelect()">
+            <h1 style="display: inline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${user.nickName}</h1>
+            <form id="form_face" name="testName" action="${pageContext.request.contextPath}/UploadImage" method="post" enctype="multipart/form-data" style="width:auto;">
+                <input type="file" id="fileToUpload" name="fileName"  accept=".jpg,.TIFF,.RAW,.GIF,.png,.bmp" onchange="fileSelected();" style="display:none;">
+                <input type="text" name="nickname" style="display: none" value=${user.nickName}>
+                <input type="submit" id="submit" value="上传" style="display:none"/>
+            </form>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-2" style="margin-top: 100px;" align="center">
+            </div>
+            <div class="col-md-6" style="margin-top: 100px;" align="center">
+                <div class="input-group input-group-lg" style="margin-bottom: 50px;">
+                    <input id="gender" type="text" class="form-control" placeholder="性别"
+                           aria-describedby="sizing-addon1">
+                </div>
+                <div class="input-group input-group-lg" style="margin-bottom: 50px;">
+                    <input id="address" type="text" class="form-control" placeholder="地址"
+                           aria-describedby="sizing-addon1">
+                </div>
+                <div class="input-group input-group-lg" style="margin-bottom: 50px;">
+                    <input id="phone" type="text" class="form-control" placeholder="电话"
+                           aria-describedby="sizing-addon1">
+                </div>
+                <div class="input-group input-group-lg" style="margin-bottom: 50px;">
+                    <input id="email" type="text" class="form-control" placeholder="邮箱"
+                           aria-describedby="sizing-addon1">
+                    <span class="input-group-addon" id="basic-addon2">@example.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+    function fileSelect() {
+        document.getElementById("fileToUpload").click();
+    }
+
+    function fileSelected() {
+        //文件选择后触发次函数
+        document.getElementById("submit").click();
+    }
+</script>
 </body>
 </html>

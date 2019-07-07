@@ -1,37 +1,24 @@
 package indi.RDY.JavaWeb.servlet;
 
+import indi.RDY.JavaWeb.util.DbUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.List;
 
 import static java.io.File.separator;
+import static java.nio.charset.StandardCharsets.*;
 
-public class UploadFileServlet extends HttpServlet {
-    public UploadFileServlet() {
-        super();
-    }
+public class UploadImageServlet extends HttpServlet {
 
     @Override
-    public void init() throws ServletException {
-
-    }
-
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         resp.setContentType("text/html;charset=utf-8");
         //为解析类提供配置信息
@@ -40,9 +27,8 @@ public class UploadFileServlet extends HttpServlet {
         ServletFileUpload sfu = new ServletFileUpload(factory);
         //开始解析
         sfu.setFileSizeMax(1024 * 4000);
-        //每个表单域中数据会封装到一个对应的FileItem对象上
-
-
+        String url = null;
+        String nickname = null;
         try {
             List<FileItem> items = sfu.parseRequest(req);
             //区分表单域
@@ -59,26 +45,39 @@ public class UploadFileServlet extends HttpServlet {
                     int fileHash = fileName.hashCode();
 
                     String appendix = fileName.substring(fileName.indexOf("."));
-                    ///System.out.println("appendix is "+appendix);
-                    //String now = new Timestamp(System.currentTimeMillis()).toString();
-                    fileName = fileHash + "" + appendix;
+                    fileName = fileHash + System.nanoTime() + "" + appendix;
                     File file = new File(ReadConfigServlet.IMAGEPATH + separator + fileName);
-                    String url = "http://" + req.getServerName() + req.getServerPort() + req.getContextPath() + req.getServletPath() + "?" + fileHash + appendix;
+                    url = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/Image" + "?name=" + fileName;
                     System.out.println("url is " + url);
+                    Connection conn = DbUtil.getConnection();
 
-                    System.out.println(file.getAbsolutePath() + " 存在吗：" + file.exists());
-                    if (!file.exists()) {
-                        System.out.println(item.getSize());
-                        item.write(file);
-                        resp.sendRedirect("/JavaWeb/register_to_login.jsp");
+                    System.out.println(item.getSize());
+                    item.write(file);
+                } else {
+                    String fieldName = item.getFieldName();
+                    String con = item.getString("UTF-8");
+                    if (fieldName.equals("nickname")) {
+                        nickname = con;
                     }
+
+                }
+            }
+            if (nickname != null && url != null) {
+                String sql = "UPDATE user SET profile_photo_url = ? WHERE nickname = ?";
+                Connection conn = DbUtil.getConnection();
+                PreparedStatement preparedStatement = null;
+                try {
+                    preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setString(1, url);
+                    preparedStatement.setString(2, nickname);
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         } catch (Exception e) {
             System.out.println("error while uploading file");
             e.printStackTrace();
         }
-
     }
-
 }
