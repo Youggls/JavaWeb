@@ -67,7 +67,7 @@
     }
 %>
 
-<body>
+<body >
 <jsp:include page="head_login.jsp"></jsp:include>
 <input type="hidden" name="postid" id="formhash" style="height: 3em; border-style: none;">
 <div id="ct" class="mainBody">

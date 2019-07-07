@@ -110,7 +110,7 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <ul>
-            <li><p class="glyphicon glyphicon-edit" title="Edit"><br>发帖</p></li>
+            <li><a href="create_post.jsp" class="glyphicon glyphicon-edit" title="Edit"><br>发帖</a></li>
           </ul>
         </div>
       </div>
