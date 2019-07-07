@@ -65,11 +65,6 @@ public class RegisteredUtil {
     }
     public boolean register(HttpServletResponse resp, HttpServletRequest req) {
         try {
-            System.out.println("inside util register");
-//            req.setCharacterEncoding("UTF-8");
-//            resp.setCharacterEncoding("UTF-8");
-//            resp.setContentType("text/html; charset=UTF-8");
-
             String nickName = new String(req.getParameter("nickname").getBytes(ISO_8859_1), UTF_8);
             String pwd = req.getParameter("password");
             Timestamp date = new Timestamp(System.currentTimeMillis());

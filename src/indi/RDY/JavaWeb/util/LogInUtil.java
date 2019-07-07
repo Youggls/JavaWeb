@@ -27,26 +27,6 @@ public class LogInUtil {
         Timestamp time = null;
         int type = User.VISITOR;
         ResultSet rs = null;
-//        if (cookies != null && false) {
-//            //The cookies existed
-//            for (Cookie cookie : cookies) {
-//                if (cookie.getName().equals("nickname")) {
-//                    //The saved cookie existed id
-//                    nickName = cookie.getValue();
-//                    break;
-//                }
-//            }
-//            try {
-//                PreparedStatement login = conn.prepareStatement("SELECT * FROM user WHERE nickname = ?");
-//                login.setString(1, nickName);
-//                login.execute();
-//                rs = login.getResultSet();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//
-//        } else {
-        //Cookie doesn't exist, user should input the id and password
         try {
             PreparedStatement login = conn.prepareStatement("SELECT * FROM user WHERE nickname = ? AND password = ?");
             nickName = new String(req.getParameter("nickname").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
@@ -77,7 +57,6 @@ public class LogInUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        }
         try {
             if (rs != null && rs.next()) {
                 //Get user info from the database
@@ -89,6 +68,7 @@ public class LogInUtil {
                 type = User.phraseType(rs.getString("type"));
                 user = new User(id, nickName, password, photoUrl, type, time);
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

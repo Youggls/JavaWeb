@@ -53,6 +53,6 @@ public class TextContainer implements Comparable<TextContainer> {
 
     @Override
     public int compareTo(TextContainer o) {
-        return time.compareTo(o.getTime());
+        return -time.compareTo(o.getTime());
     }
 }

@@ -14,6 +14,7 @@
 <%@ page import="indi.RDY.JavaWeb.util.*" %>
 <%@ page import="indi.RDY.JavaWeb.bean.Post" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.sql.Connection" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -36,21 +37,49 @@
 
     body {
       padding: 90px 30px;
+      background-color: #F6F6F6;
+    }
+
+    a:link {
+      color:#000000;
+      text-decoration:none;
+    }
+    a:hover {
+      color:#175199;
+      text-decoration:none;
+    }
+
+    hr {
+      -moz-border-bottom-colors: none;
+      -moz-border-image: none;
+      -moz-border-left-colors: none;
+      -moz-border-right-colors: none;
+      -moz-border-top-colors: none;
+      border-color: #EEEEEE;
+      -moz-use-text-color #FFFFFF;
+      border-style: solid none;
+      border-width: 1px 0;
+      margin: 16px 0;
     }
   </style>
-  <%-- <jsp:useBean id="Post"/> --%>
+  <script type="text/javascript">
+    function changeColor() {
+
+    }
+  </script>
 </head>
 <body>
 <%
   Cookie[] cookies = request.getCookies();
   String nickname = "";
   User user = null;
+  Connection conn = DbUtil.getConnection();
   boolean login = false;
   if (cookies != null) {
     for (Cookie cookie : cookies) {
       if (cookie.getName().equals("nickname")) {
         nickname = new String(cookie.getValue().getBytes(UTF_8), UTF_8);
-        List<User> users = SearchUtil.searchUser(nickname, DbUtil.getConnection());
+        List<User> users = SearchUtil.searchUser(nickname, conn);
         if (users.size() > 0) {
           user = users.get(0);
           login = true;
@@ -60,6 +89,7 @@
         break;
       }
     }
+    conn.close();
     if (login) {%>
 <div>
   <%@include file="head_login.jsp" %>
@@ -76,9 +106,14 @@
 <%
   SortByTimeLine timeLine = new SortByTimeLine();
   ArrayList<Post> content = timeLine.Sort();
+  pageContext.setAttribute("content", content);
+  User current = null;
+  int currentUserId = 0;
+  pageContext.setAttribute("currentUserId", currentUserId);
+  pageContext.setAttribute("currentUser", current);
 %>
-
-<div class="col-md-8">
+<div class="col-md-2"></div>
+<div class="col-md-5">
   <div class="container-fluid">
     <div class="row">
       <!-- 内容面板 -->
@@ -106,16 +141,43 @@
           </div>
         </nav>
         <div class="panel-body">
-          <c:forEach items="content" var="post">
-            <span>${post.postName}</span><br>
-            <span>${post.content}</span><br>
-          </c:forEach>
+          <%for (Post post : content) { pageContext.setAttribute("post", post);%>
+            <div id="${post.id}">
+              <%
+                conn = DbUtil.getConnection();
+                User currentUser=SearchUtil.searchUser(post.getUserId(), conn).get(0);
+                conn.close();
+                pageContext.setAttribute("currentUser", currentUser);
+                String postUrl = "/JavaWeb/post.jsp?postid=" + post.getId();
+                pageContext.setAttribute("posturl", postUrl);
+              %>
+              <%--<img id="${post.userId}" class="img-rounded"--%>
+              <%--align="center" width="60px" height="60px" alt="Me" src=${currentUser.photoUrl}>--%>
+              <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900" href=${posturl}>${post.postName}</a><br>
+              <%--<h3 style="display: inline;font-weight:900" class="test">${post.postName}</h3><br><br>--%>
+              <span style="margin-top: 30px">${currentUser.nickName}：&nbsp;&nbsp;${post.text}</span>
+            </div>
+            <hr/>
+          <%}%>
+          <%--<c:forEach var="post" items="${content}">--%>
+            <%--&lt;%&ndash;<span>${post.postName}</span><br>&ndash;%&gt;--%>
+            <%--&lt;%&ndash;<span>${post.text}</span><br>&ndash;%&gt;--%>
+            <%--${currentUserId=post.userId}--%>
+            <%--<div id = ${post.id} data-userId=${post.userId}>--%>
+              <%--<%current = SearchUtil.searchUser(currentUserId, DbUtil.getConnection()).get(0);%>--%>
+              <%--<img id="photo" class="img-responsive img-thumbnail img-circle"--%>
+                   <%--align="center" width="160px" height="160px" alt="Me" src=${currentUser.photoUrl}>--%>
+              <%--<h2>${post.postName}</h2>--%>
+              <%--<span>${post.text}</span>--%>
+            <%--</div>--%>
+          <%--</c:forEach>--%>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="col-md-4">
+<div class="col-md-1"></div>
+<div class="col-md-3">
   <div class="container-fluid">
     <div class="row">
       <!-- 内容面板 -->
@@ -137,5 +199,6 @@
     </div>
   </div>
 </div>
+<div class="col-md-1"></div>
 </body>
 </html>

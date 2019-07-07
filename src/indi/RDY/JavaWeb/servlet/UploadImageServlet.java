@@ -53,8 +53,6 @@ public class UploadImageServlet extends HttpServlet {
                     fileName = fileHash + System.nanoTime() + "" + appendix;
                     File file = new File(ReadConfigServlet.IMAGEPATH + separator + fileName);
                     url = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/Image" + "?name=" + fileName;
-                    Connection conn = DbUtil.getConnection();
-
                     item.write(file);
                 } else {
                     String fieldName = item.getFieldName();
@@ -74,6 +72,7 @@ public class UploadImageServlet extends HttpServlet {
                     preparedStatement.setString(1, url);
                     preparedStatement.setString(2, nickname);
                     preparedStatement.executeUpdate();
+                    conn.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

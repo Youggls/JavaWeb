@@ -3,7 +3,8 @@
 <%@ page import="indi.RDY.JavaWeb.util.DbUtil" %>
 <%@ page import="static java.nio.charset.StandardCharsets.ISO_8859_1" %>
 <%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.sql.Connection" %><%--
   Created by IntelliJ IDEA.
   User: Raymond
   Date: 2019-07-04
@@ -26,19 +27,17 @@
         // remove form from document
         document.body.removeChild(form);
     }
-    function redirect(url) {
-        _response.redirect(url);
-    }
 </script>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <%
         String nickname1 = "username";
         User user1 = null;
         Cookie[] cookies1 = request.getCookies();
+        Connection conn1 = DbUtil.getConnection();
         for (Cookie cookie : cookies1) {
             if (cookie.getName().equals("nickname")) {
                 nickname1 = new String(cookie.getValue().getBytes(UTF_8), UTF_8);
-                List<User> users1 = SearchUtil.searchUser(nickname1, DbUtil.getConnection());
+                List<User> users1 = SearchUtil.searchUser(nickname1, conn1);
                 if (users1.size() > 0) {
                     user1 = users1.get(0);
                 }
@@ -47,6 +46,7 @@
                 break;
             }
         }
+        conn1.close();
         String redirectUrl = "/JavaWeb/profile.jsp?nickname=" + nickname1;
         pageContext.setAttribute("redirectUrl", redirectUrl);
     %>

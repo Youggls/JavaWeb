@@ -96,7 +96,7 @@
                 alert("标题不能大于30");
             } else if (editor.txt.text().length === 0) {
                 alert("内容不能为空！");
-            } else if (editor.txt.text().length > 100) {
+            } else if (editor.txt.text().length > 500) {
                 alert("内容不能多于100个字符！" + editor.txt.text().length);
             } else {
                 var myForm = document.createElement("form");

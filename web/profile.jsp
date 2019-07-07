@@ -68,6 +68,7 @@
     if (targetUser.getPhotoUrl() == null) {
         targetUser.setPhotoUrl("img/default_profile_photo.jpg");
     }
+    conn.close();
 %>
 <div>
     <%if (login) {%>
