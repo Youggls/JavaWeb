@@ -29,7 +29,6 @@ public class CheckServlet extends HttpServlet {
         String username = new String(request.getParameter("nickname").getBytes(UTF_8), UTF_8);
         Connection conn = DbUtil.getConnection();
         int count = 0;
-        System.out.println(count);
         try {
             PreparedStatement search = conn.prepareStatement("SELECT COUNT(*) FROM user WHERE nickname = ?");
             search.setString(1,  username);
@@ -41,7 +40,6 @@ public class CheckServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(count);
 
         if (count > 0) { //单纯测试，不进行连接数据库，，相同返回true
             response.getWriter().print(true);
