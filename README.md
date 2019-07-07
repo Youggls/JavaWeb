@@ -3,7 +3,7 @@
 ## 项目：简易论坛
 
 ## TODO
-- [ ] 注册用户名已经被使用时实时刷新页面状态（后端已完成，前端RaymondY待完成）
+- [x] 注册用户名已经被使用时实时刷新页面状态（后端已完成，~~前端RaymondY待完成~~Youggls帮他擦了屁股）
 - [ ] 判断密码字符合法（注册时，大小写英文字母，特殊符号，数字，RaymondY）
 - [ ] **TextView，用来浏览帖子的视图（前端，RaymondY）**
 - [ ] **用来浏览posts的图，类似知乎热榜**
@@ -15,9 +15,9 @@
 - [x] ~~前端在各个页面根据本地cookie读取用户id从而初始化页面上用户信息（前端，RaymondY）~~
 - [x] ~~配置通过URL获取图片的Servlet（后端，DoubleClass）~~
 - [x] ~~上传文件等到服务器（后端，DoubleClass）~~
-- [ ] 配置用户头像（后端，Youggls，和前端RaymondY）
+- [x] 配置用户头像（后端，Youggls，和前端RaymondY）
 - [x] 配置详细的用户信息（后端，Youggls）
-- [ ] 配置详细的用户信息（和前端RaymondY）
+- [x] 配置详细的用户信息（~~和前端RaymondY~~又帮他擦屁股）
 - [x] 关注功能（后端，Youggls）
 - [ ] 关注功能（前端RaymondY）
 - [x] ~~发帖功能（后端，Youggs）~~
