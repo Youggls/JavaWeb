@@ -14,15 +14,7 @@ public class SortByTimeLine {
 
     public SortByTimeLine () {
         posts = new ArrayList<>();
-        String dbUrl = "jdbc:mysql://localhost:3306/JavaWeb?useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true";
-        String dbUserName = "cao";
-        String dbUserPassWord = "CaoXusheng136720";
-        try {
-            conn = DriverManager.getConnection(dbUrl, dbUserName, dbUserPassWord);
-        } catch (Exception e) {
-            System.out.println("can't connect to mysql");
-        }
-        //conn = DbUtil.getConnection();
+        conn = DbUtil.getConnection();
     }
     public ArrayList<Post> Sort() {
         try{
@@ -50,12 +42,7 @@ public class SortByTimeLine {
             System.out.println("error during SortByTimeLine");
             e.printStackTrace();
         }
-        Collections.sort(posts, new Comparator<Post>() {
-            @Override
-            public int compare(Post o1, Post o2) {
-                return o1.getTime().toString() .compareTo(o2.getTime().toString()) ;
-            }
-        });
+        Collections.sort(posts);
         return posts;
     }
     public static void main(String[] args) {
