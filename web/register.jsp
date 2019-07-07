@@ -64,8 +64,7 @@
       }
 
       function inspect_password() { //判断两次用户名是否一致，不一致时，注册按钮不可使用
-          if (document.getElementById("password").value !=
-              document.getElementById("repassword").value) {
+          if (document.getElementById("password").value !== document.getElementById("repassword").value) {
               document.getElementById("div_password").innerHTML
                   = "<div class=\"alert alert-danger\"> 两次密码不一致！</div>";
               document.all("register").disabled = true;
@@ -74,6 +73,28 @@
                   = "<div class=\"alert alert-success\"> 密码一致！</div>";
               document.all("register").disabled = false;
           }
+      }
+      function checkName(obj) {
+        var nickname = obj.value;
+        $.ajax({
+          type : 'post',
+          url : '/JavaWeb/CheckServlet',
+          data : {
+            'nickname' : nickname
+          },
+          dataType : 'text',
+          success : function(data) {
+            if(data === "true"){
+              //存在
+              document.getElementById("div_nickname").innerHTML = "<div class=\"alert alert-danger\"> 用户名不可用！</div>";
+            } else {
+              document.getElementById("div_nickname").innerHTML = "<div class=\"alert alert-success\"> 用户名可用！</div>";
+            }
+          },
+          error : function() {
+            window.console.log('失败回调函数');
+          }
+        })
       }
   </script>
   <style>
@@ -109,8 +130,8 @@
       </div>
       <br><br>
       <label>用户名</label>
-      <input type="text" name="nickname" id="username" class="form-control" onblur="checkUsername(this.value)"
-             style="height: 3.5em;" placeholder="请输入用户名" required autofocus onblur="send()">
+      <input type="text" name="nickname" id="nickname" class="form-control"
+             style="height: 3.5em;" placeholder="请输入用户名" onblur="checkName(this);"><span id='ret-msg'></span>
       <span id="Username_Error_Message"></span>
       <br>
       <label>密码</label>
@@ -121,6 +142,7 @@
       <input type="password" name="repassword" id="repassword" class="form-control" style="height: 3.5em;"
              placeholder="请再次输入密码" required onblur="inspect_password()">
       <span id="div_password"><br></span>
+      <span id="div_nickname"><br></span>
       <br>
       <button type="submit" onclick="window.location.href='register_to_login.jsp'"
               class="btn btn-primary btn-lg btn-block" id="register">注册

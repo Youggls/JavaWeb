@@ -38,7 +38,6 @@
         for (Cookie cookie : cookies1) {
             if (cookie.getName().equals("nickname")) {
                 nickname1 = new String(cookie.getValue().getBytes(UTF_8), UTF_8);
-                System.out.println(nickname1);
                 List<User> users1 = SearchUtil.searchUser(nickname1, DbUtil.getConnection());
                 if (users1.size() > 0) {
                     user1 = users1.get(0);

@@ -48,25 +48,30 @@
         }
     }
     String targetNickname = request.getParameter("nickname");
+    System.out.println(targetNickname);
     List<User> users = SearchUtil.searchUser(targetNickname, conn);
     User targetUser = null;
     if (users.size() != 0) {
         targetUser = users.get(0);
         pageContext.setAttribute("targetUser", targetUser);
     } else {
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("profile.jsp?nickname="+localUser.getNickName());
     }
 
     boolean same = false;
     if (localUser != null) {
         same = (targetNickname.equals(localUser.getNickName()));
     }
+    System.out.println(targetUser.getPhotoUrl());
+    if (targetUser.getPhotoUrl() == null) {
+        targetUser.setPhotoUrl("img/default_profile_photo.jpg");
+    }
 %>
 <div>
     <%if (login) {%>
-        <%@include file="head_login.jsp" %>
+    <%@include file="head_login.jsp" %>
     <%} else {%>
-        <%@include file="head_visitor.jsp" %>
+    <%@include file="head_visitor.jsp" %>
     <%}%>
 </div>
 <div class="container">
@@ -77,8 +82,8 @@
             <div class="row">
                 <div class="col-md-2" align="center">
                     <br>
-                    <img src="img/default_profile_photo.jpg" class="img-responsive img-thumbnail img-circle"
-                         align="center" width="140px" height="140px" alt="Me">
+                    <img id="photo"  class="img-responsive img-thumbnail img-circle"
+                         align="center" width="160px" height="160px" alt="Me" src=${targetUser.photoUrl}>
                     <br>
                 </div>
                 <div class="col-md-7">
@@ -86,12 +91,18 @@
                         <address>
                             <br>
                             <h3 title="username"> ${targetUser.nickName}</h3>
-                            &nbsp;<span class="glyphicon glyphicon-user textmuted" title="Sex"> ${targetUser.gender}</span><br>
-                            &nbsp;<span class="glyphicon glyphicon-home textmuted" title="Address"> ${targetUser.address}</span><br>
-                            &nbsp;<span class="glyphicon glyphicon-phone textmuted" title="Mobile"> ${targetUser.phone}</span><br>
-                            &nbsp;<span class="glyphicon glyphicon-envelope textmuted" title="Email"> ${targetUser.email}</span><br>
-                            &nbsp;<span class="glyphicon glyphicon-user textmuted" title="follower"> 关注者：${targetUser.follower}</span><br>
-                            &nbsp;<span class="glyphicon glyphicon-user textmuted" title="following"> 正在关注：${targetUser.following}</span>
+                            &nbsp;<span class="glyphicon glyphicon-user textmuted"
+                                        title="Sex"> ${targetUser.gender}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-home textmuted"
+                                        title="Address"> ${targetUser.address}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-phone textmuted"
+                                        title="Mobile"> ${targetUser.phone}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-envelope textmuted"
+                                        title="Email"> ${targetUser.email}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-user textmuted"
+                                        title="follower"> 关注者：${targetUser.follower}</span><br>
+                            &nbsp;<span class="glyphicon glyphicon-user textmuted"
+                                        title="following"> 正在关注：${targetUser.following}</span>
                         </address>
                     </div>
                 </div>

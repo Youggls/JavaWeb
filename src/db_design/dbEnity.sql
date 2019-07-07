@@ -21,12 +21,12 @@ DROP TABLE IF EXISTS `JavaWeb`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `JavaWeb`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nickname` VARCHAR(45) NOT NULL unique,
+  `nickname` VARCHAR(45) NULL DEFAULT NULL,
   `password` VARCHAR(50) NOT NULL,
-  `profile_photo_url` VARCHAR(50) NULL DEFAULT NULL,
+  `profile_photo_url` VARCHAR(100) NULL DEFAULT NULL,
   `registered_time` TIMESTAMP NOT NULL,
   `type` VARCHAR(10) NOT NULL DEFAULT 'user',
-	CHECK (`type` in ("user", "operator", "admin")),
+  CHECK (`type` in ("user", "operator", "admin")),
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`comment` (
   `pre_comment_id` INT NULL DEFAULT -1,
   `content` TEXT NOT NULL,
   `comment_time` TIMESTAMP NOT NULL,
-  `isdeleted` TINYINT NOT NULL DEFAULT 0,
+  `isdeleted` TINYINT NOT NULL DEFAULT 1,
   PRIMARY KEY (`comment_id`),
   INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
   INDEX `comment_root_floor_id_idx` (`root_floor_id` ASC) VISIBLE,
@@ -107,6 +107,78 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`comment` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `JavaWeb`.`profile`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `JavaWeb`.`profile` ;
+
+CREATE TABLE IF NOT EXISTS `JavaWeb`.`profile` (
+  `id` INT UNSIGNED NOT NULL,
+  `gender` VARCHAR(45) NULL,
+  `address` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `phone` VARCHAR(45) NULL,
+  `following_num` INT UNSIGNED NULL DEFAULT 0,
+  `follower_num` INT UNSIGNED NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `profile_id`
+    FOREIGN KEY (`id`)
+    REFERENCES `JavaWeb`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `JavaWeb`.`follow`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `JavaWeb`.`follow` ;
+
+CREATE TABLE IF NOT EXISTS `JavaWeb`.`follow` (
+  `follower_id` INT UNSIGNED,
+  `followed_id` INT UNSIGNED,
+  PRIMARY KEY (`follower_id`, `followed_id`),
+  CONSTRAINT `follower_id`
+    FOREIGN KEY (`follower_id`)
+    REFERENCES `JavaWeb`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `followed_id`
+    FOREIGN KEY (`followed_id`)
+    REFERENCES `JavaWeb`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)
+
+ENGINE = InnoDB;
+
+USE `JavaWeb`;
+
+DELIMITER $$
+
+USE `JavaWeb`$$
+DROP TRIGGER IF EXISTS `JavaWeb`.`follow_BEFORE_INSERT` $$
+USE `JavaWeb`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `JavaWeb`.`follow_BEFORE_INSERT` BEFORE INSERT ON `follow` FOR EACH ROW
+BEGIN
+	UPDATE profile SET following_num = following_num + 1 WHERE id = NEW.follower_id;
+    UPDATE profile SET follower_num = follower_num + 1 WHERE id = NEW.followed_id;
+END$$
+
+
+USE `JavaWeb`$$
+DROP TRIGGER IF EXISTS `JavaWeb`.`follow_BEFORE_DELETE` $$
+USE `JavaWeb`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `JavaWeb`.`follow_BEFORE_DELETE` BEFORE DELETE ON `follow` FOR EACH ROW
+BEGIN
+	UPDATE profile SET following_num = following_num - 1 WHERE id = OLD.follower_id;
+    UPDATE profile SET follower_num = follower_num - 1 WHERE id = OLD.followed_id;
+END$$
+
+DELIMITER ;
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

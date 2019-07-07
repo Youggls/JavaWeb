@@ -8,7 +8,7 @@ public class User {
     private int id;
     private String nickName;
     private String passWord;
-    private String photoUrl;
+    private String photoUrl = "";
     private int type;
     private Timestamp registeredTime;
     private String email;

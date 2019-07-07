@@ -17,7 +17,7 @@
     <style>
         body {
             padding: 90px 30px;
-            background-color: #f6f6f6;
+            background-color: #ffffff;
         }
 
         .mainBody {
@@ -34,6 +34,19 @@
             border: none;
             height: 1000px;
             background-color: #FFFFFF;
+            -webkit-scroll-snap-type: none;
+        }
+        hr {
+            -moz-border-bottom-colors: none;
+            -moz-border-image: none;
+            -moz-border-left-colors: none;
+            -moz-border-right-colors: none;
+            -moz-border-top-colors: none;
+            border-color: #EEEEEE;
+            -moz-use-text-color #FFFFFF;
+            border-style: solid none;
+            border-width: 1px 0;
+            margin: 18px 0;
         }
     </style>
 </head>
@@ -58,11 +71,13 @@
 <jsp:include page="head_login.jsp"></jsp:include>
 <input type="hidden" name="postid" id="formhash" style="height: 3em; border-style: none;">
 <div id="ct" class="mainBody">
-    <div style="margin-bottom: 10px;">
-        <input id="title" placeholder="请输入标题" style="border: none;width: 100%;height: 40px;font-size: 20px;padding:4px;text-align:center">
+    <div style="margin-top: 10px;"><input id="title" placeholder="请输入标题"
+                                             style="border: none;width: 100%;height: 40px;font-size: 35px;padding:4px;text-align:center">
     </div>
-    <div id="tool-bar" class="tool-bar" style="margin-bottom: 10px;"></div>
-    <div id="editor" class="editor" style="margin-bottom: 10px"></div>
+    <hr/>
+    <div id="tool-bar" class="tool-bar" ></div>
+    <hr/>
+    <div id="editor" class="editor" style="margin-bottom: 10px;-webkit-scrollbar: none"></div>
     <div style="text-align: center;">
         <button id="submit" type="button" class="btn btn-default">发帖！</button>
     </div>

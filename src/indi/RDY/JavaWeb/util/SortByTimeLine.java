@@ -1,12 +1,9 @@
 package indi.RDY.JavaWeb.util;
 
 import indi.RDY.JavaWeb.bean.Post;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class SortByTimeLine {
     private ArrayList<Post> posts;
@@ -35,8 +32,6 @@ public class SortByTimeLine {
                 p.setContent(content);
                 p.setTime(time);
                 posts.add(p);
-
-
             }
         } catch (Exception e) {
             System.out.println("error during SortByTimeLine");
@@ -44,13 +39,5 @@ public class SortByTimeLine {
         }
         Collections.sort(posts);
         return posts;
-    }
-    public static void main(String[] args) {
-        SortByTimeLine sb = new SortByTimeLine();
-        ArrayList<Post> p = sb.Sort();
-        for(int i = 0; i < p.size(); i++) {
-            System.out.println("时间：" + p.get(i).getTime()+"名字"+p.get(i).getPostName());
-        }
-
     }
 }

@@ -22,23 +22,26 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @WebServlet(name = "CheckServlet", value = "/CheckServlet")
 public class CheckServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("check");
         doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("check");
-        String username = new String(request.getParameter("nickname").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
+        String username = new String(request.getParameter("nickname").getBytes(UTF_8), UTF_8);
         Connection conn = DbUtil.getConnection();
         int count = 0;
+        System.out.println(count);
         try {
             PreparedStatement search = conn.prepareStatement("SELECT COUNT(*) FROM user WHERE nickname = ?");
             search.setString(1,  username);
+            search.execute();
             ResultSet rs = search.getResultSet();
-            count = rs.getInt(1);
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println(count);
 
         if (count > 0) { //单纯测试，不进行连接数据库，，相同返回true
             response.getWriter().print(true);
