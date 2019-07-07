@@ -5,15 +5,18 @@
   Time: 01:02
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.Cookie" %>
 <%@ page import="static java.nio.charset.StandardCharsets.ISO_8859_1" %>
 <%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %>
 <%@ page import="indi.RDY.JavaWeb.bean.User" %>
-<%@ page import="indi.RDY.JavaWeb.util.SearchUtil" %>
-<%@ page import="indi.RDY.JavaWeb.util.DbUtil" %>
+<%@ page import="indi.RDY.JavaWeb.util.*" %>
+<%@ page import="indi.RDY.JavaWeb.bean.Post" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,6 +38,7 @@
       padding: 90px 30px;
     }
   </style>
+  <%-- <jsp:useBean id="Post"/> --%>
 </head>
 <body>
 <%
@@ -69,6 +73,11 @@
   }
 %>
 
+<%
+  SortByTimeLine timeLine = new SortByTimeLine();
+  ArrayList<Post> content = timeLine.Sort();
+%>
+
 <div class="col-md-8">
   <div class="container-fluid">
     <div class="row">
@@ -97,7 +106,10 @@
           </div>
         </nav>
         <div class="panel-body">
-          这里放内容
+          <c:forEach items="content" var="post">
+            <span>${post.postName}</span><br>
+            <span>${post.content}</span><br>
+          </c:forEach>
         </div>
       </div>
     </div>
