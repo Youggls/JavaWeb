@@ -48,21 +48,23 @@
         }
     }
     String targetNickname = request.getParameter("nickname");
-    System.out.println(targetNickname);
     List<User> users = SearchUtil.searchUser(targetNickname, conn);
     User targetUser = null;
     if (users.size() != 0) {
         targetUser = users.get(0);
         pageContext.setAttribute("targetUser", targetUser);
     } else {
-        response.sendRedirect("profile.jsp?nickname="+localUser.getNickName());
+        if (!login) {
+            response.sendRedirect("main.jsp");
+        } else {
+            response.sendRedirect("profile.jsp?nickname=" + localUser.getNickName());
+        }
     }
 
     boolean same = false;
     if (localUser != null) {
         same = (targetNickname.equals(localUser.getNickName()));
     }
-    System.out.println(targetUser.getPhotoUrl());
     if (targetUser.getPhotoUrl() == null) {
         targetUser.setPhotoUrl("img/default_profile_photo.jpg");
     }
@@ -82,7 +84,7 @@
             <div class="row">
                 <div class="col-md-2" align="center">
                     <br>
-                    <img id="photo"  class="img-responsive img-thumbnail img-circle"
+                    <img id="photo" class="img-responsive img-thumbnail img-circle"
                          align="center" width="160px" height="160px" alt="Me" src=${targetUser.photoUrl}>
                     <br>
                 </div>
@@ -111,6 +113,10 @@
                     <% if (same) {%>
                     <a href="revise.jsp" style="float: right;" class="btn btn-default right"><font
                             style="vertical-align: inherit;"> 修改个人信息 </font></a>
+                    <%} else if (login) {%>
+                    <button id="follow" class="btn btn-default right" style="background-color: #286090;color: #FFFFFF">
+                        关注
+                    </button>
                     <%}%>
                 </div>
             </div>
@@ -171,5 +177,47 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function submit() {
+        var myForm = document.createElement("form");
+        var params = {
+            "follower_id": "${localUser.id}",
+            "followed_id": "${targetUser.id}"
+        };
+        myForm.method = "post";
+        myForm.action = "/JavaWeb/Follow";
+        myForm.style.display = "none";
+
+        for (var k in params) {
+            var myInput = document.createElement("input");
+            myInput.name = k;
+            myInput.value = params[k];
+            myForm.appendChild(myInput);
+        }
+
+        $.ajax({
+            url: '/JavaWeb/Follow',
+            type: 'POST',
+            dataType: "text",
+            data: "follower_id=" + "${localUser.id}" + "&followed_id=" + "${targetUser.id}",
+            success: function (data) {
+                var button = document.getElementById("follow");
+                if (data === "followed!") {
+                    button.innerText = "已关注~";
+                    button.style.color = "#8590A6";
+                    button.style.color = "#FFFFFF";
+                    button.removeEventListener('click', submit);
+                } else if (data === "ok") {
+                    button.innerText = "已关注~";
+                    button.style.color = "#8590A6";
+                    button.style.color = "#FFFFFF";
+                    button.removeEventListener('click', submit);
+                }
+            }
+        })
+    }
+
+    document.getElementById("follow").addEventListener("click", submit);
+</script>
 </body>
 </html>

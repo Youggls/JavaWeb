@@ -40,6 +40,10 @@
         <servlet-name>ChangeProfile</servlet-name>
         <servlet-class>indi.RDY.JavaWeb.servlet.ChangeProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Follow</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.FollowServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>image</servlet-name>
         <url-pattern>/Image</url-pattern>
@@ -75,5 +79,9 @@
     <servlet-mapping>
         <servlet-name>ChangeProfile</servlet-name>
         <url-pattern>/ChangeProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Follow</servlet-name>
+        <url-pattern>/Follow</url-pattern>
     </servlet-mapping>
 </web-app>
