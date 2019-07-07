@@ -17,10 +17,17 @@ import static java.nio.charset.StandardCharsets.*;
 
 public class UploadImageServlet extends HttpServlet {
 
+    private boolean isAjax(HttpServletRequest request) {
+        return (request.getHeader("X-Requested-With") != null && "XMLHttpRequest"
+                .equals(request.getHeader("X-Requested-With").toString()));
+
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         resp.setContentType("text/html;charset=utf-8");
+
         //为解析类提供配置信息
         DiskFileItemFactory factory = new DiskFileItemFactory();
         //创建解析类的实例
@@ -36,10 +43,8 @@ public class UploadImageServlet extends HttpServlet {
                 FileItem item = items.get(i);
                 //isFormField为true，表示这不是文件上传表单域
                 if (!item.isFormField()) {
-                    System.out.println(ReadConfigServlet.IMAGEPATH);
                     //获得文件名
                     String fileName = item.getName();
-                    System.out.println(fileName);
                     //该方法在某些平台(操作系统),会返回路径+文件名
                     fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
                     int fileHash = fileName.hashCode();
@@ -48,10 +53,8 @@ public class UploadImageServlet extends HttpServlet {
                     fileName = fileHash + System.nanoTime() + "" + appendix;
                     File file = new File(ReadConfigServlet.IMAGEPATH + separator + fileName);
                     url = "http://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/Image" + "?name=" + fileName;
-                    System.out.println("url is " + url);
                     Connection conn = DbUtil.getConnection();
 
-                    System.out.println(item.getSize());
                     item.write(file);
                 } else {
                     String fieldName = item.getFieldName();
@@ -79,5 +82,8 @@ public class UploadImageServlet extends HttpServlet {
             System.out.println("error while uploading file");
             e.printStackTrace();
         }
+        String revUrl = "{\"photoURL\":\"" + url + "\"}";
+        System.out.println(revUrl);
+        resp.getWriter().print(revUrl);
     }
 }
