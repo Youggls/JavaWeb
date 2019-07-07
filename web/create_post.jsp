@@ -54,14 +54,14 @@
     }
 %>
 
-<body>
+<body >
 <jsp:include page="head_login.jsp"></jsp:include>
 <input type="hidden" name="postid" id="formhash" style="height: 3em; border-style: none;">
 <div id="ct" class="mainBody">
-    <div style="margin-bottom: 10px;"><input id="title" placeholder="请输入标题"
-                                             style="border: none;width: 100%;height: 40px;font-size: 35px;padding:4px;text-align:center">
+    <div style="margin-bottom: 10px;">
+        <input id="title" placeholder="请输入标题" style="border: none;width: 100%;height: 40px;font-size: 20px;padding:4px;text-align:center">
     </div>
-    <div id="tool-bar" class="tool-bar" style="margin-bottom: 10px"></div>
+    <div id="tool-bar" class="tool-bar" style="margin-bottom: 10px;"></div>
     <div id="editor" class="editor" style="margin-bottom: 10px"></div>
     <div style="text-align: center;">
         <button id="submit" type="button" class="btn btn-default">发帖！</button>
