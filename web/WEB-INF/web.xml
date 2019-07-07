@@ -30,7 +30,7 @@
     </servlet>
     <servlet>
         <servlet-name>image</servlet-name>
-        <servlet-class>indi.RDY.JavaWeb.servlet.ImaginShowServlet</servlet-class>
+        <servlet-class>indi.RDY.JavaWeb.servlet.ImageShowServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>image</servlet-name>
