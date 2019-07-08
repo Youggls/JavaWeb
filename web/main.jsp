@@ -182,6 +182,6 @@
     </div>
   </div>
 </div>
-<div class="col-md-5"></div>
+<div class="col-md-3"></div>
 </body>
 </html>
