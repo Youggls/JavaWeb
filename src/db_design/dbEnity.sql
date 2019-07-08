@@ -38,7 +38,7 @@ DROP TABLE IF EXISTS `JavaWeb`.`post` ;
 
 CREATE TABLE IF NOT EXISTS `JavaWeb`.`post` (
   `post_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` INT UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL ,
   `post_name` VARCHAR(100) NOT NULL,
   `content` TEXT NOT NULL,
   `post_time` TIMESTAMP NOT NULL,
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`post` (
   INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `JavaWeb`.`user` (`id`)
-    ON DELETE NO ACTION
+    REFERENCES `JavaWeb`.`user` (`id`)  
+    ON DELETE cascade
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`floor` (
   CONSTRAINT `floor_post_id`
     FOREIGN KEY (`parent_post_id`)
     REFERENCES `JavaWeb`.`post` (`post_id`)
-    ON DELETE NO ACTION
+    ON DELETE cascade
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -99,12 +99,12 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`comment` (
   CONSTRAINT `commnet_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `JavaWeb`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE cascade
     ON UPDATE NO ACTION,
   CONSTRAINT `comment_root_floor_id`
     FOREIGN KEY (`root_floor_id`)
     REFERENCES `JavaWeb`.`floor` (`floor_id`)
-    ON DELETE NO ACTION
+    ON DELETE cascade
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`profile` (
   CONSTRAINT `profile_id`
     FOREIGN KEY (`id`)
     REFERENCES `JavaWeb`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE cascade
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -143,12 +143,12 @@ CREATE TABLE IF NOT EXISTS `JavaWeb`.`follow` (
   CONSTRAINT `follower_id`
     FOREIGN KEY (`follower_id`)
     REFERENCES `JavaWeb`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE cascade
     ON UPDATE NO ACTION,
   CONSTRAINT `followed_id`
     FOREIGN KEY (`followed_id`)
     REFERENCES `JavaWeb`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE cascade
     ON UPDATE NO ACTION
 )
 
