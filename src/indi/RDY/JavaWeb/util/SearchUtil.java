@@ -77,11 +77,35 @@ abstract public class SearchUtil {
         return addFloorToList(userId, floors, sql1, conn);
     }
 
-    public static List<Comment> searchCommentByUser(String nickName, Connection conn) {
+    public static List<Comment> searchCommentByUser(int user_id, Connection conn) {
         List<Comment> comments = new ArrayList<>();
         String sql = "{call search_comment_by_user(?)}";
         String content;
-        return addCommentsToList(nickName, comments, sql, conn);
+        return addCommentsToList(user_id, comments, sql, conn);
+    }
+
+    private static List<Comment> addCommentsToList(int user_id, List<Comment> comments, String sql, Connection conn) {
+        String content;
+        try {
+            CallableStatement search = conn.prepareCall(sql);
+            search.setInt(1, user_id);
+            search.executeUpdate();
+            ResultSet rs = search.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("comment_id");
+                int userId = rs.getInt("user_id");
+                int rootFloorId = rs.getInt("root_floor_id");
+                int preCommentId = rs.getInt("pre_comment_id");
+                content = rs.getString("content");
+                Timestamp commentTime = rs.getTimestamp("comment_time");
+                boolean isDeleted = rs.getBoolean("isdeleted");
+                comments.add(new Comment(id, userId, rootFloorId, preCommentId, content, commentTime, isDeleted));
+            }
+            Collections.sort(comments);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comments;
     }
 
     private static List<Comment> addCommentsToList(String nickName, List<Comment> comments, String sql, Connection conn) {
