@@ -31,10 +31,15 @@ public class Comment extends TextContainer {
         return preCommentId;
     }
 
+    @Override
+    public String getContent() {
+        if (isDeleted) return "该评论已删除";
+        else return super.getContent();
+    }
+
     public void setPreCommentId(int preCommentId) {
         this.preCommentId = preCommentId;
     }
-
 
     public boolean isDeleted() {
         return isDeleted;
