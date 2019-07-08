@@ -88,7 +88,8 @@ public class User {
     }
 
     public String getPhotoUrl() {
-        return photoUrl;
+        if (photoUrl != null) return photoUrl;
+        else return "img/default_profile_photo.jpg";
     }
 
     public int getFollower() {

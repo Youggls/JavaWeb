@@ -58,7 +58,7 @@ public class TextContainer implements Comparable<TextContainer> {
 
     public String getText() {
         if (text.length() <= 100) return text;
-        else return text.substring(0, 100);
+        else return text.substring(0, 100) + "···";
     }
 
     @Override
