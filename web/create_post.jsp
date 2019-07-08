@@ -69,10 +69,10 @@
 
 <body >
 <jsp:include page="head_login.jsp"></jsp:include>
-<input type="hidden" name="postid" id="formhash" style="height: 3em; border-style: none;">
+<input type="hidden" name="postid" id="formhash" style="height: 3em; border-style: none; ">
 <div id="ct" class="mainBody">
     <div style="margin-top: 10px;"><input id="title" placeholder="请输入标题"
-                                             style="border: none;width: 100%;height: 40px;font-size: 35px;padding:4px;text-align:center">
+                                             style="border: none;width: 100%;height: 40px;font-size: 20px;padding:4px;text-align:center">
     </div>
     <hr/>
     <div id="tool-bar" class="tool-bar" ></div>
