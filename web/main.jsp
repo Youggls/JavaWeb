@@ -85,11 +85,11 @@
     }
     conn.close();
     if (login) {%>
-<div>
+<div class="col-md-12">
   <%@include file="head_login.jsp" %>
 </div>
 <%} else {%>
-<div>
+<div class="col-md-12">
   <%@include file="head_visitor.jsp" %>
 </div>
 <%
