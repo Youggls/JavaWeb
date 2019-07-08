@@ -8,7 +8,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.Cookie" %>
-<%@ page import="static java.nio.charset.StandardCharsets.ISO_8859_1" %>
 <%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %>
 <%@ page import="indi.RDY.JavaWeb.bean.User" %>
 <%@ page import="indi.RDY.JavaWeb.util.*" %>
@@ -107,8 +106,7 @@
   pageContext.setAttribute("currentUserId", currentUserId);
   pageContext.setAttribute("currentUser", current);
 %>
-<div class="col-md-3"></div>
-<div class="col-md-4">
+<div class="col-md-8">
   <div class="container-fluid">
     <div class="row">
       <!-- 内容面板 -->
@@ -160,7 +158,7 @@
     </div>
   </div>
 </div>
-<div class="col-md-2">
+<div class="col-md-4">
   <div class="container-fluid">
     <div class="row">
       <!-- 内容面板 -->
@@ -182,6 +180,5 @@
     </div>
   </div>
 </div>
-<div class="col-md-3"></div>
 </body>
 </html>
