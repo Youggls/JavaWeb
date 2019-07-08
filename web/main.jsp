@@ -144,7 +144,7 @@
               User currentUser = SearchUtil.searchUser(post.getUserId(), conn).get(0);
               conn.close();
               pageContext.setAttribute("currentUser", currentUser);
-              String postUrl = "/JavaWeb/post.jsp?postid=" + post.getId();
+              String postUrl = "/JavaWeb/post_view.jsp?postid=" + post.getId();
               pageContext.setAttribute("posturl", postUrl);
             %>
             <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"

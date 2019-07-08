@@ -46,7 +46,7 @@ public class SortByTimeLine {
     public static List<Floor> sortFloor(int parentId) {
         List<Floor> floors = new ArrayList<>();
         Connection conn = DbUtil.getConnection();
-        String sql = "SELECT * FROM floor WHERE parent_floor_id = ?";
+        String sql = "SELECT * FROM floor WHERE parent_post_id = ?";
         try {
             PreparedStatement search = conn.prepareStatement(sql);
             search.setInt(1, parentId);

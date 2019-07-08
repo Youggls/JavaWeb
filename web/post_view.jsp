@@ -9,11 +9,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.Cookie" %>
 <%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %>
-<%@ page import="indi.RDY.JavaWeb.bean.User" %>
 <%@ page import="indi.RDY.JavaWeb.util.*" %>
-<%@ page import="indi.RDY.JavaWeb.bean.Post" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.sql.Connection" %>
+<%@ page import="indi.RDY.JavaWeb.bean.*" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="javafx.geometry.Pos" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -60,6 +60,7 @@
             border-width: 1px 0;
             margin: 16px 0;
         }
+
     </style>
 </head>
 <body>
@@ -98,43 +99,122 @@
 %>
 
 <%
-    int parentPostID = 0;
-    pageContext.setAttribute("parentPostID", parentPostID);
+    int postId = 0;
+    postId = Integer.parseInt(request.getParameter("postid"));
+    int floorId = 0;
+    List<Floor> floorContent = SortByTimeLine.sortFloor(postId);
+    pageContext.setAttribute("floorContent", floorContent);
+    User current = null;
+    int currentUserId = 0;
+    pageContext.setAttribute("currentUserId", currentUserId);
+    pageContext.setAttribute("currentUser", current);
 %>
+<%--
+    Post post = null;
+    conn = DbUtil.getConnection();
+    String sql = "SELECT * FROM post WHERE post_id = ?";
+    try {
+        PreparedStatement search = conn.prepareStatement(sql);
+        search.setInt(1, postId);
+        search.execute();
+        ResultSet rs = search.getResultSet();
+        rs.next();
+        post = new Post(rs.getInt(1),
+                rs.getInt(2),
+                rs.getString(3),
+                rs.getString(4),
+                rs.getTimestamp(5));
+        conn.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+--%>
 
-<div class="col-md-8">
+<div class="col-md-10 col-md-offset-1">
     <div class="container-fluid">
         <div class="row">
             <!-- 内容面板 -->
             <div class="panel panel-default">
-                <div class="panel-body">
+                <div class="panel-body" style="margin: 30px">
+                    <div>
+                        <%
+                            Post post = null;
+                            conn = DbUtil.getConnection();
+                            String sql = "SELECT * FROM post WHERE post_id = ?";
+                            try {
+                                PreparedStatement search = conn.prepareStatement(sql);
+                                search.setInt(1, postId);
+                                search.execute();
+                                ResultSet rs = search.getResultSet();
+                                rs.next();
+                                post = new Post(rs.getInt(1),
+                                        rs.getInt(2),
+                                        rs.getString(3),
+                                        rs.getString(4),
+                                        rs.getTimestamp(5));
+                                conn.close();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            pageContext.setAttribute("post", post);
+                            conn = DbUtil.getConnection();
+                            User currentUser = SearchUtil.searchUser(post.getUserId(), conn).get(0);
+                            conn.close();
+                            pageContext.setAttribute("currentUser", currentUser);
+                        %>
+                        <img id="${currentUserId}" class="img-thumbnail"
+                             align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
+                        <span style="font-size: x-large;margin-top: 5px;height: 30px;font-weight: 900">&nbsp;&nbsp;${currentUser.nickName}:&nbsp;${post.postName}</span><br><br>
+                        <span style="margin-top: 30px; font-size: medium">${post.text}</span>
+                    </div>
+                    <hr/>
                     <%
-
+                        for (Floor floor : floorContent) {
+                            pageContext.setAttribute("floor", floor);
                     %>
+                    <div id="floor-${floor.id}">
+                        <%
+                            conn = DbUtil.getConnection();
+                            currentUser = SearchUtil.searchUser(floor.getUserId(), conn).get(0);
+                            pageContext.setAttribute("currentUser", currentUser);
+                            conn.close();
+                        %>
+                        <img id="${currentUserId}" class="img-thumbnail"
+                             align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
+                        <span style="margin-top: 30px">&nbsp;${floor.text}</span>
+                        <a onclick="this" class="glyphicon glyphicon-pencil" title="Back" style="float: right">回复</a>
+                        <%
+                            floorId = floor.getId();
+                            List<Comment> commentContent = SortByTimeLine.sortComment(floorId);
+                            pageContext.setAttribute("commentContent", commentContent);
+                            for (Comment comment : commentContent) {
+                                pageContext.setAttribute("comment", comment);
+                        %>
+                        <hr/>
+                        <div id="${comment.id}"  class="col-md-10, col-md-offset-1">
+                            <%
+                                conn = DbUtil.getConnection();
+                                currentUser = SearchUtil.searchUser(comment.getUserId(), conn).get(0);
+                                pageContext.setAttribute("currentUser", currentUser);
+                                conn.close();
+                            %>
+                            <img id="${currentUserId}" class="img-thumbnail"
+                                 align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
+                            <span style="margin-top: 30px; font-size: small">&nbsp;${comment.text}</span>
+                            <a onclick="this" class="glyphicon glyphicon-pencil" title="Back" style="float: right">回复</a>
+                        </div>
 
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-4">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- 内容面板 -->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <ul>
-                        <li><a href="create_post.jsp" class="glyphicon glyphicon-edit" title="Edit"><br>发帖</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <!-- 内容面板 -->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    test
+                        <%}%>
+                    </div>
+                    <br>
+                    <div class="input-group col-md-10, col-md-offset-1">
+                        <input type="text" class="form-control">
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">提交</button>
+                                </span>
+                    </div>
+                    <hr/>
+                    <%}%>
                 </div>
             </div>
         </div>
