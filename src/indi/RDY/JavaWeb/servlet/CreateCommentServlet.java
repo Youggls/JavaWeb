@@ -17,10 +17,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class CreateCommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = new String(request.getParameter("nickname").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
+        String username = request.getParameter("nickname");
         int rootFloorId = Integer.parseInt(request.getParameter("rootFloorId"));
         int preCommentId = Integer.parseInt(request.getParameter("preCommentId"));
-        String content = new String (request.getParameter("content").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
+        String content = request.getParameter("content");
         Timestamp time = new Timestamp(System.currentTimeMillis());
         int userId;
         Connection conn = DbUtil.getConnection();
@@ -36,7 +36,7 @@ public class CreateCommentServlet extends HttpServlet {
             else {
                 userId = 0;
             }
-            String sqlInseret = "insert into comment(user_id, root_floor_id, pre_comment_id, content, currrent_time,isdeleted) values(?,?,?,?,?,0)";
+            String sqlInseret = "insert into comment(user_id, root_floor_id, pre_comment_id, content, comment_time,isdeleted) values(?,?,?,?,?,0)";
             PreparedStatement pst2 = conn.prepareStatement(sqlInseret);
             pst2.setInt(1, userId);
             pst2.setInt(2, rootFloorId);
@@ -45,6 +45,7 @@ public class CreateCommentServlet extends HttpServlet {
             pst2.setTimestamp(5, time);
             pst2.execute();
             System.out.println("评论成功");
+            response.getWriter().print("true");
         } catch (Exception e) {
             System.out.println("error inside CreateCommentServlet");
             e.printStackTrace();

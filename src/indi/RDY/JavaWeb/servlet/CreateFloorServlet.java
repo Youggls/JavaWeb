@@ -47,9 +47,10 @@ public class CreateFloorServlet extends HttpServlet {
             preparedStatement.setString(4, floorContent);
             preparedStatement.setTimestamp(5, floorTime);
             preparedStatement.executeUpdate();
-            conn.commit();
+            resp.getWriter().write("true");
         } catch (SQLException e) {
             e.printStackTrace();
+            resp.getWriter().write("false");
         }
     }
 }
