@@ -216,6 +216,7 @@
                 List<Comment> commentContent = SortByTimeLine.sortComment(floorId);
                 pageContext.setAttribute("commentContent", commentContent);
                 for (Comment comment : commentContent) {
+
                   pageContext.setAttribute("comment", comment);
               %>
               <div class="panel-body col-md-10 col-md-offset-1" style="background-color:rgba(191, 191, 191,0.45);">
@@ -231,7 +232,7 @@
                   <%
                       if (comment.getPreCommentId() == -1) {
                   %>
-                  <span style="margin-top: 30px; font-size: small">${comment.content}</span>
+                  <span style="margin-top: 30px; font-size: small">${currentUser.nickName}: ${comment.content}</span>
                   <%
                       }
                       else {
@@ -265,10 +266,10 @@
                           pageContext.setAttribute("targetUser", targetUser);
                   %>
                   <c:if test="${fn:length(targetComment.content)>5 }">
-                  <span style="margin-top: 30px; font-size: small">回复 ${targetUser.nickName}"${fn:substring(targetComment.content, 0, 5)}..."：${comment.content}</span>
+                  <span style="margin-top: 30px; font-size: small">${currentUser.nickName} 回复 ${targetUser.nickName}"${fn:substring(targetComment.content, 0, 5)}..."：${comment.content}</span>
                   </c:if>
                   <c:if test="${fn:length(targetComment.content)<=5 }">
-                    <span style="margin-top: 30px; font-size: small">回复 ${targetUser.nickName}"${targetComment.content}"：${comment.content}</span>
+                    <span style="margin-top: 30px; font-size: small">${currentUser.nickName} 回复 ${targetUser.nickName}"${targetComment.content}"：${comment.content}</span>
                   </c:if>
                   <%}%>
                   <a onclick="comment(this, ${floor.id}, ${comment.id})" class="glyphicon glyphicon-pencil"
