@@ -37,6 +37,29 @@ abstract public class SearchUtil {
         return users;
     }
 
+    public static List<User> searchUsers(String name, Connection conn) {
+        String sql = "SELECT * FROM user WHERE LOCATE(?, nickname) > 0";
+        List<User> users = new ArrayList<>();
+        try {
+            PreparedStatement search = conn.prepareStatement(sql);
+            search.setString(1, name);
+            search.execute();
+            ResultSet rs = search.getResultSet();
+            while (rs.next()) {
+                users.add(new User(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        User.phraseType(rs.getString(6)),
+                        rs.getTimestamp(5)));
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     public static List<TextContainer> searchTextByUser(int userId, Connection conn) {
         List<TextContainer> texts = new ArrayList<>();
         texts.addAll(searchPostByUser(userId, conn));
@@ -49,7 +72,6 @@ abstract public class SearchUtil {
     public static List<TextContainer> searchTextByContentAndTitle(String content, Connection conn) {
         List<TextContainer> texts = new ArrayList<>();
         texts.addAll(searchPostByContent(content, conn));
-        texts.addAll(searchPostByTitle(content, conn));
         texts.addAll(searchFloorByContent(content, conn));
         return texts;
     }
@@ -133,8 +155,9 @@ abstract public class SearchUtil {
     }
 
     public static List<Post> searchPostByTitle(String title, Connection conn) {
+        System.out.println(title);
         List<Post> posts = new ArrayList<>();
-        String sql = "{call search_post_by_post_name(?)}";
+        String sql = "{call search_post_by_postname(?)}";
         return addPostToList(title, posts, sql, conn);
     }
 
@@ -176,9 +199,11 @@ abstract public class SearchUtil {
     }
 
     private static List<Post> addPostToList(String content, List<Post> posts, String sql, Connection conn) {
+        System.out.println(content);
         try {
             CallableStatement search = conn.prepareCall(sql);
             search.setString(1, content);
+            search.execute();
             addPostFromResult(posts, search);
             Collections.sort(posts);
         }

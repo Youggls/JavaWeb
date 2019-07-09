@@ -15,6 +15,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="indi.RDY.JavaWeb.bean.*" %>
 <%@ page import="java.sql.*" %>
+<!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8">
