@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.Cookie" %>
 <%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %>
@@ -60,7 +61,11 @@
             border-width: 1px 0;
             margin: 16px 0;
         }
-
+        .inoneline{
+            display: inline;
+            list-style-type: none;
+            padding: 5px 5px;
+        }
     </style>
 </head>
 <body>
@@ -200,7 +205,27 @@
                         </div>
                         <div class="col-md-11">
                             <span style="margin-top: 30px">${floor.content}</span>
-                            <a onclick="this" class="glyphicon glyphicon-pencil" title="Back" style="float: right">回复</a>
+                            <ul style="float: right" class="inoneline">
+                                <li class="inoneline">
+                                    <span style="font-size: x-small; color: #8c8c8c"><fmt:formatDate value="${floor.time}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+                                </li>
+                                <li class="inoneline">
+                                    <span style="font-size: small; color: #8c8c8c">#${floor.floorNum}</span>
+                                </li>
+                                <li class="inoneline">
+                                    <div class="dropdown inoneline">
+                                        <button type="button" class="btn btn-light btn-sm dropdown-toggle glyphicon glyphicon-triangle-bottom" id="dropdownMenu1" data-toggle="dropdown"></button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                            <li role="presentation">
+                                                <a role="menuitem" tabindex="-1" onclick="this" class="glyphicon glyphicon-pencil" title="Back">回复</a>
+                                            </li>
+                                            <li role="presentation">
+                                                <a role="menuitem" tabindex="-1" onclick="this" class="glyphicon glyphicon-trash" title="Delete">删除</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
                             <br>
                             <%
                                 floorId = floor.getId();
@@ -209,7 +234,7 @@
                                 for (Comment comment : commentContent) {
                                     pageContext.setAttribute("comment", comment);
                             %>
-                            <div class="panel-body col-md-10 col-md-offset-1" style="background-color: #cccccc">
+                            <div class="panel-body col-md-10 col-md-offset-1" style="background-color:rgba(191, 191, 191,0.5);">
                                 <div id="${comment.id}">
                                     <%
                                         conn = DbUtil.getConnection();
@@ -224,7 +249,7 @@
                             </div>
                             <%}%>
                         </div>
-                        <div class="input-group col-md-7 col-md-offset-3">
+                        <div class="input-group col-md-8 col-md-offset-2 hidden">
                             <input type="text" class="form-control">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button">提交</button>
