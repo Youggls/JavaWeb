@@ -57,7 +57,7 @@
     }
   </style>
 </head>
-<body>
+<body style="background: url(img/2.JPG); background-size: cover;">
 <!-- body style="background: url(img/bg.jpg)" -->
 <%
   User localUser = null;
@@ -116,7 +116,7 @@
   <%}%>
 </div>
 <div class="container">
-  <div class="row" style="background: url(img/cover.jpg); background-size: cover;">
+  <div class="row" style="background: url(img/00.png); background-size: cover;">
     <div class="col-md-12">
       <br>
       <br>
@@ -159,6 +159,8 @@
           <%}%>
           <%}%>
         </div>
+        <br>
+        <br>
       </div>
     </div>
   </div>
@@ -287,11 +289,11 @@
       <div class="row" style="margin: 20px">
         <div class="col-md-6 panel-body" align="center">
           <span class="glyphicon glyphicon-heart-empty textmuted"
-                title="following" style="font-size: large; size: 150%"><br><br>关注：${targetUser.following}</span>
+                title="following" style="font-size: large;"><br><br>关注：${targetUser.following}</span>
         </div>
         <div class="col-md-6 panel-body" align="center">
           <span class="glyphicon glyphicon-heart textmuted"
-                title="follower" style="font-size: large; size: 150%"><br><br>被关注：${targetUser.follower}</span>
+                title="follower" style="font-size: large;"><br><br>被关注：${targetUser.follower}</span>
         </div>
       </div>
     </div>
