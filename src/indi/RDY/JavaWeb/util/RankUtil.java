@@ -69,6 +69,10 @@ public class RankUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return ranks;
+        if (ranks.size() < 30) {
+            return ranks;
+        } else {
+            return ranks.subList(0, 30);
+        }
     }
 }
