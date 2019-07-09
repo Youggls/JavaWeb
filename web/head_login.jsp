@@ -65,9 +65,9 @@
           <ul class="dropdown-menu">
             <li><a>用户</a></li>
             <li class="divider"></li>
-            <li><a href="rank_deliver.jsp" target="_blank">发帖数排行</a></li>
-            <li><a href="rank_reply.jsp" target="_blank">回复数排行</a></li>
-            <li><a href="rank_time.jsp" target="_blank">注册时间排行</a></li>
+            <li><a href="rank.jsp?ranktype=post" target="_blank">发帖数排行</a></li>
+            <li><a href="rank.jsp?ranktype=floor" target="_blank">回复数排行</a></li>
+            <li><a href="rank.jsp?ranktype=registertime" target="_blank">注册时间排行</a></li>
           </ul>
         </li>
       </ul>
