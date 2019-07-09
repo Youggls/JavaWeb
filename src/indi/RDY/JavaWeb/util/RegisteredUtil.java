@@ -74,7 +74,6 @@ public class RegisteredUtil {
             pstat.setString(1, nickName);
             pstat.setString(2, pwd);
             pstat.setTimestamp(3, date);
-            System.out.println(date);
             pstat.execute();
             sql = "SELECT id FROM user WHERE nickname = ?";
             pstat = conn.prepareStatement(sql);

@@ -93,6 +93,13 @@
   if (targetUser.getPhotoUrl() == null) {
     targetUser.setPhotoUrl("img/default_profile_photo.jpg");
   }
+
+  boolean isAdmin = localUser != null && localUser.getType() == User.ADMIN;
+  boolean isOperator = localUser != null && localUser.getType() == User.OPERATOR;
+
+  if (!same && login) {
+
+  }
   conn.close();
 %>
 <div>
@@ -143,6 +150,11 @@
           <button id="follow" class="btn btn-default right" style="background-color: #286090;color: #FFFFFF">
             关注
           </button>
+          <%if (isOperator) {%>
+          <button id="delete" class="btn btn-default right" style="background-color: red;color: white">
+            删除用户
+          </button>
+          <%}%>
           <%}%>
         </div>
       </div>
@@ -338,6 +350,20 @@
     }
 
     document.getElementById("follow").addEventListener("click", submit);
+    document.getElementById("delete").addEventListener("click", deleteUser);
+    function deleteUser() {
+        if(confirm("确认删除吗？该操作不可逆")) {
+            var XML = new XMLHttpRequest();
+            var deleteFormData = new FormData();
+            deleteFormData.append("type", "user");
+            deleteFormData.append("id", "${targetUser.id}");
+            $.post("/JavaWeb/Delete", {'type':"user", 'id':"${targetUser.id}", "nickname" : "${localUser.nickName}"});
+        } else {
+
+        }
+    }
+
+
 </script>
 </body>
 </html>

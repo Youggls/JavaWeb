@@ -164,7 +164,7 @@
                         %>
                         <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me" src=${currentUser.photoUrl}>
                         <span style="font-size: x-large;margin-top: 5px;height: 30px;font-weight: 900">&nbsp;&nbsp;${currentUser.nickName}:&nbsp;${post.postName}</span><br><br>
-                        <span style="margin-top: 30px; font-size: medium">${post.text}</span>
+                        <span style="margin-top: 30px; font-size: medium">${post.content}</span>
                     </div>
                     <hr/>
                     <%

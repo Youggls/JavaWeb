@@ -102,7 +102,8 @@
   pageContext.setAttribute("currentUserId", currentUserId);
   pageContext.setAttribute("currentUser", current);
 %>
-<div class="col-md-8">
+<div class="col-md-1"></div>
+<div class="col-md-7">
   <div class="container-fluid">
     <div class="row">
       <!-- 内容面板 -->
@@ -119,13 +120,9 @@
                 <ul class="dropdown-menu">
                   <li><a href="#">按时间排序</a></li>
                   <li><a href="#">按热度排序</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">预留分离的链接test</a></li>
                 </ul>
               </li>
               <li><a href="${pageContext.request.contextPath}/follow.jsp">关注</a></li>
-              <li><a href="#">xx</a></li>
-              <li><a href="#">xx</a></li>
             </ul>
           </div>
         </nav>
@@ -143,7 +140,7 @@
               String postUrl = "/JavaWeb/post_view.jsp?postid=" + post.getId();
               pageContext.setAttribute("posturl", postUrl);
             %>
-            <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
+            <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900;"
                href=${posturl}>${post.postName}</a><br>
             <span style="margin-top: 30px">${currentUser.nickName}：&nbsp;&nbsp;${post.text}</span>
           </div>
@@ -154,7 +151,7 @@
     </div>
   </div>
 </div>
-<div class="col-md-4">
+<div class="col-md-3">
   <div class="container-fluid">
     <div class="row">
       <!-- 内容面板 -->
@@ -176,5 +173,6 @@
     </div>
   </div>
 </div>
+<div class="col-md-1"></div>
 </body>
 </html>
