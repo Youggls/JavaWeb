@@ -92,8 +92,8 @@
     pageContext.setAttribute("currentUserId", currentUserId);
     pageContext.setAttribute("currentUser", current);
 %>
-<div class="col-md-3"></div>
-<div class="col-md-4">
+<div class="col-md-1"></div>
+<div class="col-md-9">
     <div class="container-fluid">
         <div class="row">
             <!-- 内容面板 -->
@@ -173,29 +173,14 @@
         </div>
     </div>
 </div>
-<div class="col-md-2">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- 内容面板 -->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <ul>
-                        <li><a href="create_post.jsp" class="glyphicon glyphicon-edit" title="Edit"><br>发帖</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <!-- 内容面板 -->
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    test
-                </div>
-            </div>
+<div class="col-md-1">
+    <div class="row panel panel-default">
+        <div class="panel-body" align="center">
+            <a href="create_post.jsp" class="glyphicon glyphicon-edit" title="Edit" style="font-size: medium"><br>发帖</a>
         </div>
     </div>
 </div>
-<div class="col-md-5"></div>
+<div class="col-md-1"></div>
 </body>
 </html>
 
