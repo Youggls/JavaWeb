@@ -201,7 +201,7 @@
             pageContext.setAttribute("title", post.getPostName());
             String detail = targetUser.getNickName() + "：发表了帖子";
             pageContext.setAttribute("detail", detail);
-            pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + post.getId());
+            pageContext.setAttribute("postUrl", "/JavaWeb/post_view.jsp?postid=" + post.getId());
           } else if (text.getClass() == Floor.class) {
             Floor floor = (Floor) text;
             String sql = "SELECT post_name FROM post WHERE post_id = ?";
@@ -216,7 +216,7 @@
               String detail = targetUser.getNickName() + "：发表了评论";
               pageContext.setAttribute("title", postName);
               pageContext.setAttribute("detail", detail);
-              pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + floor.getParentPostId());
+              pageContext.setAttribute("postUrl", "/JavaWeb/post_view.jsp?postid=" + floor.getParentPostId());
             } catch (SQLException e) {
               e.printStackTrace();
             }

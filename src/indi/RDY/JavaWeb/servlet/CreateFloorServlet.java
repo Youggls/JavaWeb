@@ -20,7 +20,7 @@ public class CreateFloorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //这里只是先这样获取，具体如何获取需要看前端
-        String floorContent = new String(req.getParameter("content").getBytes(ISO_8859_1), UTF_8);
+        String floorContent = req.getParameter("content");
         int parentPostId = Integer.parseInt(req.getParameter("parentPostId"));
         Connection conn = DbUtil.getConnection();
         int floorNum = 0;
