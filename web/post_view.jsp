@@ -223,17 +223,10 @@
                             </div>
                             <%}%>
                         </div>
-<<<<<<< HEAD
                         <div id="input-${floor.floorNum}" class="input-group col-md-8 col-md-offset-2 hidden">
                             <input id="input1-${floor.floorNum}" type="text" class="form-control" data-reply="">
                             <span name="submitbutton" class="input-group-btn">
                                 <button class="btn btn-default" type="button" onclick="submitComment(this, ${floor.floorNum})">提交</button>
-=======
-                        <div class="input-group col-md-8 col-md-offset-2 hidden">2
-                            <input type="text" class="form-control">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">提交</button>
->>>>>>> e4207f7d95fa5870c8b2bdb228410a077c824de4
                                 </span>
                         </div>
                     </div>
@@ -306,7 +299,6 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
 <script>
     function comment(tag, floorNum, parentId) {
         floorNum = parseInt(floorNum);
@@ -329,8 +321,5 @@
         }
     }
 </script>
-=======
-
->>>>>>> e4207f7d95fa5870c8b2bdb228410a077c824de4
 </body>
 </html>
