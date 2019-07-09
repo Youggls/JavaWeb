@@ -12,7 +12,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="indi.RDY.JavaWeb.bean.*" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="javafx.geometry.Pos" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -21,10 +20,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页——JavaWeb论坛</title>
-    <%--<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap-responsive.css">--%>
-    <%--<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">--%>
-    <%--<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>--%>
-    <%--<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <script src="${pageContext.request.contextPath}/jquery-2.1.1/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -112,26 +107,6 @@
     pageContext.setAttribute("currentUserId", currentUserId);
     pageContext.setAttribute("currentUser", current);
 %>
-<%--
-    Post post = null;
-    conn = DbUtil.getConnection();
-    String sql = "SELECT * FROM post WHERE post_id = ?";
-    try {
-        PreparedStatement search = conn.prepareStatement(sql);
-        search.setInt(1, postId);
-        search.execute();
-        ResultSet rs = search.getResultSet();
-        rs.next();
-        post = new Post(rs.getInt(1),
-                rs.getInt(2),
-                rs.getString(3),
-                rs.getString(4),
-                rs.getTimestamp(5));
-        conn.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
---%>
 
 <div class="col-md-10 col-md-offset-1">
     <div class="container-fluid">
@@ -215,7 +190,7 @@
                                         <button type="button" class="btn btn-light btn-sm dropdown-toggle glyphicon glyphicon-triangle-bottom" id="dropdownMenu1" data-toggle="dropdown"></button>
                                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                             <li role="presentation">
-                                                <a role="menuitem" tabindex="-1" onclick="this" class="glyphicon glyphicon-pencil" title="Back">回复</a>
+                                                <a role="menuitem" tabindex="-1" onclick="comment(this, ${floor.floorNum}, '-1')" class="glyphicon glyphicon-pencil" title="Back">回复</a>
                                             </li>
                                             <li role="presentation">
                                                 <a role="menuitem" tabindex="-1" onclick="this" class="glyphicon glyphicon-trash" title="Delete">删除</a>
@@ -233,7 +208,7 @@
                                     pageContext.setAttribute("comment", comment);
                             %>
                             <div class="panel-body col-md-10 col-md-offset-1" style="background-color:rgba(191, 191, 191,0.5);">
-                                <div id="${comment.id}">
+                                <div id="comment-${comment.id}">
                                     <%
                                         conn = DbUtil.getConnection();
                                         currentUser = SearchUtil.searchUser(comment.getUserId(), conn).get(0);
@@ -242,15 +217,15 @@
                                     %>
                                     <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 30px; height:30px;" alt="Me" src=${currentUser.photoUrl}>
                                     <span style="margin-top: 30px; font-size: small">${comment.content}</span>
-                                    <a onclick="this" class="glyphicon glyphicon-pencil" title="Back" style="float: right">回复</a>
+                                    <a onclick="comment(this, ${floor.floorNum}, ${floor.id})" class="glyphicon glyphicon-pencil" title="Back" style="float: right">回复</a>
                                 </div>
                             </div>
                             <%}%>
                         </div>
-                        <div class="input-group col-md-8 col-md-offset-2 hidden">
-                            <input type="text" class="form-control">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">提交</button>
+                        <div id="input-${floor.floorNum}" class="input-group col-md-8 col-md-offset-2 hidden">
+                            <input id="input1-${floor.floorNum}" type="text" class="form-control" data-reply="">
+                            <span name="submitbutton" class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="submitComment(this, ${floor.floorNum})">提交</button>
                                 </span>
                         </div>
                     </div>
@@ -262,5 +237,27 @@
         </div>
     </div>
 </div>
+<script>
+    function comment(tag, floorNum, parentId) {
+        floorNum = parseInt(floorNum);
+        parentId = parseInt(parentId);
+        console.log("input-" + floorNum);
+        var inputDiv = document.getElementById("input-" + floorNum);
+        var input = document.getElementById("input1-" + floorNum);
+        inputDiv.setAttribute("class", "input-group col-md-8 col-md-offset-2");
+        input.setAttribute("data-reply", "" + parentId);
+        console.log(input.getAttribute("data-reply"))
+    }
+    function submitComment(tag, floorNum) {
+        console.log("submit click");
+        var input = tag.parentNode.previousElementSibling;
+        var parentId = input.getAttribute("data-reply");
+        console.log(parentId);
+        var content = input.value;
+        if (content === undefined) {
+            alert("请输入内容！");
+        }
+    }
+</script>
 </body>
 </html>
