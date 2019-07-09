@@ -167,7 +167,7 @@
                   <button type="button"
                           class="btn btn-warning btn-xs dropdown-toggle glyphicon glyphicon-trash"
                           id="dropdownMenu" data-toggle="dropdown"
-                          onclick="this"></button>
+                          onclick="deletePost('${post.id}', '${user.nickName}')"></button>
                 </li>
               </ul>
             </div>
@@ -396,15 +396,31 @@
             "id": "" + floorId,
             "nickname": "" + nickName
         }, function (data) {
-            console.log(data);
             if (data === "true") {
                 alert("操作成功！");
-                location.reload(true);
+                location.reload(true)
             } else {
                 alert("操作失败，请检查您的权限");
                 location.reload(true);
             }
         });
+    }
+
+    function deletePost(postId, nickName) {
+        console.log(postId + ":" + nickName);
+        $.post("/JavaWeb/Delete",{
+            "type": "post",
+            "id": "" + postId,
+            "nickname": "" + nickName
+        }, function (data) {
+            if (data === "true") {
+                alert("操作成功！");
+                window.location.href = "/JavaWeb/main.jsp";
+            } else {
+                alert("操作失败，请检查您的权限");
+                location.reload(true);
+            }
+        })
     }
 
 </script>

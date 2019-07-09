@@ -13,7 +13,7 @@ import java.util.Map;
 public class DeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+
     }
 
     @Override
@@ -74,6 +74,7 @@ public class DeleteServlet extends HttpServlet {
                     resp.getWriter().print("false");
                 }
             } else {
+                System.out.println(type + ":" + requestUserType + ":" + id);
                 if (type.equals("comment")) {
                     sql = "{CALL delete_comment(?)}";
                     sql1 = "SELECT user_id FROM comment WHERE comment_id = ?";
