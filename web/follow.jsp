@@ -163,8 +163,7 @@
                             pageContext.setAttribute("posturl", postUrl);
                             pageContext.setAttribute("detail", detail);
                         %>
-                        <img id="${currentUserId}" class="img-thumbnail"
-                             align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
+                        <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me" src=${currentUser.photoUrl}>
                         <span>${detail}</span><br>
                         <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
                            href=${posturl}>${postname}</a><br>

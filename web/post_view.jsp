@@ -162,8 +162,7 @@
                             conn.close();
                             pageContext.setAttribute("currentUser", currentUser);
                         %>
-                        <img id="${currentUserId}" class="img-thumbnail"
-                             align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
+                        <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me" src=${currentUser.photoUrl}>
                         <span style="font-size: x-large;margin-top: 5px;height: 30px;font-weight: 900">&nbsp;&nbsp;${currentUser.nickName}:&nbsp;${post.postName}</span><br><br>
                         <span style="margin-top: 30px; font-size: medium">${post.text}</span>
                     </div>
@@ -179,8 +178,7 @@
                             pageContext.setAttribute("currentUser", currentUser);
                             conn.close();
                         %>
-                        <img id="${currentUserId}" class="img-thumbnail"
-                             align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
+                        <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me" src=${currentUser.photoUrl}>
                         <span style="margin-top: 30px">&nbsp;${floor.text}</span>
                         <a onclick="this" class="glyphicon glyphicon-pencil" title="Back" style="float: right">回复</a>
                         <%
@@ -190,24 +188,22 @@
                             for (Comment comment : commentContent) {
                                 pageContext.setAttribute("comment", comment);
                         %>
-                        <hr/>
-                        <div id="${comment.id}"  class="col-md-10, col-md-offset-1">
+                        <div class="panel-body col-md-10 col-md-offset-1" style="background-color: #cccccc">
+                            <div id="${comment.id}">
                             <%
                                 conn = DbUtil.getConnection();
                                 currentUser = SearchUtil.searchUser(comment.getUserId(), conn).get(0);
                                 pageContext.setAttribute("currentUser", currentUser);
                                 conn.close();
                             %>
-                            <img id="${currentUserId}" class="img-thumbnail"
-                                 align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
+                            <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 30px; height:30px;" alt="Me" src=${currentUser.photoUrl}>
                             <span style="margin-top: 30px; font-size: small">&nbsp;${comment.text}</span>
                             <a onclick="this" class="glyphicon glyphicon-pencil" title="Back" style="float: right">回复</a>
                         </div>
-
+                        </div>
                         <%}%>
                     </div>
-                    <br>
-                    <div class="input-group col-md-10, col-md-offset-1">
+                    <div class="input-group col-md-10 col-md-offset-1">
                         <input type="text" class="form-control">
                         <span class="input-group-btn">
                                 <button class="btn btn-default" type="button">提交</button>
