@@ -50,7 +50,7 @@
         <div class="col-md-10" style="margin-top: 100px;white-space:nowrap" align="left">
             <div id="photo_and_upload">
                 <img id="photo" class="img-responsive img-thumbnail img-circle"
-                     align="center" width="160px" height="160px" alt="Me" onclick="fileSelect()" src=${user.photoUrl}>
+                     align="center" style="width: 160px; height: 160px; overflow: hidden" alt="Me" onclick="fileSelect()" src=${user.photoUrl}>
                 <h1 style="display: inline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${user.nickName}</h1>
             </div>
 

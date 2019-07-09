@@ -124,7 +124,7 @@
         <div class="col-md-2" align="center">
           <br>
           <img id="photo" class="img-responsive img-thumbnail img-circle"
-               align="center" width="160px" height="160px" alt="Me" src=${targetUser.photoUrl}>
+               align="center" style="width: 160px; height: 160px; overflow: hidden" alt="Me" src=${targetUser.photoUrl}>
           <br>
         </div>
         <div class="col-md-7">
@@ -284,17 +284,15 @@
       </div>
     </div>
     <div class="col-md-4 panel panel-default">
-      <div class="row">
-        <ul class="inoneline">
-          <li class="panel-body inoneline">
-            <span class="glyphicon glyphicon-heart-empty textmuted"
-                  title="following" style="font-size: x-small">关注：${targetUser.following}</span>
-          </li>
-          <li class="panel-body inoneline">
-            <span class="glyphicon glyphicon-heart textmuted"
-                  title="follower" style="font-size: x-small">被关注：${targetUser.follower}</span>
-          </li>
-        </ul>
+      <div class="row" style="margin: 20px">
+        <div class="col-md-6 panel-body" align="center">
+          <span class="glyphicon glyphicon-heart-empty textmuted"
+                title="following" style="font-size: large; size: 150%"><br><br>关注：${targetUser.following}</span>
+        </div>
+        <div class="col-md-6 panel-body" align="center">
+          <span class="glyphicon glyphicon-heart textmuted"
+                title="follower" style="font-size: large; size: 150%"><br><br>被关注：${targetUser.follower}</span>
+        </div>
       </div>
     </div>
   </div>
