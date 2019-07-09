@@ -13,7 +13,7 @@ import java.util.Map;
 public class DeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+
     }
 
     @Override
@@ -21,7 +21,6 @@ public class DeleteServlet extends HttpServlet {
         String type = req.getParameter("type");
 
         int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println(type + "=" + id);
         String nickname = req.getParameter("nickname");
         Connection conn = DbUtil.getConnection();
         User requestUser = SearchUtil.searchUser(nickname, conn).get(0);
@@ -31,14 +30,51 @@ public class DeleteServlet extends HttpServlet {
             String sql = "";
             String sql1 = "";
             if (type.equals("user")) {
-                sql = "DELETE FROM user WHERE id=?";
-                System.out.println(id);
-                PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setInt(1, id);
-                preparedStatement.executeUpdate();
-                resp.sendRedirect("/JavaWeb/main.jsp");
-                return;
+                if (requestUserType >= User.OPERATOR) {
+                    sql = "SELECT post_id FROM post WHERE user_id = ?";
+                    PreparedStatement delete = conn.prepareStatement(sql);
+                    delete.setInt(1, id);
+                    delete.execute();
+                    ResultSet rs = delete.getResultSet();
+                    sql = "{CALL delete_post(?)}";
+                    PreparedStatement p = conn.prepareStatement(sql);
+                    while (rs.next()) {
+                        p.setInt(1, rs.getInt(1));
+                        p.executeUpdate();
+                    }
+                    sql = "SELECT floor_id FROM floor WHERE user_id = ?";
+                    delete = conn.prepareStatement(sql);
+                    delete.setInt(1, id);
+                    delete.execute();
+                    rs = delete.getResultSet();
+                    sql = "{CALL delete_floor(?)}";
+                    p = conn.prepareStatement(sql);
+                    while (rs.next()) {
+                        p.setInt(1, rs.getInt(1));
+                        p.executeUpdate();
+                    }
+                    sql = "SELECT comment_id FROM comment WHERE user_id = ?";
+                    delete = conn.prepareStatement(sql);
+                    delete.setInt(1, id);
+                    delete.execute();
+                    rs = delete.getResultSet();
+                    sql = "{CALL delete_comment(?)}";
+                    p = conn.prepareStatement(sql);
+                    while (rs.next()) {
+                        p.setInt(1, rs.getInt(1));
+                        p.executeUpdate();
+                    }
+                    sql = "DELETE FROM user WHERE id =";
+                    p = conn.prepareStatement(sql);
+                    p.setInt(1, id);
+                    p.executeUpdate();
+                    resp.getWriter().print("true");
+                    return;
+                } else {
+                    resp.getWriter().print("false");
+                }
             } else {
+                System.out.println(type + ":" + requestUserType + ":" + id);
                 if (type.equals("comment")) {
                     sql = "{CALL delete_comment(?)}";
                     sql1 = "SELECT user_id FROM comment WHERE comment_id = ?";
@@ -55,6 +91,7 @@ public class DeleteServlet extends HttpServlet {
                     CallableStatement callableStatement = conn.prepareCall(sql);
                     callableStatement.setInt(1, id);
                     callableStatement.executeUpdate();
+                    resp.getWriter().print("true");
                 } else {
                     PreparedStatement search = conn.prepareCall(sql1);
                     search.setInt(1, id);
@@ -68,15 +105,14 @@ public class DeleteServlet extends HttpServlet {
                         CallableStatement callableStatement = conn.prepareCall(sql);
                         callableStatement.setInt(1, id);
                         callableStatement.executeUpdate();
+                        resp.getWriter().print("true");
                     } else {
-                        resp.sendRedirect("/JavaWeb/error.jsp");
+                        resp.getWriter().print("false");
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        resp.sendRedirect("/JavaWeb/main.jsp");
     }
-
 }

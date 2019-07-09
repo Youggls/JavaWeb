@@ -167,7 +167,7 @@
                   <button type="button"
                           class="btn btn-warning btn-xs dropdown-toggle glyphicon glyphicon-trash"
                           id="dropdownMenu" data-toggle="dropdown"
-                          onclick="this"></button>
+                          onclick="deletePost('${post.id}', '${user.nickName}')"></button>
                 </li>
               </ul>
             </div>
@@ -205,21 +205,25 @@
                   <span style="font-size: small; color: #8c8c8c">#${floor.floorNum}</span>
                 </li>
                 <li class="inoneline">
+                  <%if (login) {%>
                   <div class="dropdown inoneline">
-                    <button type="button"
-                            class="btn btn-light btn-sm dropdown-toggle glyphicon glyphicon-triangle-bottom"
-                            id="dropdownMenu1" data-toggle="dropdown"></button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                      <li role="presentation">
-                        <a role="menuitem" tabindex="-1" onclick="comment(this, ${floor.id}, '-1')"
-                           class="glyphicon glyphicon-pencil" title="Back">回复</a>
-                      </li>
-                      <li role="presentation">
-                        <a role="menuitem" tabindex="-1" onclick="this" class="glyphicon glyphicon-trash"
-                           title="Delete">删除</a>
+                        <button type="button"
+                                class="btn btn-light btn-sm dropdown-toggle glyphicon glyphicon-triangle-bottom"
+                                id="dropdownMenu1" data-toggle="dropdown"></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                          <li role="presentation">
+                            <a role="menuitem" tabindex="-1" onclick="comment(this, ${floor.id}, '-1')"
+                               class="glyphicon glyphicon-pencil" title="Back">回复</a>
+                          </li>
+                          <li role="presentation">
+
+                            <a role="menuitem" tabindex="-1" onclick="deleteFloor('${floor.id}', '${user.nickName}')" class="glyphicon glyphicon-trash"
+                               title="Delete">删除</a>
+
                       </li>
                     </ul>
                   </div>
+                  <%}%>
                 </li>
               </ul>
               <br>
@@ -284,8 +288,10 @@
                     <span style="margin-top: 30px; font-size: small">${currentUser.nickName} 回复 ${targetUser.nickName}"${targetComment.content}"：${comment.content}</span>
                   </c:if>
                   <%}%>
+                  <%if (login) {%>
                   <a onclick="comment(this, ${floor.id}, ${comment.id})" class="glyphicon glyphicon-pencil"
                      title="Back" style="float: right; font-size: x-small">回复</a>
+                  <%}%>
                 </div>
                 <span style="font-size: x-small; color: #8c8c8c; float: right"><fmt:formatDate value="${comment.time}"
                                                                                                pattern="yyyy-MM-dd HH:mm:ss"/></span>
@@ -308,6 +314,7 @@
             <div id="tool-bar" class="tool-bar"></div>
             <%--<div class="col-md-1"></div>--%>
             <hr/>
+            <%if (login) {%>
             <div id="editor" class="editor" style="margin-bottom: 10px;-webkit-scrollbar: none"></div>
             <div style="text-align: center;">
               <button id="follow" type="button" class="btn btn-primary"
@@ -336,29 +343,10 @@
                                 location.reload(true);
                             }
                         });
-                        <%--var myForm = document.createElement("form");--%>
-                        <%--var content = editor.txt.html();--%>
-                        <%--var params = {--%>
-                            <%--"content": content,--%>
-                            <%--"userId": "${user.id}",--%>
-                            <%--"parentPostId": "${post.id}"--%>
-                        <%--};--%>
-                        <%--myForm.method = "post";--%>
-                        <%--myForm.action = "/JavaWeb/CreateFloor";--%>
-                        <%--myForm.style.display = "none";--%>
-
-                        <%--for (var k in params) {--%>
-                            <%--var myInput = document.createElement("input");--%>
-                            <%--myInput.name = k;--%>
-                            <%--myInput.value = params[k];--%>
-                            <%--myForm.appendChild(myInput);--%>
-                        <%--}--%>
-                        <%--document.body.appendChild(myForm);--%>
-                        <%--myForm.submit();--%>
-                        <%--return myForm;--%>
                     }
                 }, false);
             </script>
+            <%}%>
           </div>
         </div>
 
@@ -388,9 +376,10 @@
                 "nickname": "${user.nickName}",
                 "rootFloorId": "" + floor_id,
                 "preCommentId": "" + parentId,
-                "content": content,
+                "content": content
             }, function (data) {
-                if (data==="true") {
+                console.log(data);
+                if (data === "true") {
                     alert("评论成功！");
                     location.reload(true);
                 } else {
@@ -401,24 +390,39 @@
         }
     }
 
+    function deleteFloor(floorId, nickName) {
+        $.post("/JavaWeb/Delete", {
+            "type": "floor",
+            "id": "" + floorId,
+            "nickname": "" + nickName
+        }, function (data) {
+            if (data === "true") {
+                alert("操作成功！");
+                location.reload(true)
+            } else {
+                alert("操作失败，请检查您的权限");
+                location.reload(true);
+            }
+        });
+    }
+
+    function deletePost(postId, nickName) {
+        console.log(postId + ":" + nickName);
+        $.post("/JavaWeb/Delete",{
+            "type": "post",
+            "id": "" + postId,
+            "nickname": "" + nickName
+        }, function (data) {
+            if (data === "true") {
+                alert("操作成功！");
+                window.location.href = "/JavaWeb/main.jsp";
+            } else {
+                alert("操作失败，请检查您的权限");
+                location.reload(true);
+            }
+        })
+    }
+
 </script>
-<%
-    Comment targetComment = null;
-    int preCommentId = 0;
-    Connection connection = DbUtil.getConnection();
-    String searchComment = "SELECT * FROM comment WHERE comment_id = ?";
-    PreparedStatement prepared = conn.prepareStatement(searchComment);
-    prepared.setInt(1, preCommentId);
-    prepared.execute();
-    ResultSet rs = prepared.getResultSet();
-    rs.next();
-    targetComment = new Comment(rs.getInt(1),
-            rs.getInt(2),
-            rs.getInt(3),
-            rs.getInt(4),
-            rs.getString(5),
-            rs.getTimestamp(6),
-            rs.getBoolean(7));
-%>
 </body>
 </html>
