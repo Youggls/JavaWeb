@@ -102,7 +102,6 @@ abstract public class SearchUtil {
     public static List<Comment> searchCommentByUser(int user_id, Connection conn) {
         List<Comment> comments = new ArrayList<>();
         String sql = "{call search_comment_by_user(?)}";
-        String content;
         return addCommentsToList(user_id, comments, sql, conn);
     }
 
@@ -155,7 +154,6 @@ abstract public class SearchUtil {
     }
 
     public static List<Post> searchPostByTitle(String title, Connection conn) {
-        System.out.println(title);
         List<Post> posts = new ArrayList<>();
         String sql = "{call search_post_by_postname(?)}";
         return addPostToList(title, posts, sql, conn);
@@ -192,14 +190,12 @@ abstract public class SearchUtil {
             String phone = rs.getString("phone");
             int following = rs.getInt("following_num");
             int follower = rs.getInt("follower_num");
-            //System.out.println(address);
             User user = new User(id, nickName, profilePhoto, registeredTime, type, gender, address, email, phone, follower, following);
             users.add(user);
         }
     }
 
     private static List<Post> addPostToList(String content, List<Post> posts, String sql, Connection conn) {
-        System.out.println(content);
         try {
             CallableStatement search = conn.prepareCall(sql);
             search.setString(1, content);

@@ -94,7 +94,6 @@
       }
     } else if (type.equals("floor")) {
       List<Map.Entry<Integer, Integer>> ranks = RankUtil.rankByFloor();
-      System.out.println(ranks.size());
       for (Map.Entry<Integer, Integer> user_rank : ranks) {
         int user_id = user_rank.getKey();
         int post_num = user_rank.getValue();

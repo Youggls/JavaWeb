@@ -62,6 +62,10 @@
         <servlet-name>Follow</servlet-name>
         <servlet-class>indi.RDY.JavaWeb.servlet.FollowServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Delete</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.DeleteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>image</servlet-name>
         <url-pattern>/Image</url-pattern>
@@ -101,5 +105,9 @@
     <servlet-mapping>
         <servlet-name>Follow</servlet-name>
         <url-pattern>/Follow</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Delete</servlet-name>
+        <url-pattern>/Delete</url-pattern>
     </servlet-mapping>
 </web-app>

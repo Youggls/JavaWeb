@@ -30,7 +30,6 @@ public class SortByTimeLine {
                 String content = rs.getString("content");
                 Timestamp time = rs.getTimestamp(5);
                 Post p = new Post(postId, userId, postName, content, time);
-                System.out.println(p.getPostName());
                 posts.add(p);
             }
             conn.close();

@@ -20,7 +20,6 @@ public class LogInUtil {
 
     //If login failed will return null pointer
     public User login(HttpServletResponse resp, HttpServletRequest req) throws IOException {
-        System.out.println("Login called!");
         Cookie[] cookies = req.getCookies();
         User user = null;
         String photoUrl = "";
@@ -31,7 +30,6 @@ public class LogInUtil {
             PreparedStatement login = conn.prepareStatement("SELECT * FROM user WHERE nickname = ? AND password = ?");
             nickName = new String(req.getParameter("nickname").getBytes(StandardCharsets.ISO_8859_1), UTF_8);
             password = req.getParameter("password");
-            System.out.println("get from the post is: " + nickName + " " + password);
             //decodePassword();
             login.setString(1, nickName);
             login.setString(2, password);
@@ -40,8 +38,6 @@ public class LogInUtil {
 
             String info;
             if (rs.next()) {
-                //Login succeed!
-                System.out.println("Get the info from database!");
                 info = "User: [" + nickName + "] successfully login!";
                 Cookie cookie = new Cookie("nickname", nickName);
                 cookie.setPath("/");
