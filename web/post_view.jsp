@@ -168,10 +168,10 @@
                         <div class="col-md-1">
                             <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me" src=${currentUser.photoUrl}><br>
                             <span class="glyphicon glyphicon-user textmuted"
-                                  title="Sex" style="font-size: x-small">${currentUser.gender}</span><br>
-                            <span class="glyphicon glyphicon-user textmuted"
+                                  title="nickname" style="font-size: x-small">${currentUser.nickName}</span><br>
+                            <span class="glyphicon glyphicon-heart-empty textmuted"
                                   title="following" style="font-size: x-small">关注：${currentUser.following}</span><br>
-                            <span class="glyphicon glyphicon-user textmuted"
+                            <span class="glyphicon glyphicon-heart textmuted"
                                         title="follower" style="font-size: x-small">被关注：${currentUser.follower}</span>
 
                         </div>
@@ -195,10 +195,10 @@
                         <div class="col-md-1">
                             <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 40px; height:40px;" alt="Me" src=${currentUser.photoUrl}>
                             <span class="glyphicon glyphicon-user textmuted"
-                                  title="Sex" style="font-size: x-small">${currentUser.gender}</span><br>
-                            <span class="glyphicon glyphicon-user textmuted"
+                                  title="nickname" style="font-size: x-small">${currentUser.nickName}</span><br>
+                            <span class="glyphicon glyphicon-heart-empty textmuted"
                                   title="following" style="font-size: x-small">关注：${currentUser.following}</span><br>
-                            <span class="glyphicon glyphicon-user textmuted"
+                            <span class="glyphicon glyphicon-heart textmuted"
                                   title="follower" style="font-size: x-small">被关注：${currentUser.follower}</span>
                         </div>
                         <div class="col-md-11">
