@@ -141,12 +141,15 @@
               pageContext.setAttribute("post", post);
               conn = DbUtil.getConnection();
               User currentUser = SearchUtil.searchUser(post.getUserId(), conn).get(0);
+              String postUrl;
+              postUrl= "/JavaWeb/profile.jsp?nickname=" + currentUser.getNickName();
+              pageContext.setAttribute("posturl", postUrl);
               conn.close();
               pageContext.setAttribute("currentUser", currentUser);
             %>
             <div class="col-md-1">
-              <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me"
-                   src=${currentUser.photoUrl}><br>
+              <a href="${posturl}"><img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me"
+                    src=${currentUser.photoUrl}></a><br>
               <span class="glyphicon glyphicon-user textmuted"
                     title="nickname" style="font-size: x-small">${currentUser.nickName}</span><br>
               <span class="glyphicon glyphicon-heart-empty textmuted"
@@ -181,12 +184,14 @@
             <%
               conn = DbUtil.getConnection();
               currentUser = SearchUtil.searchUser(floor.getUserId(), conn).get(0);
+              postUrl= "/JavaWeb/profile.jsp?nickname=" + currentUser.getNickName();
+              pageContext.setAttribute("posturl", postUrl);
               pageContext.setAttribute("currentUser", currentUser);
               conn.close();
             %>
             <div class="col-md-1">
-              <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 40px; height:40px;" alt="Me"
-                   src=${currentUser.photoUrl}>
+              <a href="${posturl}"><img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 40px; height:40px;" alt="Me"
+                   src=${currentUser.photoUrl}></a>
               <span class="glyphicon glyphicon-user textmuted"
                     title="nickname" style="font-size: x-small">${currentUser.nickName}</span><br>
               <span class="glyphicon glyphicon-heart-empty textmuted"
@@ -240,11 +245,13 @@
                   <%
                     conn = DbUtil.getConnection();
                     currentUser = SearchUtil.searchUser(comment.getUserId(), conn).get(0);
+                    postUrl= "/JavaWeb/profile.jsp?nickname=" + currentUser.getNickName();
+                    pageContext.setAttribute("posturl", postUrl);
                     pageContext.setAttribute("currentUser", currentUser);
                     conn.close();
                   %>
-                  <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 30px; height:30px;"
-                       alt="Me" src=${currentUser.photoUrl}>
+                  <a href="${posturl}"><img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 30px; height:30px;"
+                                            alt="Me" src=${currentUser.photoUrl}></a>
                   <%
                       if (comment.getPreCommentId() == -1) {
                   %>

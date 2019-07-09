@@ -103,73 +103,49 @@
   pageContext.setAttribute("currentUser", current);
 %>
 <div class="col-md-1"></div>
-<div class="col-md-7">
-  <div class="container-fluid">
-    <div class="row">
-      <!-- 内容面板 -->
-      <div class="panel panel-default">
-        <!-- 导航栏 -->
-        <nav class="navbar navbar-default" role="navigation">
-          <div>
-            <ul class="nav navbar-nav">
-              <li class="dropdown active">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  推荐
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">按时间排序</a></li>
-                  <li><a href="#">按热度排序</a></li>
-                </ul>
-              </li>
-              <li><a href="${pageContext.request.contextPath}/follow.jsp">关注</a></li>
-            </ul>
-          </div>
-        </nav>
-        <div class="panel-body">
-          <%
-            for (Post post : content) {
-              pageContext.setAttribute("post", post);
-          %>
-          <div id="${post.id}">
-            <%
-              conn = DbUtil.getConnection();
-              User currentUser = SearchUtil.searchUser(post.getUserId(), conn).get(0);
-              conn.close();
-              pageContext.setAttribute("currentUser", currentUser);
-              String postUrl = "/JavaWeb/post_view.jsp?postid=" + post.getId();
-              pageContext.setAttribute("posturl", postUrl);
-            %>
-            <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900;"
-               href=${posturl}>${post.postName}</a><br>
-            <span style="margin-top: 30px">${currentUser.nickName}：&nbsp;&nbsp;${post.text}</span>
-          </div>
-          <hr/>
-          <%}%>
+<div class="col-md-9">
+  <div class="row">
+    <!-- 内容面板 -->
+    <div class="panel panel-default">
+      <!-- 导航栏 -->
+      <nav class="navbar navbar-default" role="navigation">
+        <div>
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="main.jsp">推荐</a>
+            </li>
+            <li><a href="${pageContext.request.contextPath}/follow.jsp">关注</a></li>
+          </ul>
         </div>
+      </nav>
+      <div class="panel-body">
+        <%
+          for (Post post : content) {
+            pageContext.setAttribute("post", post);
+        %>
+        <div id="${post.id}">
+          <%
+            conn = DbUtil.getConnection();
+            User currentUser = SearchUtil.searchUser(post.getUserId(), conn).get(0);
+            conn.close();
+            pageContext.setAttribute("currentUser", currentUser);
+            String postUrl = "/JavaWeb/post_view.jsp?postid=" + post.getId();
+            pageContext.setAttribute("posturl", postUrl);
+          %>
+          <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900;"
+             href=${posturl}>${post.postName}</a><br>
+          <span style="margin-top: 30px">${currentUser.nickName}：&nbsp;&nbsp;${post.text}</span>
+        </div>
+        <hr/>
+        <%}%>
       </div>
     </div>
   </div>
 </div>
-<div class="col-md-3">
-  <div class="container-fluid">
-    <div class="row">
-      <!-- 内容面板 -->
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <ul>
-            <li><a href="create_post.jsp" class="glyphicon glyphicon-edit" title="Edit"><br>发帖</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <!-- 内容面板 -->
-      <div class="panel panel-default">
-        <div class="panel-body">
-          test
-        </div>
-      </div>
+<div class="col-md-1">
+  <div class="row panel panel-default">
+    <div class="panel-body" align="center">
+      <a href="create_post.jsp" class="glyphicon glyphicon-edit" title="Edit" style="font-size: medium"><br>发帖</a>
     </div>
   </div>
 </div>
