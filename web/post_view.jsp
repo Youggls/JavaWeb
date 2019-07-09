@@ -156,8 +156,20 @@
 
             </div>
             <div class="col-md-11">
-              <span style="font-size: x-large;margin-top: 5px;height: 30px;font-weight: 900">${currentUser.nickName}:&nbsp;${post.postName}</span><br><br>
-              <span style="margin-top: 30px; font-size: medium">${post.content}</span>
+              <ul class="inoneline">
+                <li class="inoneline">
+                  <span style="font-size: x-large;margin-top: 5px;height: 30px;font-weight: 900">${currentUser.nickName}:&nbsp;${post.postName}</span><br><br>
+                </li>
+                <li class="inoneline">
+                  <span style="margin-top: 30px; font-size: medium">${post.content}</span>
+                </li>
+                <li class="inoneline" style="float: right">
+                  <button type="button"
+                          class="btn btn-warning btn-xs dropdown-toggle glyphicon glyphicon-trash"
+                          id="dropdownMenu" data-toggle="dropdown"
+                          onclick="this"></button>
+                </li>
+              </ul>
             </div>
           </div>
           <hr/>
