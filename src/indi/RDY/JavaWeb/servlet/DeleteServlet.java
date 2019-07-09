@@ -36,35 +36,42 @@ public class DeleteServlet extends HttpServlet {
                     delete.setInt(1, id);
                     delete.execute();
                     ResultSet rs = delete.getResultSet();
-                    sql = "{CALL delete_post(?)}";
-                    PreparedStatement p = conn.prepareStatement(sql);
-                    while (rs.next()) {
-                        p.setInt(1, rs.getInt(1));
-                        p.executeUpdate();
+                    PreparedStatement p;
+                    if (rs.getRow() > 0) {
+                        sql = "{CALL delete_post(?)}";
+                        p = conn.prepareStatement(sql);
+                        while (rs.next()) {
+                            p.setInt(1, rs.getInt(1));
+                            p.executeUpdate();
+                        }
                     }
                     sql = "SELECT floor_id FROM floor WHERE user_id = ?";
                     delete = conn.prepareStatement(sql);
                     delete.setInt(1, id);
                     delete.execute();
                     rs = delete.getResultSet();
-                    sql = "{CALL delete_floor(?)}";
-                    p = conn.prepareStatement(sql);
-                    while (rs.next()) {
-                        p.setInt(1, rs.getInt(1));
-                        p.executeUpdate();
+                    if (rs.getRow() > 0) {
+                        sql = "{CALL delete_floor(?)}";
+                        p = conn.prepareStatement(sql);
+                        while (rs.next()) {
+                            p.setInt(1, rs.getInt(1));
+                            p.executeUpdate();
+                        }
                     }
                     sql = "SELECT comment_id FROM comment WHERE user_id = ?";
                     delete = conn.prepareStatement(sql);
                     delete.setInt(1, id);
                     delete.execute();
                     rs = delete.getResultSet();
-                    sql = "{CALL delete_comment(?)}";
-                    p = conn.prepareStatement(sql);
-                    while (rs.next()) {
-                        p.setInt(1, rs.getInt(1));
-                        p.executeUpdate();
+                    if (rs.getRow() > 0) {
+                        sql = "{CALL delete_comment(?)}";
+                        p = conn.prepareStatement(sql);
+                        while (rs.next()) {
+                            p.setInt(1, rs.getInt(1));
+                            p.executeUpdate();
+                        }
                     }
-                    sql = "DELETE FROM user WHERE id =";
+                    sql = "DELETE FROM user WHERE id =?";
                     p = conn.prepareStatement(sql);
                     p.setInt(1, id);
                     p.executeUpdate();
@@ -113,6 +120,7 @@ public class DeleteServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            resp.getWriter().print("false");
         }
     }
 }
