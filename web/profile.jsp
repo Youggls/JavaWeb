@@ -170,18 +170,8 @@
       <div class="container-fluid row panel panel-default">
         <nav class="navbar navbar-default" role="navigation">
           <ul class="nav navbar-nav">
-            <li class="dropdown active">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                动态
-                <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="${pageContext.request.contextPath}/profile.jsp?nickname=${targetUser.nickName}">按时间排序</a>
-                </li>
-                <li><a href="#">按热度排序</a></li>
-                <li class="divider"></li>
-                <li><a href="#">预留分离的链接test</a></li>
-              </ul>
+            <li class="active">
+              <a href="${pageContext.request.contextPath}/profile.jsp?nickname=${targetUser.nickName}">动态</a>
             </li>
             <li>
               <a href="${pageContext.request.contextPath}/profile.jsp?type=post&nickname=${targetUser.nickName}">发帖</a>
