@@ -50,9 +50,15 @@
       border-width: 1px 0;
       margin: 16px 0;
     }
+    .inoneline{
+      display: inline;
+      list-style-type: none;
+      padding: 5px 5px;
+    }
   </style>
 </head>
-<body style="background: url(img/bg.jpg)">
+<body>
+<!-- body style="background: url(img/bg.jpg)" -->
 <%
   User localUser = null;
   Cookie[] cookies = request.getCookies();
@@ -134,10 +140,6 @@
                           title="Mobile"> ${targetUser.phone}</span><br>
               &nbsp;<span class="glyphicon glyphicon-envelope textmuted"
                           title="Email"> ${targetUser.email}</span><br>
-              &nbsp;<span class="glyphicon glyphicon-user textmuted"
-                          title="follower"> 关注者：${targetUser.follower}</span><br>
-              &nbsp;<span class="glyphicon glyphicon-user textmuted"
-                          title="following"> 正在关注：${targetUser.following}</span>
             </address>
           </div>
         </div>
@@ -163,149 +165,137 @@
   <br>
   <div class="row">
     <div class="col-md-8">
-      <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-          <div>
-            <ul class="nav navbar-nav">
-              <li class="dropdown active">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  动态
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="${pageContext.request.contextPath}/profile.jsp?nickname=${targetUser.nickName}">按时间排序</a>
-                  </li>
-                  <li><a href="#">按热度排序</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">预留分离的链接test</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="${pageContext.request.contextPath}/profile.jsp?type=post&nickname=${targetUser.nickName}">发帖</a>
-              </li>
-              <li><a href="${pageContext.request.contextPath}/profile.jsp?type=floor&nickname=${targetUser.nickName}">评论</a></li>
-            </ul>
+      <div class="container-fluid row panel panel-default">
+        <nav class="navbar navbar-default" role="navigation">
+          <ul class="nav navbar-nav">
+            <li class="dropdown active">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                动态
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="${pageContext.request.contextPath}/profile.jsp?nickname=${targetUser.nickName}">按时间排序</a>
+                </li>
+                <li><a href="#">按热度排序</a></li>
+                <li class="divider"></li>
+                <li><a href="#">预留分离的链接test</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="${pageContext.request.contextPath}/profile.jsp?type=post&nickname=${targetUser.nickName}">发帖</a>
+            </li>
+            <li><a href="${pageContext.request.contextPath}/profile.jsp?type=floor&nickname=${targetUser.nickName}">评论</a></li>
+          </ul>
+        </nav>
+        <div class="panel-body">
+          <%
+            conn = DbUtil.getConnection();
+            if (request.getParameter("type") == null) {
+              List<TextContainer> texts = SearchUtil.searchTextByUser(targetUser.getId(), conn);
+          %>
+          <%
+            for (TextContainer text : texts) {
+              pageContext.setAttribute("currentText", text);
+              if (text.getClass() == Post.class) {
+                Post post = (Post) text;
+                pageContext.setAttribute("title", post.getPostName());
+                String detail = targetUser.getNickName() + "：发表了帖子";
+                pageContext.setAttribute("detail", detail);
+                pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + post.getId());
+              } else if (text.getClass() == Floor.class) {
+                Floor floor = (Floor) text;
+                String sql = "SELECT post_name FROM post WHERE post_id = ?";
+                PreparedStatement search = null;
+                try {
+                  search = conn.prepareStatement(sql);
+                  search.setInt(1, floor.getParentPostId());
+                  search.execute();
+                  ResultSet rs = search.getResultSet();
+                  rs.next();
+                  String postName = rs.getString(1);
+                  String detail = targetUser.getNickName() + "：发表了评论";
+                  pageContext.setAttribute("title", postName);
+                  pageContext.setAttribute("detail", detail);
+                  pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + floor.getParentPostId());
+                } catch (SQLException e) {
+                  e.printStackTrace();
+                }
+              }
+          %>
+          <div id=${currentText.id}>
+            <span>${detail}</span><br>
+            <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
+               href=${postUrl}>${title}</a><br>
+            <span style="margin-top: 30px">${targetUser.nickName}：&nbsp;&nbsp;${currentText.text}</span>
+            <hr/>
           </div>
-        </div>
-      </nav>
-      <%
-        conn = DbUtil.getConnection();
-        if (request.getParameter("type") == null) {
-          List<TextContainer> texts = SearchUtil.searchTextByUser(targetUser.getId(), conn);
-      %>
-      <%
-        for (TextContainer text : texts) {
-          pageContext.setAttribute("currentText", text);
-          if (text.getClass() == Post.class) {
-            Post post = (Post) text;
-            pageContext.setAttribute("title", post.getPostName());
-            String detail = targetUser.getNickName() + "：发表了帖子";
-            pageContext.setAttribute("detail", detail);
-            pageContext.setAttribute("postUrl", "/JavaWeb/post_view.jsp?postid=" + post.getId());
-          } else if (text.getClass() == Floor.class) {
-            Floor floor = (Floor) text;
-            String sql = "SELECT post_name FROM post WHERE post_id = ?";
-            PreparedStatement search = null;
-            try {
-              search = conn.prepareStatement(sql);
-              search.setInt(1, floor.getParentPostId());
-              search.execute();
-              ResultSet rs = search.getResultSet();
-              rs.next();
-              String postName = rs.getString(1);
-              String detail = targetUser.getNickName() + "：发表了评论";
-              pageContext.setAttribute("title", postName);
-              pageContext.setAttribute("detail", detail);
-              pageContext.setAttribute("postUrl", "/JavaWeb/post_view.jsp?postid=" + floor.getParentPostId());
-            } catch (SQLException e) {
-              e.printStackTrace();
+          <%
             }
-          }
-      %>
-      <div id=${currentText.id}>
-        <span>${detail}</span><br>
-        <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
-           href=${postUrl}>${title}</a><br>
-        <span style="margin-top: 30px">${targetUser.nickName}：&nbsp;&nbsp;${currentText.text}</span>
-        <hr/>
+          } else if (request.getParameter("type").equals("post")) {
+            List<Post> posts = SearchUtil.searchPostByUser(targetUser.getId(), conn);
+            for (Post post : posts) {
+              pageContext.setAttribute("currentText", post);
+              pageContext.setAttribute("detail", targetNickname + "：发表了帖子");
+              pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + post.getId());
+              pageContext.setAttribute("title", post.getPostName());
+          %>
+          <div id=${currentText.id}>
+            <span>${detail}</span><br>
+            <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
+               href=${postUrl}>${title}</a><br>
+            <span style="margin-top: 30px">${targetUser.nickName}：&nbsp;&nbsp;${currentText.text}</span>
+            <hr/>
+          </div>
+          <%
+            }
+          } else if (request.getParameter("type").equals("floor")) {
+            List<Floor> floors = SearchUtil.searchFloorByUser(targetUser.getId(), conn);
+            for (Floor floor : floors) {
+              String sql = "SELECT post_name FROM post WHERE post_id = ?";
+              pageContext.setAttribute("currentText", floor);
+              PreparedStatement search = null;
+              try {
+                search = conn.prepareStatement(sql);
+                search.setInt(1, floor.getParentPostId());
+                search.execute();
+                ResultSet rs = search.getResultSet();
+                rs.next();
+                String postName = rs.getString(1);
+                pageContext.setAttribute("title", postName);
+                pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + floor.getParentPostId());
+                pageContext.setAttribute("detail", targetNickname + "：发表了回复");
+              } catch (SQLException e) {
+                e.printStackTrace();
+              }
+          %>
+          <div id=${currentText.id}>
+            <span>${detail}</span><br>
+            <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
+               href=${postUrl}>${title}</a><br>
+            <span style="margin-top: 30px">${targetUser.nickName}：&nbsp;&nbsp;${currentText.text}</span>
+            <hr/>
+          </div>
+          <%
+              }
+            }
+            conn.close();
+          %>
+        </div>
       </div>
-      <%
-        }
-      } else if (request.getParameter("type").equals("post")) {
-        List<Post> posts = SearchUtil.searchPostByUser(targetUser.getId(), conn);
-        for (Post post : posts) {
-          pageContext.setAttribute("currentText", post);
-          pageContext.setAttribute("detail", targetNickname + "：发表了帖子");
-          pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + post.getId());
-          pageContext.setAttribute("title", post.getPostName());
-      %>
-      <div id=${currentText.id}>
-        <span>${detail}</span><br>
-        <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
-           href=${postUrl}>${title}</a><br>
-        <span style="margin-top: 30px">${targetUser.nickName}：&nbsp;&nbsp;${currentText.text}</span>
-        <hr/>
-      </div>
-      <%
-        }
-      } else if (request.getParameter("type").equals("floor")) {
-        List<Floor> floors = SearchUtil.searchFloorByUser(targetUser.getId(), conn);
-        for (Floor floor : floors) {
-          String sql = "SELECT post_name FROM post WHERE post_id = ?";
-          pageContext.setAttribute("currentText", floor);
-          PreparedStatement search = null;
-          try {
-            search = conn.prepareStatement(sql);
-            search.setInt(1, floor.getParentPostId());
-            search.execute();
-            ResultSet rs = search.getResultSet();
-            rs.next();
-            String postName = rs.getString(1);
-            pageContext.setAttribute("title", postName);
-            pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + floor.getParentPostId());
-            pageContext.setAttribute("detail", targetNickname + "：发表了回复");
-          } catch (SQLException e) {
-            e.printStackTrace();
-          }
-      %>
-      <div id=${currentText.id}>
-        <span>${detail}</span><br>
-        <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
-           href=${postUrl}>${title}</a><br>
-        <span style="margin-top: 30px">${targetUser.nickName}：&nbsp;&nbsp;${currentText.text}</span>
-        <hr/>
-      </div>
-      <%
-          }
-        }
-        conn.close();
-      %>
     </div>
-    <ul id="myTab" class="nav nav-tabs">
-      <li class="active dropdown">
-        <a href="#" id="myTabDrop1" class="dropdown-toggle"
-           data-toggle="dropdown">动态
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-          <li><a href="#jmeter" tabindex="-1" data-toggle="tab">jmeter</a></li>
-          <li><a href="#ejb" tabindex="-1" data-toggle="tab">ejb</a></li>
+    <div class="col-md-4 panel panel-default">
+      <div class="row">
+        <ul class="inoneline">
+          <li class="panel-body inoneline">
+            <span class="glyphicon glyphicon-heart-empty textmuted"
+                  title="following" style="font-size: x-small">关注：${targetUser.following}</span>
+          </li>
+          <li class="panel-body inoneline">
+            <span class="glyphicon glyphicon-heart textmuted"
+                  title="follower" style="font-size: x-small">被关注：${targetUser.follower}</span>
+          </li>
         </ul>
-      </li>
-      <li><a href="#ios" data-toggle="tab">iOS</a></li>
-      <li class="dropdown">
-        <a href="#" id="myTabDrop2" class="dropdown-toggle"
-           data-toggle="dropdown">Java
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-          <li><a href="#jmeter" tabindex="-1" data-toggle="tab">jmeter</a></li>
-          <li><a href="#ejb" tabindex="-1" data-toggle="tab">ejb</a></li>
-        </ul>
-      </li>
-    </ul>
-    <div class="col-md-4">
-
+      </div>
     </div>
   </div>
 </div>

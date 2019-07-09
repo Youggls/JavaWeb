@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="fmt" uri="/WEB-INF/fmt.tld" %>
+<%@ taglib prefix="c" uri="/WEB-INF/c.tld" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.Cookie" %>
 <%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %>
@@ -216,7 +218,7 @@
                 for (Comment comment : commentContent) {
                   pageContext.setAttribute("comment", comment);
               %>
-              <div class="panel-body col-md-10 col-md-offset-1" style="background-color:rgba(191, 191, 191,0.5);">
+              <div class="panel-body col-md-10 col-md-offset-1" style="background-color:rgba(191, 191, 191,0.45);">
                 <div id="comment-${comment.id}">
                   <%
                     conn = DbUtil.getConnection();
@@ -226,10 +228,54 @@
                   %>
                   <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 30px; height:30px;"
                        alt="Me" src=${currentUser.photoUrl}>
+                  <%
+                      if (comment.getPreCommentId() == -1) {
+                  %>
                   <span style="margin-top: 30px; font-size: small">${comment.content}</span>
+                  <%
+                      }
+                      else {
+                          Comment targetComment = null;
+                          User targetUser = null;
+                          int preCommentId;
+                          preCommentId = comment.getPreCommentId();
+                          conn = DbUtil.getConnection();
+                          String searchComment = "SELECT * FROM comment WHERE comment_id = ?";
+
+                          ResultSet rs = null;
+                          try {
+                              PreparedStatement prepared = conn.prepareStatement(searchComment);
+                              prepared.setInt(1, preCommentId);
+                              prepared.execute();
+                              rs = prepared.getResultSet();
+                              rs.next();
+                              targetComment = new Comment(rs.getInt(1),
+                                      rs.getInt(2),
+                                      rs.getInt(3),
+                                      rs.getInt(4),
+                                      rs.getString(5),
+                                      rs.getTimestamp(6),
+                                      rs.getBoolean(7));
+                              targetUser = SearchUtil.searchUser(targetComment.getUserId(), conn).get(0);
+                          } catch (SQLException e) {
+                              e.printStackTrace();
+                          }
+                          conn.close();
+                          pageContext.setAttribute("targetComment", targetComment);
+                          pageContext.setAttribute("targetUser", targetUser);
+                  %>
+                  <c:if test="${fn:length(targetComment.content)>5 }">
+                  <span style="margin-top: 30px; font-size: small">回复 ${targetUser.nickName}"${fn:substring(targetComment.content, 0, 5)}..."：${comment.content}</span>
+                  </c:if>
+                  <c:if test="${fn:length(targetComment.content)<=5 }">
+                    <span style="margin-top: 30px; font-size: small">回复 ${targetUser.nickName}"${targetComment.content}"：${comment.content}</span>
+                  </c:if>
+                  <%}%>
                   <a onclick="comment(this, ${floor.id}, ${comment.id})" class="glyphicon glyphicon-pencil"
-                     title="Back" style="float: right">回复</a>
+                     title="Back" style="float: right; font-size: x-small">回复</a>
                 </div>
+                <span style="font-size: x-small; color: #8c8c8c; float: right"><fmt:formatDate value="${comment.time}"
+                                                                                               pattern="yyyy-MM-dd HH:mm:ss"/></span>
               </div>
               <%}%>
             </div>
@@ -343,5 +389,23 @@
     }
 
 </script>
+<%
+    Comment targetComment = null;
+    int preCommentId = 0;
+    Connection connection = DbUtil.getConnection();
+    String searchComment = "SELECT * FROM comment WHERE comment_id = ?";
+    PreparedStatement prepared = conn.prepareStatement(searchComment);
+    prepared.setInt(1, preCommentId);
+    prepared.execute();
+    ResultSet rs = prepared.getResultSet();
+    rs.next();
+    targetComment = new Comment(rs.getInt(1),
+            rs.getInt(2),
+            rs.getInt(3),
+            rs.getInt(4),
+            rs.getString(5),
+            rs.getTimestamp(6),
+            rs.getBoolean(7));
+%>
 </body>
 </html>

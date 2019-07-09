@@ -57,10 +57,8 @@
   </script>
   <style>
     .main {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      margin-top: 50px;
+      margin-bottom: 50px;
     }
 
     body {
@@ -73,20 +71,13 @@
   <%@ include file="head_visitor.jsp" %>
 </div>
 <div class="container">
-  <div class="row">
-    <div class="col-md-4"></div>
-  </div>
-  <div class="col-md-4 main">
+  <div class="col-md-3"></div>
+  <div class="col-md-6 main">
     <form class="form-singin" method="post" action="${pageContext.request.contextPath}/JavaWeb/Register">
       <br>
       <br>
       <h2 class="form-signin-heading">注册JavaWeb论坛账号</h2>
       <br>
-      <div align="center">
-        <img src="img/default_profile_photo.jpg" class="rounded mx-auto d-block img-circle" align="center" width="140px"
-             height="140px" alt="error">
-      </div>
-      <br><br>
       <label>用户名</label>
       <input type="text" name="nickname" id="nickname" class="form-control"
              style="height: 3.5em;" placeholder="请输入用户名" onblur="checkName(this);"><span id='ret-msg'></span>
@@ -109,7 +100,7 @@
       <a href="index.jsp" class="btn btn-default btn-lg btn-block">返回登录</a>
     </form>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
   </div>
 </div>
 </body>
