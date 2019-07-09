@@ -5,6 +5,7 @@
   Time: 13:20
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="fmt" uri="/WEB-INF/fmt.tld" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="javax.servlet.http.Cookie" %>
 <%@ page import="static java.nio.charset.StandardCharsets.UTF_8" %>
@@ -141,12 +142,12 @@
                             pageContext.setAttribute("currentUser", currentUser);
                         %>
                         <div class="col-md-1">
-                            <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me" src=${currentUser.photoUrl}>
+                            <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 50px; height:50px;" alt="Me" src=${currentUser.photoUrl}><br>
                             <span class="glyphicon glyphicon-user textmuted"
-                                  title="Sex" style="font-size: x-small">${currentUser.gender}</span><br>
-                            <span class="glyphicon glyphicon-user textmuted"
+                                  title="nickname" style="font-size: x-small">${currentUser.nickName}</span><br>
+                            <span class="glyphicon glyphicon-heart-empty textmuted"
                                   title="following" style="font-size: x-small">关注：${currentUser.following}</span><br>
-                            <span class="glyphicon glyphicon-user textmuted"
+                            <span class="glyphicon glyphicon-heart textmuted"
                                         title="follower" style="font-size: x-small">被关注：${currentUser.follower}</span>
 
                         </div>
@@ -170,10 +171,10 @@
                         <div class="col-md-1">
                             <img id="${currentUserId}" class="img-thumbnail" align="center" style="width: 40px; height:40px;" alt="Me" src=${currentUser.photoUrl}>
                             <span class="glyphicon glyphicon-user textmuted"
-                                  title="Sex" style="font-size: x-small">${currentUser.gender}</span><br>
-                            <span class="glyphicon glyphicon-user textmuted"
+                                  title="nickname" style="font-size: x-small">${currentUser.nickName}</span><br>
+                            <span class="glyphicon glyphicon-heart-empty textmuted"
                                   title="following" style="font-size: x-small">关注：${currentUser.following}</span><br>
-                            <span class="glyphicon glyphicon-user textmuted"
+                            <span class="glyphicon glyphicon-heart textmuted"
                                   title="follower" style="font-size: x-small">被关注：${currentUser.follower}</span>
                         </div>
                         <div class="col-md-11">
@@ -222,21 +223,90 @@
                             </div>
                             <%}%>
                         </div>
+<<<<<<< HEAD
                         <div id="input-${floor.floorNum}" class="input-group col-md-8 col-md-offset-2 hidden">
                             <input id="input1-${floor.floorNum}" type="text" class="form-control" data-reply="">
                             <span name="submitbutton" class="input-group-btn">
                                 <button class="btn btn-default" type="button" onclick="submitComment(this, ${floor.floorNum})">提交</button>
+=======
+                        <div class="input-group col-md-8 col-md-offset-2 hidden">2
+                            <input type="text" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">提交</button>
+>>>>>>> e4207f7d95fa5870c8b2bdb228410a077c824de4
                                 </span>
                         </div>
                     </div>
 
                     <hr/>
                     <%}%>
+                    <br>
+                    <div class="row col-md-8 col-md-offset-2">
+                        <div id="tool-bar" class="tool-bar"></div>
+                        <%--<div class="col-md-1"></div>--%>
+                        <hr/>
+                        <div id="editor" class="editor" style="margin-bottom: 10px;-webkit-scrollbar: none"></div>
+                        <div style="text-align: center;">
+                            <button id="follow" type="button" class="btn btn-primary" id="myButton4"
+                                    data-complete-text="跟帖成功">跟帖！</button>
+                        </div>
+                        <script type="text/javascript" src="./wangEditor.min.js"></script>
+                        <script type="text/javascript">
+                            var E = window.wangEditor;
+                            var editor = new E("#tool-bar", "#editor");
+                            editor.create();
+                            document.getElementById('submit').addEventListener('click', function () {
+                                var titleLength = document.getElementById("title").value.length;
+                                if (titleLength === undefined || titleLength === 0) {
+                                    alert("必须要有标题");
+                                } else if (titleLength > 30) {
+                                    alert("标题不能大于30");
+                                } else if (editor.txt.text().length === 0) {
+                                    alert("内容不能为空！");
+                                } else if (editor.txt.text().length > 500) {
+                                    alert("内容不能多于100个字符！" + editor.txt.text().length);
+                                } else {
+                                    var myForm = document.createElement("form");
+                                    var content = editor.txt.html();
+                                    var params = {
+                                        "content": content,
+                                        "title": document.getElementById("title").value,
+                                        "nickname": "${nickname}"
+                                    };
+                                    myForm.method = "post";
+                                    myForm.action = "/JavaWeb/CreatePost";
+                                    myForm.style.display = "none";
+
+                                    for (var k in params) {
+                                        var myInput = document.createElement("input");
+                                        myInput.name = k;
+                                        myInput.value = params[k];
+                                        myForm.appendChild(myInput);
+                                    }
+                                    document.body.appendChild(myForm);
+                                    myForm.submit();
+                                    //document.body.removeChild(myForm);
+                                    return myForm;
+                                }
+                            }, false);
+                        </script>
+                        <script>
+                            $(function() {
+                                $("#follow").click(function(){
+                                    $(this).button('跟帖中').delay(1000).queue(function() {
+                                        $(this).button('complete');
+                                    });
+                                });
+                            });
+                        </script>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 <script>
     function comment(tag, floorNum, parentId) {
         floorNum = parseInt(floorNum);
@@ -259,5 +329,8 @@
         }
     }
 </script>
+=======
+
+>>>>>>> e4207f7d95fa5870c8b2bdb228410a077c824de4
 </body>
 </html>

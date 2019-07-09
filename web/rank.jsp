@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="/WEB-INF/fmt.tld" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.ResultSet" %>
@@ -138,7 +139,7 @@
         for (User user : users) {
             pageContext.setAttribute("currentUser", user);
             pageContext.setAttribute("userUrl", "/JavaWeb/profile.jsp?nickname=" + user.getNickName());
-            pageContext.setAttribute("detail", "注册于" + user.getRegisteredTime());
+            pageContext.setAttribute("detail", user.getRegisteredTime());
             %>
     <div class="panel panel-default">
       <div class="panel-body">
@@ -146,7 +147,7 @@
              align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
         <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
            href=${userUrl}>${currentUser.nickName}</a><br>
-        <span style="margin-top: 30px">${currentUser.nickName}：&nbsp;&nbsp;${detail}</span>
+        <span style="margin-top: 30px">${currentUser.nickName}：&nbsp;&nbsp;注册于:&nbsp;<fmt:formatDate value="${detail}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
       </div>
     </div>
     <%
