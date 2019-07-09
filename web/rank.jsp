@@ -24,13 +24,15 @@
     body {
       padding: 90px 30px;
     }
+
     a:link {
-      color:#000000;
-      text-decoration:none;
+      color: #000000;
+      text-decoration: none;
     }
+
     a:hover {
-      color:#175199;
-      text-decoration:none;
+      color: #175199;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -76,8 +78,6 @@
           pageContext.setAttribute("detail", detail);
           pageContext.setAttribute("currentUser", user);
     %>
-
-
     <div class="panel panel-default">
       <div class="panel-body">
         <img id="${currentUser.id}" class="img-thumbnail"
@@ -90,9 +90,31 @@
 
 
     <%
+      }
+    } else if (type.equals("floor")) {
+      List<Map.Entry<Integer, Integer>> ranks = RankUtil.rankByFloor();
+      System.out.println(ranks.size());
+      for (Map.Entry<Integer, Integer> user_rank : ranks) {
+        int user_id = user_rank.getKey();
+        int post_num = user_rank.getValue();
+        User user = SearchUtil.searchUser(user_id, conn2).get(0);
+        String detail = "发表了" + post_num + "篇评论";
+        pageContext.setAttribute("posturl", "/JavaWeb/profile.jsp?nickname=" + user.getNickName());
+        pageContext.setAttribute("title", user.getNickName());
+        pageContext.setAttribute("detail", detail);
+        pageContext.setAttribute("currentUser", user);%>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <img id="${currentUser.id}" class="img-thumbnail"
+             align="center" width="50px" height="50px" alt="Me" src=${currentUser.photoUrl}>
+        <a style="font-size: 25px;margin-top: 5px;height: 30px;font-weight: 900"
+           href=${posturl}>${title}</a><br>
+        <span style="margin-top: 30px">${title}：&nbsp;&nbsp;${detail}</span>
+      </div>
+    </div>
+    <%
         }
       }
-
       conn2.close();
     %>
   </div>
