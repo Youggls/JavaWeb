@@ -188,4 +188,10 @@ GitHubID|分工
 |`search_user_by_name`|根据用户名查找user|`VARCHAR`|无|字段是`post_id`, `user_id`, `post_name`, `content`, `registered_time`|
 ## 参考的项目及使用的开源项目
 
-1. [`boostrap`项目](https://github.com/twbs/bootstrap)，是一个前端常用的库，我们使用了该项目的css文件。该项目开源协议为MIT协议。
+1. [`boostrap`项目](https://github.com/twbs/bootstrap)，是一个前端常用的库。该项目开源协议为MIT协议。
+
+2. [`JQuery`项目](https://github.com/jquery/jquery)。
+
+3. [`wangEditor`富文本编辑器](https://github.com/wangfupeng1988/wangEditor)，富文本编辑器，使用简单，风格简约。
+
+再次感谢这些开源软件的维护者，没有他们的努力我们不可能做出现在的成果！
