@@ -102,16 +102,8 @@
                 <nav class="navbar navbar-default" role="navigation">
                     <div>
                         <ul class="nav navbar-nav">
-                            <li class="dropdown">
-                                <a href="${pageContext.request.contextPath}/" class="dropdown-toggle" data-toggle="dropdown">
-                                    推荐
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="${pageContext.request.contextPath}/main.jsp">按时间排序</a></li>
-                                    <li><a href="#">按热度排序</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="${pageContext.request.contextPath}/">推荐</a></li>
+
                             <li class="active"><a href="${pageContext.request.contextPath}/follow.jsp">关注</a></li>
                         </ul>
                     </div>
@@ -139,7 +131,7 @@
                                 detail = currentUser.getNickName() + "发表了评论";
                                 Floor floor = (Floor) text;
                                 postUrl += floor.getParentPostId();
-                                String sql = "SELECT post_name FROM post WHERE id = ?";
+                                String sql = "SELECT post_name FROM post WHERE post_id = ?";
 
                                 try {
                                     PreparedStatement prepared = conn.prepareStatement(sql);

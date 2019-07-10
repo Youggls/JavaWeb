@@ -16,7 +16,7 @@ public class FollowServlet extends HttpServlet {
         if (type.equals("follow")) {
             int followerId = Integer.parseInt(req.getParameter("follower_id"));
             int followedId = Integer.parseInt(req.getParameter("followed_id"));
-
+            System.out.println(followerId + ": " + followedId);
             Connection conn = DbUtil.getConnection();
             String sql = "INSERT INTO follow VALUES(?, ?)";
             try {
@@ -24,7 +24,7 @@ public class FollowServlet extends HttpServlet {
                 insert.setInt(1, followerId);
                 insert.setInt(2, followedId);
                 insert.executeUpdate();
-                resp.getWriter().print("ok");
+                resp.getWriter().print("true");
             } catch (SQLException e) {
                 e.printStackTrace();
                 if (e.getErrorCode() == 1062) {

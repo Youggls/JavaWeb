@@ -74,6 +74,10 @@
         <servlet-name>CreateFloor</servlet-name>
         <servlet-class>indi.RDY.JavaWeb.servlet.CreateFloorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Operator</servlet-name>
+        <servlet-class>indi.RDY.JavaWeb.servlet.SetOperatorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>image</servlet-name>
         <url-pattern>/Image</url-pattern>
@@ -125,5 +129,9 @@
     <servlet-mapping>
         <servlet-name>CreateFloor</servlet-name>
         <url-pattern>/CreateFloor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Operator</servlet-name>
+        <url-pattern>/Operator</url-pattern>
     </servlet-mapping>
 </web-app>

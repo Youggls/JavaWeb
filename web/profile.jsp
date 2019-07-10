@@ -50,7 +50,8 @@
       border-width: 1px 0;
       margin: 16px 0;
     }
-    .inoneline{
+
+    .inoneline {
       display: inline;
       list-style-type: none;
       padding: 5px 5px;
@@ -102,8 +103,23 @@
 
   boolean isAdmin = localUser != null && localUser.getType() == User.ADMIN;
   boolean isOperator = localUser != null && localUser.getType() == User.OPERATOR;
-
+  boolean hasFollowed = false;
   if (!same && login) {
+      String follow = "SELECT COUNT(*) FROM follow WHERE follower_id = ? and followed_id = ?";
+
+    try {
+      PreparedStatement preparedStatement = conn.prepareStatement(follow);
+      preparedStatement.setInt(1, localUser.getId());
+      preparedStatement.setInt(2, targetUser.getId());
+      preparedStatement.execute();
+      ResultSet rs = preparedStatement.getResultSet();
+      rs.next();
+      if (rs.getInt(1) > 0) {
+          hasFollowed = true;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
   }
   conn.close();
@@ -148,16 +164,44 @@
           <% if (same) {%>
           <a href="revise.jsp" style="float: right;" class="btn btn-default right"><font
                   style="vertical-align: inherit;"> 修改个人信息 </font></a>
-          <%} else if (login) {%>
-          <button id="follow" class="btn btn-default right" style="background-color: #286090;color: #FFFFFF">
-            关注
-          </button>
-          <%if (isOperator) {%>
-          <button id="delete" class="btn btn-default right" style="background-color: red;color: white">
-            删除用户
-          </button>
-          <%}%>
-          <%}%>
+          <%
+          } else {
+            if (login) {
+          %>
+          <div class="btn-group">
+            <%if(!hasFollowed) {%>
+            <button id="follow" class="btn btn-primary" onclick="follow('follow')" style="color: #FFFFFF">
+              关注
+            </button>
+            <%} else {%>
+            <button id="follow" class="btn btn-primary" onclick="follow('unfollow')" style="color: #FFFFFF">
+              取消关注
+            </button>
+            <%}%>
+            <%if (isOperator || isAdmin) {%>
+            <button id="delete" class="btn btn-danger" style="color: white">
+              删除用户
+            </button>
+            <%if (targetUser.getType() < User.OPERATOR) {%>
+            <button class="btn btn-warning" onclick="operator('give')" style="color: white">
+              授予管理员
+            </button>
+            <%} else {%>
+            <button class="btn btn-warning" onclick="operator('remove')" style="color: white">
+              剥夺管理员
+            </button>
+            <%
+                }
+              }
+            %>
+          </div>
+          <%
+            }%>
+
+          <%
+            }
+          %>
+
         </div>
         <br>
         <br>
@@ -176,7 +220,9 @@
             <li>
               <a href="${pageContext.request.contextPath}/profile.jsp?type=post&nickname=${targetUser.nickName}">发帖</a>
             </li>
-            <li><a href="${pageContext.request.contextPath}/profile.jsp?type=floor&nickname=${targetUser.nickName}">评论</a></li>
+            <li>
+              <a href="${pageContext.request.contextPath}/profile.jsp?type=floor&nickname=${targetUser.nickName}">评论</a>
+            </li>
           </ul>
         </nav>
         <div class="panel-body">
@@ -193,7 +239,7 @@
                 pageContext.setAttribute("title", post.getPostName());
                 String detail = targetUser.getNickName() + "：发表了帖子";
                 pageContext.setAttribute("detail", detail);
-                pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + post.getId());
+                pageContext.setAttribute("postUrl", "/JavaWeb/post_view.jsp?postid=" + post.getId());
               } else if (text.getClass() == Floor.class) {
                 Floor floor = (Floor) text;
                 String sql = "SELECT post_name FROM post WHERE post_id = ?";
@@ -208,7 +254,7 @@
                   String detail = targetUser.getNickName() + "：发表了评论";
                   pageContext.setAttribute("title", postName);
                   pageContext.setAttribute("detail", detail);
-                  pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + floor.getParentPostId());
+                  pageContext.setAttribute("postUrl", "/JavaWeb/post_view.jsp?postid=" + floor.getParentPostId());
                 } catch (SQLException e) {
                   e.printStackTrace();
                 }
@@ -228,7 +274,7 @@
             for (Post post : posts) {
               pageContext.setAttribute("currentText", post);
               pageContext.setAttribute("detail", targetNickname + "：发表了帖子");
-              pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + post.getId());
+              pageContext.setAttribute("postUrl", "/JavaWeb/post_view.jsp?postid=" + post.getId());
               pageContext.setAttribute("title", post.getPostName());
           %>
           <div id=${currentText.id}>
@@ -254,7 +300,7 @@
                 rs.next();
                 String postName = rs.getString(1);
                 pageContext.setAttribute("title", postName);
-                pageContext.setAttribute("postUrl", "/JavaWeb/post.jsp?postid=" + floor.getParentPostId());
+                pageContext.setAttribute("postUrl", "/JavaWeb/post_view.jsp?postid=" + floor.getParentPostId());
                 pageContext.setAttribute("detail", targetNickname + "：发表了回复");
               } catch (SQLException e) {
                 e.printStackTrace();
@@ -331,16 +377,63 @@
 
     document.getElementById("follow").addEventListener("click", submit);
     document.getElementById("delete").addEventListener("click", deleteUser);
+
     function deleteUser() {
-        if(confirm("确认删除吗？该操作不可逆")) {
+        if (confirm("确认删除吗？该操作不可逆")) {
             var XML = new XMLHttpRequest();
             var deleteFormData = new FormData();
             deleteFormData.append("type", "user");
             deleteFormData.append("id", "${targetUser.id}");
-            $.post("/JavaWeb/Delete", {'type':"user", 'id':"${targetUser.id}", "nickname" : "${localUser.nickName}"});
+            $.post("/JavaWeb/Delete",
+                {
+                    'type': "user",
+                    'id': "${targetUser.id}",
+                    "nickname": "${localUser.nickName}"
+                }, function (data) {
+                    if (data === "true") {
+                        alert("删除成功！");
+                        window.location.href = "/JavaWeb/main.jsp";
+                    } else {
+                        alert("请重试");
+                        window.location.href = "/JavaWeb/main.jsp";
+                    }
+                });
         } else {
 
         }
+    }
+
+    function follow(type) {
+        console.log(type);
+        console.log("${localUser.id}");
+        $.post("/JavaWeb/Follow",
+            {
+                "type": "" + type,
+                "follower_id": "" + "${localUser.id}",
+                "followed_id": "" + "${targetUser.id}"
+            }, function (data) {
+                if (data === "true") {
+                    alert("操作成功！")
+                } else {
+                    alert("请重试！")
+                }
+                location.reload(true);
+            })
+    }
+
+    function operator(type) {
+        $.post("/JavaWeb/Operator",
+            {
+                "type": "" + type,
+                "id": "" + ${targetUser.id},
+            }, function (data) {
+                if (data === "true") {
+                    alert("操作成功！")
+                } else {
+                    alert("请重试！")
+                }
+                location.reload(true);
+            })
     }
 
 

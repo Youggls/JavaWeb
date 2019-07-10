@@ -23,6 +23,7 @@ public class SetOperatorServlet extends HttpServlet {
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setInt(1, id);
                 preparedStatement.executeUpdate();
+                resp.getWriter().print("true");
             } catch (SQLException e) {
                 e.printStackTrace();
                 resp.getWriter().print("false");
@@ -33,6 +34,7 @@ public class SetOperatorServlet extends HttpServlet {
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setInt(1, id);
                 preparedStatement.executeUpdate();
+                resp.getWriter().print("true");
             } catch (SQLException e) {
                 e.printStackTrace();
                 resp.getWriter().print("false");
