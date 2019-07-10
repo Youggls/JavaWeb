@@ -107,7 +107,7 @@
               User currentUser = SearchUtil.searchUser(post.getUserId(), conn).get(0);
               conn.close();
               pageContext.setAttribute("currentUser", currentUser);
-              String postUrl = "/JavaWeb/post.jsp?postid=" + post.getId();
+              String postUrl = "/JavaWeb/post_view.jsp?postid=" + post.getId();
               pageContext.setAttribute("posturl", postUrl);
               pageContext.setAttribute("title", post.getPostName());
               pageContext.setAttribute("content", post.getText());
@@ -124,7 +124,7 @@
                 ResultSet rs1 = prepared.getResultSet();
                 rs1.next();
                 String postName1 = rs1.getString(1);
-                String postUrl = "/JavaWeb/post.jsp?postid=" + floor.getParentPostId();
+                String postUrl = "/JavaWeb/post_view.jsp?postid=" + floor.getParentPostId();
                 pageContext.setAttribute("title", postName1);
                 pageContext.setAttribute("content", floor.getText());
                 pageContext.setAttribute("posturl", postUrl);
